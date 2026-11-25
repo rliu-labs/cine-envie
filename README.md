@@ -9,6 +9,8 @@
   ·
   <a href="#comment-ça-marche">Comment ça marche</a>
   ·
+  <a href="#sécurité-et-vie-privée">Sécurité</a>
+  ·
   <a href="#lancer-en-local">Lancer en local</a>
 </p>
 
@@ -92,9 +94,23 @@ Chaque résultat reçoit ensuite un score : +3 par genre voulu, −6 par genre e
 
 **Choix techniques**
 - **Zéro build, zéro dépendance** : modules ES natifs, servis tels quels par GitHub Pages.
-- **Vie privée** : pas de serveur. La clé TMDB et les listes restent dans le `localStorage` du navigateur.
 - **Clé v3 ou jeton v4** : le client détecte le format et utilise le paramètre `api_key` ou l'en‑tête `Bearer`.
 - **Service worker « réseau d'abord »** : les mises à jour arrivent tout de suite, le cache prend le relais hors ligne.
+
+## Sécurité et vie privée
+
+Ciné‑Envie est conçu pour ne rien savoir de toi.
+
+| | |
+|---|---|
+| 🖥️ **Aucun serveur** | Site 100 % statique hébergé sur GitHub Pages, servi en HTTPS. |
+| 🔑 **Ta clé reste chez toi** | La clé TMDB est stockée dans ton navigateur et envoyée uniquement à l'API TMDB. |
+| 🙈 **Aucun pistage** | Pas de statistiques, de publicité, de cookies ni de service tiers. |
+| 📦 **Zéro dépendance** | Aucun paquet npm ni script externe : rien qui puisse être compromis en amont. |
+| 🛡️ **Content Security Policy** | Le navigateur bloque tout script étranger et toute connexion hors de TMDB. |
+| 🧹 **Données échappées** | Tout ce qui vient de TMDB ou d'un import est neutralisé avant affichage. |
+
+Une faille ? Voir [SECURITY.md](SECURITY.md) pour la signaler en privé.
 
 ## Lancer en local
 

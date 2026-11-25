@@ -9,3 +9,4 @@ Première version publique.
 - Listes « à voir » / « vus » avec export / import JSON.
 - PWA installable, interface utilisable hors ligne.
 - Tests de l'analyse d'envie et intégration continue GitHub Actions.
+- Content Security Policy, échappement renforcé et politique de sécurité (SECURITY.md).

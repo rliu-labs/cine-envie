@@ -31,8 +31,8 @@ function card(it, extra = {}) {
   ].join('');
   const genres = (it.genre_ids || []).slice(0, 2).map((g) => genreName(it, g)).filter(Boolean).join(' · ');
   return `
-    <button class="card" data-type="${it.media_type}" data-id="${it.id}" title="${esc(titleOf(it))}">
-      <div class="poster">${poster ? `<img loading="lazy" src="${poster}" alt="">` : `<div class="noimg">${esc(titleOf(it))}</div>`}
+    <button class="card" data-type="${esc(it.media_type)}" data-id="${esc(it.id)}" title="${esc(titleOf(it))}">
+      <div class="poster">${poster ? `<img loading="lazy" src="${esc(poster)}" alt="">` : `<div class="noimg">${esc(titleOf(it))}</div>`}
         <div class="badges">${badges}</div>
         ${it.vote_average ? `<span class="note">★ ${it.vote_average.toFixed(1)}</span>` : ''}
       </div>
@@ -255,7 +255,7 @@ async function openDetail(type, id) {
     const d = await api.details(type, id);
     const it = { ...d, media_type: type, genre_ids: d.genres.map((g) => g.id) };
     const prov = d['watch/providers']?.results?.FR || {};
-    const provRow = (label, list) => list?.length ? `<div class="prov"><span>${label}</span>${list.map((p) => `<img title="${esc(p.provider_name)}" alt="${esc(p.provider_name)}" src="${api.IMG}w92${p.logo_path}">`).join('')}</div>` : '';
+    const provRow = (label, list) => list?.length ? `<div class="prov"><span>${label}</span>${list.map((p) => `<img title="${esc(p.provider_name)}" alt="${esc(p.provider_name)}" src="${esc(`${api.IMG}w92${p.logo_path}`)}">`).join('')}</div>` : '';
     const trailer = (d.videos?.results || []).find((v) => v.site === 'YouTube' && v.type === 'Trailer') || (d.videos?.results || []).find((v) => v.site === 'YouTube');
     const runtime = d.runtime ? `${Math.floor(d.runtime / 60)}h${String(d.runtime % 60).padStart(2, '0')}` : (d.number_of_seasons ? `${d.number_of_seasons} saison${d.number_of_seasons > 1 ? 's' : ''}` : '');
     const cast = (d.credits?.cast || []).slice(0, 5).map((c) => c.name).join(', ');
@@ -264,7 +264,7 @@ async function openDetail(type, id) {
       const st = store.getEntry(it)?.status;
       dlg.innerHTML = `
         <div class="sheet">
-          ${d.backdrop_path ? `<img class="backdrop" src="${api.IMG}w780${d.backdrop_path}" alt="">` : ''}
+          ${d.backdrop_path ? `<img class="backdrop" src="${esc(`${api.IMG}w780${d.backdrop_path}`)}" alt="">` : ''}
           <button class="close" aria-label="Fermer">✕</button>
           <div class="body">
             <h2>${esc(titleOf(d))} <small>${year(d)}</small></h2>
