@@ -95,3 +95,11 @@ button.link { background: none; color: #8ab4ff; padding: .2rem .5rem; font-size:
 .chip.like { border-color: var(--ok); }
 .chip.dislike { border-color: var(--acc); opacity: .8; }
 small.mine { color: var(--new); letter-spacing: .05em; }
+
+.row.opts { margin-top: .25rem; gap: .75rem; }
+.pill-line { margin: 0; font-size: .9rem; }
+.provs { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .4rem; }
+.prov-pick { display: flex; align-items: center; gap: .5rem; text-align: left; background: var(--bg2); border: 1px solid var(--bg3); padding: .4rem .6rem; font-size: .85rem; }
+.prov-pick img { width: 28px; height: 28px; border-radius: 6px; flex: none; }
+.prov-pick.on { border-color: var(--acc); background: rgba(229, 72, 77, .15); }
+.prov img.mine { outline: 2px solid var(--ok); outline-offset: 1px; }

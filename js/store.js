@@ -1,5 +1,5 @@
 // Stockage local (navigateur) : langue, pays, clé TMDB, listes « à voir » / « vus », veille des tendances.
-const K = { lang: 'cine.lang', region: 'cine.region', key: 'cine.tmdbKey', list: 'cine.list', trend: 'cine.trendSeen', trendAt: 'cine.trendAt' };
+const K = { providers: 'cine.providers', mediaType: 'cine.mediaType', lang: 'cine.lang', region: 'cine.region', key: 'cine.tmdbKey', list: 'cine.list', trend: 'cine.trendSeen', trendAt: 'cine.trendAt' };
 
 const read = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
 const write = (k, v) => localStorage.setItem(k, JSON.stringify(v));
@@ -11,6 +11,17 @@ export const getLang = () => localStorage.getItem(K.lang) || '';
 export const setLang = (v) => localStorage.setItem(K.lang, v);
 export const getRegion = () => localStorage.getItem(K.region) || '';
 export const setRegion = (v) => localStorage.setItem(K.region, v);
+
+// Plateformes choisies, mémorisées par pays : { FR: [8, 119], BE: [...] }
+export const getProviders = (region) => (read(K.providers, {})[region] || []);
+export function setProviders(region, ids) {
+  const all = read(K.providers, {});
+  all[region] = [...new Set(ids.map(Number))];
+  write(K.providers, all);
+}
+// Préférence Films / Séries / Les deux pour la recherche par envie
+export const getMediaType = () => (['movie', 'tv', 'all'].includes(read(K.mediaType, 'all')) ? read(K.mediaType, 'all') : 'all');
+export const setMediaType = (v) => write(K.mediaType, v);
 
 export const itemKey = (it) => `${it.media_type}:${it.id}`;
 

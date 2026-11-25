@@ -35,40 +35,51 @@ export const genreMaps = (lang) => (lang === 'en'
 // Chaque humeur : genres films (m), genres séries (t), genres à exclure (x).
 const MOODS = [
   { label: 'cosy', words: ['cosy', 'cocooning', 'doudou', 'réconfort', 'reconfort', 'chaleureux', 'feel good', 'feel-good', 'tranquille', 'détente', 'detente', 'douceur',
-      'cozy', 'comfort', 'comforting', 'wholesome', 'relaxing', 'chill', 'heartwarming', 'uplifting'],
+      'cozy', 'comfort', 'comforting', 'wholesome', 'relaxing', 'chill', 'heartwarming', 'uplifting',
+      'pepouze', 'pépouze', 'tranquillou', 'posé', 'pose', 'sous la couette', 'sous le plaid', 'plaid', 'canap', 'dimanche pluvieux', 'doudou', 'qui fait du bien', 'reposant', 'lazy sunday', 'under a blanket', 'comfort watch'],
     m: [35, 10749, 10751], t: [35, 10751], x: [27, 53, 10752] },
   { label: 'drôle', words: ['drôle', 'drole', 'rire', 'marrant', 'comédie', 'comedie', 'humour', 'fun', 'léger', 'leger', 'décalé', 'decale',
-      'funny', 'comedy', 'hilarious', 'laugh', 'laughs', 'lighthearted', 'light-hearted', 'quirky', 'silly'],
+      'funny', 'comedy', 'hilarious', 'laugh', 'laughs', 'lighthearted', 'light-hearted', 'quirky', 'silly',
+      'se marrer', 'marrer', 'poilant', 'tordant', 'barre de rire', 'fou rire', 'débile', 'debile', 'nanar', 'nanard', 'rigoler', 'rigolo', 'lol', 'goofy', 'dumb fun', 'laugh out loud', 'make me laugh'],
     m: [35], t: [35] },
   { label: 'intrigue', words: ['intrigue', 'mystère', 'mystere', 'enquête', 'enquete', 'suspense', 'twist', 'policier', 'whodunit', 'énigme', 'enigme',
-      'mystery', 'detective', 'investigation', 'suspenseful', 'puzzle', 'intriguing', 'murder mystery'],
+      'mystery', 'detective', 'investigation', 'suspenseful', 'puzzle', 'intriguing', 'murder mystery',
+      'retourne le cerveau', 'retourner le cerveau', 'prise de tête', 'prise de tete', 'casse-tête', 'casse-tete', 'plot twist', 'qui fait cogiter', 'mindfuck', 'mind-bending', 'mind bending', 'mind-blowing', 'mindblowing', 'twisty', 'whodunnit'],
     m: [9648, 80], t: [9648, 80] },
   { label: 'frissons', words: ['peur', 'horreur', 'flippant', 'frisson', 'frissons', 'angoisse', 'terrifiant', 'épouvante', 'epouvante',
-      'scary', 'horror', 'creepy', 'spooky', 'frightening', 'terrifying', 'chilling'],
+      'scary', 'horror', 'creepy', 'spooky', 'frightening', 'terrifying', 'chilling',
+      'fout les jetons', 'foutre les jetons', 'les jetons', 'flipper', 'flippe', 'fait flipper', 'glauque', 'qui fait peur', 'chair de poule', 'freaky', 'gives me chills', 'jump scare', 'jumpscare'],
     m: [27], t: [9648] },
   { label: 'tension', words: ['thriller', 'tendu', 'haletant', 'nerveux', 'stress',
-      'tense', 'gripping', 'thrilling', 'nail-biting', 'edge of my seat'],
+      'tense', 'gripping', 'thrilling', 'nail-biting', 'edge of my seat',
+      'scotché', 'scotche', 'en haleine', 'tenir en haleine', 'qui tient en haleine', 'sous tension', 'edge of my seat', 'edge-of-your-seat', 'nerve-racking'],
     m: [53], t: [80, 9648] },
   { label: 'action', words: ['action', 'adrénaline', 'adrenaline', 'baston', 'explosif', 'bourrin', 'combat',
-      'explosive', 'fight', 'fights', 'fast-paced', 'action-packed'],
+      'explosive', 'fight', 'fights', 'fast-paced', 'action-packed',
+      'ça pète', 'ca pete', 'qui pète', 'qui pete', 'castagne', 'bagarre', 'badass', 'explosions', 'grosses explosions', 'popcorn', 'gros bras', 'kick-ass'],
     m: [28], t: [10759] },
   { label: 'aventure', words: ['aventure', 'voyage', 'épique', 'epique', 'quête', 'quete', 'évasion', 'evasion',
-      'adventure', 'journey', 'epic', 'quest', 'escapist'],
+      'adventure', 'journey', 'epic', 'quest', 'escapist',
+      'dépaysant', 'depaysant', 'grand spectacle', 'road trip', 'road movie', 'treasure hunt', 'chasse au trésor'],
     m: [12, 14], t: [10759, 10765] },
   { label: 'romance', words: ['romance', 'romantique', 'amour', 'love', 'couple', 'saint-valentin',
-      'romantic', 'love story', 'date night', 'rom-com', 'romcom'],
+      'romantic', 'love story', 'date night', 'rom-com', 'romcom',
+      'guimauve', 'à l\'eau de rose', 'eau de rose', 'mielleux', 'love story', 'histoire d\'amour', 'sappy', 'swoon', 'swoony'],
     m: [10749], t: [18] },
   { label: 'émotion', words: ['émouvant', 'emouvant', 'pleurer', 'émotion', 'emotion', 'touchant', 'drame', 'triste',
-      'emotional', 'moving', 'tearjerker', 'cry', 'touching', 'drama', 'sad', 'heartbreaking'],
+      'emotional', 'moving', 'tearjerker', 'cry', 'touching', 'drama', 'sad', 'heartbreaking',
+      'chialer', 'faire pleurer', 'me faire pleurer', 'tire-larmes', 'lacrymal', 'qui prend aux tripes', 'bouleversant', 'make me cry', 'ugly cry', 'tear-jerker', 'gut-wrenching'],
     m: [18], t: [18] },
   { label: 'SF', words: ['sf', 'science-fiction', 'science fiction', 'espace', 'futur', 'futuriste', 'dystopie', 'robot',
-      'sci-fi', 'scifi', 'space', 'future', 'dystopia', 'dystopian', 'robots', 'aliens'],
+      'sci-fi', 'scifi', 'space', 'future', 'dystopia', 'dystopian', 'robots', 'aliens',
+      'extraterrestre', 'extraterrestres', 'aliens', 'vaisseau', 'voyage dans le temps', 'time travel', 'cyberpunk', 'spaceship'],
     m: [878], t: [10765] },
   { label: 'fantastique', words: ['fantastique', 'fantasy', 'magie', 'magique', 'dragon', 'sorcier',
       'magic', 'magical', 'dragons', 'wizard', 'wizards'],
     m: [14], t: [10765] },
   { label: 'famille', words: ['famille', 'enfant', 'enfants', 'kids', 'familial', 'gamins',
-      'family', 'kids', 'children', 'family-friendly'],
+      'family', 'kids', 'children', 'family-friendly',
+      'avec les gosses', 'gosses', 'mômes', 'momes', 'marmots', 'les petits', 'tout public', 'with the kids', 'all ages'],
     m: [10751, 16], t: [10751, 10762], x: [27] },
   { label: 'animation', words: ['animation', 'animé', 'anime', 'dessin animé', 'pixar', 'ghibli',
       'animated', 'cartoon'],
@@ -80,8 +91,11 @@ const MOODS = [
       'historical', 'period drama', 'war', 'medieval'],
     m: [36, 10752], t: [10768] },
   { label: 'crime', words: ['crime', 'mafia', 'gangster', 'braquage', 'heist', 'cartel',
-      'gangsters', 'heist', 'robbery', 'mob'],
+      'gangsters', 'heist', 'robbery', 'mob',
+      'truands', 'voyous', 'polar', 'hold-up', 'narcos', 'true crime'],
     m: [80], t: [80] },
+  { label: 'film de daron', words: ['film de daron', 'films de daron', 'film de papa', 'daron', 'darons', 'dad movie', 'dad movies', 'dad film'],
+    m: [28, 53, 10752, 37], t: [10759, 80] },
   { label: 'western', words: ['western', 'cowboy',
       'cowboys'], m: [37], t: [37] },
   { label: 'musique', words: ['musique', 'musical', 'comédie musicale', 'concert',
@@ -124,10 +138,10 @@ export function parseMood(input) {
   // Un genre demandé explicitement ne doit pas être exclu par une autre humeur
   for (const g of res.movieGenres) res.exclude.delete(g);
 
-  if (/\b(serie|series|saisons?|episodes?|show|shows|tv|seasons?)\b/.test(moodText)) res.type = 'tv';
+  if (/\b(serie|series|saisons?|episodes?|show|shows|tv|seasons?|binge|binger|bingewatch|binge-watch)\b/.test(moodText)) res.type = 'tv';
   else if (/\b(film|films|long[- ]metrage|movie|movies)\b/.test(moodText)) res.type = 'movie';
-  if (/\b(recent|recents|nouveau|nouveaute|nouveautes|sorti recemment|cette annee|new|newer|latest|this year|recently released)\b/.test(moodText)) res.recent = true;
-  if (/\b(court|courte|rapide|pas trop long|short|quick|not too long)\b/.test(moodText)) res.short = true;
+  if (/\b(recent|recents|nouveau|nouveaute|nouveautes|sorti recemment|cette annee|qui vient de sortir|du moment|new|newer|latest|this year|recently released|brand new)\b/.test(moodText)) res.recent = true;
+  if (/\b(court|courte|rapide|pas trop long|vite fait|pas long|short|quick|not too long|quick watch)\b/.test(moodText)) res.short = true;
   if (/\b(classique|culte|vieux|ancien|annees \d0|classic|classics|cult|old|oldies?|\d0s)\b/.test(moodText)) res.classic = true;
 
   return res;

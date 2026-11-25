@@ -48,3 +48,14 @@ test('les notes partent dans l\'export', () => {
   const json = JSON.parse(store.exportData());
   assert.ok(Object.values(json.list).every((x) => x.rating === undefined || (x.rating >= 1 && x.rating <= 5)));
 });
+
+test('plateformes mémorisées par pays et préférence films / séries', () => {
+  store.setProviders('FR', [8, 119, 8]);
+  store.setProviders('BE', [337]);
+  assert.deepEqual(store.getProviders('FR'), [8, 119]);
+  assert.deepEqual(store.getProviders('BE'), [337]);
+  assert.deepEqual(store.getProviders('DE'), []);
+  assert.equal(store.getMediaType(), 'all');
+  store.setMediaType('tv');
+  assert.equal(store.getMediaType(), 'tv');
+});

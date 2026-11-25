@@ -1,5 +1,10 @@
 # Journal des versions
 
+## 0.4.0 (novembre 2026)
+- Filtre « Mes plateformes » : choix des services de streaming du pays (Netflix, Prime Video, Disney+, Canal+…), mémorisé par pays, appliqué aux recherches, thématiques et recommandations.
+- Choix Films / Séries / Les deux pour la recherche par envie.
+- Vocabulaire familier en français et en anglais (« qui fout les jetons », « film de daron », « à binger », « mind-bending »…).
+
 ## 0.3.0 (novembre 2026)
 - Profil de goûts : note de 1 à 5 étoiles sur les titres vus, affinités par genre, classement ajusté et sélection « Recommandé pour toi ».
 - Mention TMDB obligatoire (logo officiel et avertissement) et attribution JustWatch en pied de page.

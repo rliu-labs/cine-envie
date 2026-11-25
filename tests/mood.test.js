@@ -72,3 +72,36 @@ test('anglais : style de référence', () => {
   assert.equal(parseMood("a clever heist in the style of Ocean's Eleven").similarTo, "Ocean's Eleven");
   assert.equal(parseMood('sci-fi similar to Arrival and not too long').similarTo, 'Arrival');
 });
+
+test('vocabulaire familier en français', () => {
+  const cas = {
+    'un truc qui fout les jetons': 'frissons',
+    'un bon film de daron': 'film de daron',
+    'un truc chill sous la couette': 'cosy',
+    'un film qui me retourne le cerveau': 'intrigue',
+    'un nanar pour se marrer': 'drôle',
+    'un film qui fait chialer': 'émotion',
+    'un truc qui me tient en haleine': 'tension',
+    'un film où ça pète dans tous les sens': 'action',
+    'un dessin animé avec les gosses': 'famille',
+  };
+  for (const [q, m] of Object.entries(cas)) assert.ok(parseMood(q).moods.includes(m), `${q} -> ${m}`);
+});
+
+test('vocabulaire familier en anglais', () => {
+  assert.ok(parseMood('something mind-bending like Inception').moods.includes('intrigue'));
+  assert.ok(parseMood('a dad movie with explosions').moods.includes('film de daron'));
+  assert.ok(parseMood('a tearjerker that will make me cry').moods.includes('émotion'));
+  assert.ok(parseMood('goofy dumb fun').moods.includes('drôle'));
+});
+
+test('« à binger » veut dire une série', () => {
+  assert.equal(parseMood('une série à binger').type, 'tv');
+  assert.equal(parseMood('something to binge').type, 'tv');
+});
+
+test('« casse-tête » ne déclenche pas le registre crime', () => {
+  const r = parseMood('un casse-tête');
+  assert.ok(r.moods.includes('intrigue'));
+  assert.ok(!r.moods.includes('crime'));
+});

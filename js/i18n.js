@@ -54,6 +54,9 @@ const STR = {
     tasteBoost: 'ajusté à tes goûts',
     tmdbNotice: 'Données et images fournies par TMDB.',
     justwatch: 'Disponibilités streaming fournies par',
+    platforms: 'Mes plateformes', platformsHint: 'Coche tes abonnements : les recherches, thématiques et recommandations ne montreront que ce qui y est disponible (abonnement ou gratuit). Rien de coché = toutes les plateformes.',
+    onPlatforms: (n) => `Sur tes plateformes : ${n}`, editPlatforms: 'modifier', allPlatforms: 'Toutes les plateformes', choosePlatforms: 'choisir mes plateformes',
+    trendsAllPlatforms: 'Les tendances couvrent toutes les plateformes.', both: 'Les deux', clearAll: 'Tout décocher',
     moods: {},
   },
   en: {
@@ -105,11 +108,14 @@ const STR = {
     tasteBoost: 'tuned to your taste',
     tmdbNotice: 'Data and images provided by TMDB.',
     justwatch: 'Streaming availability provided by',
+    platforms: 'My streaming services', platformsHint: 'Tick your subscriptions: searches, genres and recommendations will only show what is available on them (subscription or free). Nothing ticked = all services.',
+    onPlatforms: (n) => `On your services: ${n}`, editPlatforms: 'edit', allPlatforms: 'All streaming services', choosePlatforms: 'choose my services',
+    trendsAllPlatforms: 'Trending covers all streaming services.', both: 'Both', clearAll: 'Untick all',
     moods: {
       cosy: 'cozy', 'drôle': 'funny', intrigue: 'mystery', frissons: 'scary', tension: 'tension', action: 'action',
       aventure: 'adventure', romance: 'romance', 'émotion': 'emotional', SF: 'sci-fi', fantastique: 'fantasy',
       famille: 'family', animation: 'animation', 'docu / histoire vraie': 'documentary / true story',
-      historique: 'historical', crime: 'crime', western: 'western', musique: 'music',
+      historique: 'historical', 'film de daron': 'dad movie', crime: 'crime', western: 'western', musique: 'music',
     },
   },
 };

@@ -14,6 +14,26 @@ export function setLocale(lang, country) {
 }
 export const getRegion = () => region;
 
+// Filtre « mes plateformes » : identifiants TMDB des services choisis (vide = toutes).
+let providers = [];
+export function setProviders(ids) { providers = (ids || []).map(Number).filter((n) => Number.isInteger(n) && n > 0); }
+export const getProviders = () => providers;
+
+// Plateformes disponibles dans le pays choisi, films et séries confondus, par ordre d'importance.
+export async function providerList() {
+  const [m, t] = await Promise.all([
+    tmdb('/watch/providers/movie', { watch_region: region }),
+    tmdb('/watch/providers/tv', { watch_region: region }),
+  ]);
+  const byId = new Map();
+  for (const p of [...m.results, ...t.results]) {
+    const prio = p.display_priorities?.[region] ?? p.display_priority ?? 999;
+    const prev = byId.get(p.provider_id);
+    if (!prev || prio < prev.prio) byId.set(p.provider_id, { id: p.provider_id, name: p.provider_name, logo: p.logo_path, prio });
+  }
+  return [...byId.values()].sort((a, b) => a.prio - b.prio);
+}
+
 const memo = new Map();
 
 export async function tmdb(path, params = {}) {
@@ -44,8 +64,12 @@ export async function trending(type = 'all', window = 'week', page = 1) {
 }
 
 export async function discover(type, params) {
+  const filter = providers.length ? {
+    with_watch_providers: providers.join('|'),
+    with_watch_monetization_types: 'flatrate|free|ads',
+  } : {};
   const d = await tmdb(`/discover/${type}`, {
-    sort_by: 'popularity.desc', 'vote_count.gte': 150, watch_region: region, ...params,
+    sort_by: 'popularity.desc', 'vote_count.gte': 150, watch_region: region, ...filter, ...params,
   });
   return d.results.map(withType(type));
 }

@@ -1,5 +1,5 @@
 // Service worker : l'interface marche hors ligne ; les données TMDB restent en ligne (images mises en cache).
-const SHELL = 'cine-shell-v5';
+const SHELL = 'cine-shell-v6';
 const IMGS = 'cine-img-v1';
 const FILES = ['./', 'index.html', 'style.css', 'manifest.webmanifest', 'js/app.js', 'js/mood.js', 'js/tmdb.js', 'js/store.js', 'js/i18n.js', 'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/tmdb.svg'];
 

@@ -41,8 +41,10 @@ C'est une application web installable (PWA), sans serveur, sans compte, sans dé
 
 | | |
 |---|---|
-| 💬 **Envie** | Recherche en langage naturel : humeurs, genres à éviter, film ou série, récent / court / classique, titre de référence (« comme Dark », « like Dark »). |
+| 💬 **Envie** | Recherche en langage naturel, langage familier compris : humeurs, genres à éviter, film ou série, récent / court / classique, titre de référence (« comme Dark », « like Dark »). |
 | 🌍 **Bilingue** | Interface et recherche en français ou en anglais ; la langue du navigateur est détectée, et modifiable dans les réglages. |
+| 📺 **Films et séries** | Recherche, thématiques, tendances, notes et recommandations couvrent films et séries, avec un choix rapide Films / Séries / Les deux. |
+| 🍿 **Mes plateformes** | Coche tes abonnements (Netflix, Prime Video, Disney+, Canal+…, selon ton pays) : les résultats se limitent à ce que tu peux regarder, et tes plateformes sont mises en avant dans chaque fiche. |
 | 📍 **Ton pays** | Choix du pays de résidence parmi 31 pays européens, directement depuis la fiche : les plateformes affichées sont celles disponibles chez toi. |
 | 🔥 **Tendances** | Films et séries tendance de la semaine, avec un badge **Nouveau** sur ce qui est apparu depuis ta dernière visite. |
 | 🎭 **Thématiques** | Parcours par genre, par popularité ou par note. |
@@ -79,6 +81,10 @@ Exemples réels de sortie de l'analyseur :
 | A cozy, funny night with some mystery, like Knives Out | cosy, drôle, intrigue | tout | Horreur, Thriller, Guerre | Knives Out |
 | a classic 90s thriller | tension | tout · classique | | |
 | I would like something funny | drôle | tout | | *(aucune : « like » n'est pas pris pour un titre)* |
+| un truc qui fout les jetons | frissons | tout | | |
+| un bon film de daron | film de daron | film | | |
+| une série à binger qui me retourne le cerveau | intrigue | série | | |
+| un truc chill sous la couette | cosy | tout | Horreur, Thriller, Guerre | |
 
 Chaque résultat reçoit ensuite un score : +3 par genre voulu, −6 par genre exclu, plus la note et la popularité, et un bonus s'il vient des recommandations du titre de référence.
 
@@ -145,14 +151,6 @@ npm install
 npx playwright install chromium
 TMDB_KEY=ta_cle npm run captures   # résultat dans docs/captures/
 ```
-
-## Feuille de route
-
-- [ ] Mode démo sans clé, pour essayer l'appli en un clic
-- [ ] Filtrer par mes plateformes (Netflix, Canal+, Prime Video…)
-- [ ] Synchronisation des listes entre appareils
-- [ ] Plus de vocabulaire d'humeurs et d'expressions familières
-- [ ] D'autres langues (espagnol, allemand, italien)
 
 Les idées sont bienvenues : voir [CONTRIBUTING.md](CONTRIBUTING.md).
 

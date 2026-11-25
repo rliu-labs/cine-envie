@@ -18,6 +18,7 @@ const langs = typeof navigator !== 'undefined' ? [...(navigator.languages || [na
 function applyLocale() {
   setLang(store.getLang() || guessLang(langs));
   api.setLocale(getLang(), store.getRegion() || guessCountry(langs));
+  api.setProviders(store.getProviders(api.getRegion()));
   document.querySelectorAll('nav a').forEach((a, i) => { if (t('nav')[i]) a.textContent = t('nav')[i]; });
   const gear = $('nav a[href="#reglages"]');
   if (gear) { gear.textContent = '⚙︎'; gear.setAttribute('aria-label', t('settings')); }
@@ -35,8 +36,25 @@ function renderFooter() {
     <p>${t('justwatch')} <a href="https://www.justwatch.com" target="_blank" rel="noopener">JustWatch</a>.</p>`;
 }
 
+// Bandeau « Sur tes plateformes : … » (ou lien pour les choisir)
+let providerNames = new Map();
+async function loadProviderNames() {
+  if (!api.hasCredential()) return [];
+  try { const list = await api.providerList(); providerNames = new Map(list.map((p) => [p.id, p])); return list; } catch { return []; }
+}
+function platformPill() {
+  const ids = api.getProviders();
+  if (!ids.length) return `<p class="hint pill-line">${t('allPlatforms')} · <a href="#reglages">${t('choosePlatforms')}</a></p>`;
+  const names = ids.map((id) => providerNames.get(id)?.name).filter(Boolean).join(', ') || ids.length;
+  return `<p class="hint pill-line">${esc(t('onPlatforms')(names))} · <a href="#reglages">${t('editPlatforms')}</a></p>`;
+}
+async function refreshPill() {
+  if (api.getProviders().length && !providerNames.size) await loadProviderNames();
+  const el = $('#pill'); if (el) el.innerHTML = platformPill();
+}
+
 const countrySelect = (id) => `<select id="${id}" aria-label="${esc(t('country'))}">${countryOptions().map(([c, n]) => `<option value="${c}" ${c === api.getRegion() ? 'selected' : ''}>${esc(n)}</option>`).join('')}</select>`;
-function setCountry(c) { store.setRegion(c); applyLocale(); }
+function setCountry(c) { store.setRegion(c); providerNames = new Map(); applyLocale(); }
 
 // ---------- Rendu commun ----------
 function card(it, extra = {}) {
@@ -122,10 +140,20 @@ async function viewEnvie() {
         <button class="primary">${t('find')}</button>
       </form>
       <div class="chips">${presets.map((p) => `<button class="chip" data-q="${esc(p)}">${esc(p)}</button>`).join('')}</div>
+      <div class="row opts">
+        <div class="seg" id="typeSeg">${[['all', t('both')], ['movie', t('movies')], ['tv', t('series')]].map(([v, l]) => `<button type="button" data-v="${v}" class="${v === store.getMediaType() ? 'on' : ''}">${l}</button>`).join('')}</div>
+        <div id="pill">${platformPill()}</div>
+      </div>
     </section>
     <div id="moodOut"></div>`;
   $('#moodForm').addEventListener('submit', (e) => { e.preventDefault(); runMood($('#moodInput').value); });
   view.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => { $('#moodInput').value = c.dataset.q; runMood(c.dataset.q); }));
+  view.querySelectorAll('#typeSeg button').forEach((b) => b.addEventListener('click', () => {
+    store.setMediaType(b.dataset.v);
+    view.querySelectorAll('#typeSeg button').forEach((x) => x.classList.toggle('on', x === b));
+    if (lastQuery) runMood(lastQuery);
+  }));
+  refreshPill();
   if (lastQuery) runMood(lastQuery);
 }
 
@@ -134,6 +162,8 @@ async function runMood(q) {
   const out = $('#moodOut');
   if (!lastQuery) return;
   const mood = parseMood(lastQuery);
+  // Si la phrase ne précise pas film ou série, on suit le choix Films / Séries / Les deux.
+  if (mood.type === 'all') mood.type = store.getMediaType();
   const moods = mood.moods.map(moodLabel);
   out.innerHTML = loading(t('searching'));
   try {
@@ -144,13 +174,22 @@ async function runMood(q) {
       else if (it._fromSimilar) pool.get(k)._fromSimilar = true;
     });
     let ref = null;
+    let recKeys = null;
+    let refWhy = '';
 
     if (mood.similarTo) {
       const found = await api.searchTitle(mood.similarTo);
       ref = found[0];
       if (ref) {
         const recs = await api.recommendations(ref.media_type, ref.id);
-        add(recs.map((r) => ({ ...r, _fromSimilar: true })), t('closeTo')(titleOf(ref)));
+        if (!api.getProviders().length) add(recs.map((r) => ({ ...r, _fromSimilar: true })), t('closeTo')(titleOf(ref)));
+        else {
+          // Avec un filtre plateformes : on cherche dans le même registre que la référence,
+          // sur tes plateformes, et on favorise ce qui fait aussi partie de ses recommandations.
+          recKeys = new Set(recs.map((r) => store.itemKey(r)));
+          for (const g of ref.genre_ids || []) (ref.media_type === 'tv' ? mood.tvGenres : mood.movieGenres).add(g);
+          refWhy = t('closeTo')(titleOf(ref));
+        }
       }
     }
 
@@ -176,6 +215,7 @@ async function runMood(q) {
     found.forEach((list) => add(list, moods.length ? t('fits')(moods.join(', ')) : t('popular')));
 
     let items = [...pool.values()];
+    if (recKeys) items.forEach((it) => { if (recKeys.has(store.itemKey(it))) { it._fromSimilar = true; it._why = refWhy; } });
     if (mood.type !== 'all') items = items.filter((it) => it.media_type === mood.type);
     if (ref) items = items.filter((it) => !(it.id === ref.id && it.media_type === ref.media_type));
     const profile = tasteProfile();
@@ -207,7 +247,7 @@ async function viewTendances() {
     const items = [...p1, ...p2];
     const isNew = store.diffTrending(items);
     const nb = items.filter(isNew).length;
-    $('#trendOut').innerHTML = (nb ? `<p class="hint">${t('newSince')(nb)}</p>` : '') + grid(items, (it) => ({ isNew: isNew(it) }));
+    $('#trendOut').innerHTML = (api.getProviders().length ? `<p class="hint">${t('trendsAllPlatforms')}</p>` : '') + (nb ? `<p class="hint">${t('newSince')(nb)}</p>` : '') + grid(items, (it) => ({ isNew: isNew(it) }));
   } catch (e) { $('#trendOut').innerHTML = errorBox(e); }
 }
 
@@ -223,10 +263,12 @@ async function viewGenres() {
       <div class="seg" id="gSort">${[['popularity.desc', t('popularS')], ['vote_average.desc', t('topRated')]].map(([v, l]) => `<button data-v="${v}" class="${v === genreState.sort ? 'on' : ''}">${l}</button>`).join('')}</div>
     </section>
     <div class="chips">${Object.entries(map).map(([id, n]) => `<button class="chip ${Number(id) === genreState.genre ? 'on' : ''}" data-g="${id}">${n}</button>`).join('')}</div>
+    <div id="pill">${platformPill()}</div>
     <div id="genreOut">${loading()}</div>`;
   view.querySelectorAll('#gType button').forEach((b) => b.addEventListener('click', () => { genreState.type = b.dataset.v; viewGenres(); }));
   view.querySelectorAll('#gSort button').forEach((b) => b.addEventListener('click', () => { genreState.sort = b.dataset.v; viewGenres(); }));
   view.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => { genreState.genre = Number(c.dataset.g); viewGenres(); }));
+  refreshPill();
   try {
     const params = { with_genres: genreState.genre, sort_by: genreState.sort, 'vote_count.gte': genreState.sort.startsWith('vote') ? 1000 : 150 };
     const [a, b] = await Promise.all([api.discover(genreState.type, params), api.discover(genreState.type, { ...params, page: 2 })]);
@@ -291,6 +333,9 @@ function viewReglages() {
       <h3>${t('country')}</h3>
       <p class="hint">${t('countryHint')}</p>
       ${countrySelect('countrySel')}
+      <h3>${t('platforms')}</h3>
+      <p class="hint">${t('platformsHint')}</p>
+      <div id="provPick">${api.hasCredential() ? loading() : ''}</div>
       <h3>${t('tmdbKey')}</h3>${keyForm()}
       <h3>${t('backup')}</h3>
       <p class="hint">${t('backupHint')}</p>
@@ -301,7 +346,8 @@ function viewReglages() {
     </section>`;
   bindKeyForm();
   bindLangSwitch(viewReglages);
-  $('#countrySel').addEventListener('change', (e) => setCountry(e.target.value));
+  $('#countrySel').addEventListener('change', (e) => { setCountry(e.target.value); viewReglages(); });
+  renderProviderPicker();
   $('#exp').addEventListener('click', () => {
     const blob = new Blob([store.exportData()], { type: 'application/json' });
     const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `cinematheque-${new Date().toISOString().slice(0, 10)}.json` });
@@ -312,6 +358,27 @@ function viewReglages() {
   });
 }
 
+async function renderProviderPicker() {
+  const box = $('#provPick');
+  if (!box || !api.hasCredential()) return;
+  const list = (await loadProviderNames()).slice(0, 30);
+  if (!$('#provPick')) return;
+  const draw = () => {
+    const sel = new Set(api.getProviders());
+    box.innerHTML = `<div class="provs">${list.map((p) => `
+      <button type="button" class="prov-pick ${sel.has(p.id) ? 'on' : ''}" data-p="${p.id}" aria-pressed="${sel.has(p.id)}">
+        <img src="${esc(`${api.IMG}w92${p.logo}`)}" alt=""><span>${esc(p.name)}</span></button>`).join('')}</div>
+      ${sel.size ? `<button type="button" class="link" id="provClear">${t('clearAll')}</button>` : ''}`;
+    box.querySelectorAll('[data-p]').forEach((b) => b.addEventListener('click', () => {
+      const id = Number(b.dataset.p);
+      const next = sel.has(id) ? [...sel].filter((x) => x !== id) : [...sel, id];
+      store.setProviders(api.getRegion(), next); api.setProviders(next); draw();
+    }));
+    $('#provClear', box)?.addEventListener('click', () => { store.setProviders(api.getRegion(), []); api.setProviders([]); draw(); });
+  };
+  draw();
+}
+
 // ---------- Fiche détaillée ----------
 async function openDetail(type, id) {
   const dlg = $('#detail');
@@ -320,7 +387,7 @@ async function openDetail(type, id) {
   try {
     const d = await api.details(type, id);
     const it = { ...d, media_type: type, genre_ids: d.genres.map((g) => g.id) };
-    const provRow = (label, list) => list?.length ? `<div class="prov"><span>${label}</span>${list.map((p) => `<img title="${esc(p.provider_name)}" alt="${esc(p.provider_name)}" src="${esc(`${api.IMG}w92${p.logo_path}`)}">`).join('')}</div>` : '';
+    const provRow = (label, list) => list?.length ? `<div class="prov"><span>${label}</span>${list.map((p) => `<img class="${api.getProviders().includes(p.provider_id) ? 'mine' : ''}" title="${esc(p.provider_name)}" alt="${esc(p.provider_name)}" src="${esc(`${api.IMG}w92${p.logo_path}`)}">`).join('')}</div>` : '';
     const trailer = (d.videos?.results || []).find((v) => v.site === 'YouTube' && v.type === 'Trailer') || (d.videos?.results || []).find((v) => v.site === 'YouTube');
     const runtime = d.runtime ? `${Math.floor(d.runtime / 60)}h${String(d.runtime % 60).padStart(2, '0')}` : (d.number_of_seasons ? t('seasons')(d.number_of_seasons) : '');
     const cast = (d.credits?.cast || []).slice(0, 5).map((c) => c.name).join(', ');
