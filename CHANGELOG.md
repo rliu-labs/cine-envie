@@ -1,7 +1,7 @@
 # Journal des versions
 
 ## 0.5.0 (novembre 2026)
-- Barre de filtres sur la page de recherche : Films / Séries / Les deux, et plateformes (Toutes, Netflix, Prime Video, Disney+…) en multi-choix.
+- Barre de filtres sur la page de recherche : Films / Séries / Les deux, et plateformes (Toutes, Netflix, Prime Video, Disney+) en multi-choix ; les autres plateformes se choisissent dans les réglages.
 - Le résumé des résultats rappelle les plateformes choisies.
 
 ## 0.4.0 (novembre 2026)

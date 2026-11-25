@@ -131,18 +131,15 @@ function bindKeyForm() {
 // ---------- Vue « Envie du moment » ----------
 let lastQuery = '';
 // Plateformes proposées en raccourci sur la page de recherche (identifiants TMDB) :
-// Netflix, Prime Video, Disney+ d'abord, puis les suivantes du pays.
+// seulement Netflix, Prime Video et Disney+ ; les autres se choisissent dans les réglages.
 const QUICK = [[8, 'Netflix'], [119, 'Prime Video'], [337, 'Disney+']];
-const QUICK_MORE = 5;
 
 function filterBar() {
   const type = store.getMediaType();
   const sel = new Set(api.getProviders());
-  const known = [...providerNames.values()];
-  const extra = known.filter((p) => !QUICK.some(([id]) => id === p.id)).slice(0, QUICK_MORE);
-  const chips = [...QUICK.map(([id, name]) => ({ id, name: providerNames.get(id)?.name || name, logo: providerNames.get(id)?.logo })), ...extra];
-  // une plateforme cochée dans les réglages mais absente des raccourcis reste visible
-  for (const id of sel) if (!chips.some((c) => c.id === id) && providerNames.get(id)) chips.push(providerNames.get(id));
+  const chips = QUICK.map(([id, name]) => ({ id, name, logo: providerNames.get(id)?.logo }));
+  // Plateformes cochées dans les réglages en plus des trois raccourcis : simple rappel discret
+  const others = [...sel].filter((id) => !QUICK.some(([q]) => q === id)).length;
   const chip = (p) => `<button type="button" class="pchip ${sel.has(p.id) ? 'on' : ''}" data-p="${p.id}" aria-pressed="${sel.has(p.id)}">${p.logo ? `<img src="${esc(`${api.IMG}w92${p.logo}`)}" alt="">` : ''}${esc(p.name)}</button>`;
   return `
     <div class="filters">
@@ -153,7 +150,7 @@ function filterBar() {
         <div class="fchips" role="group">
           <button type="button" class="pchip ${sel.size ? '' : 'on'}" data-p="all" aria-pressed="${!sel.size}">${t('allShort')}</button>
           ${chips.map(chip).join('')}
-          <a class="more" href="#reglages">${t('morePlatforms')}</a>
+          ${others ? `<a class="more" href="#reglages">${t('othersChecked')(others)}</a>` : ''}
         </div>
       </div>
     </div>`;

@@ -57,7 +57,7 @@ const STR = {
     platforms: 'Mes plateformes', platformsHint: 'Coche tes abonnements : les recherches, thématiques et recommandations ne montreront que ce qui y est disponible (abonnement ou gratuit). Rien de coché = toutes les plateformes.',
     onPlatforms: (n) => `Sur tes plateformes : ${n}`, editPlatforms: 'modifier', allPlatforms: 'Toutes les plateformes', choosePlatforms: 'choisir mes plateformes',
     trendsAllPlatforms: 'Les tendances couvrent toutes les plateformes.', both: 'Les deux', clearAll: 'Tout décocher',
-    lookFor: 'Je cherche', onWhere: 'Sur', allShort: 'Toutes', morePlatforms: '+ autres',
+    lookFor: 'Je cherche', onWhere: 'Sur', allShort: 'Toutes', othersChecked: (n) => `+ ${n} autre${n > 1 ? 's' : ''} (réglages)`,
     moods: {},
   },
   en: {
@@ -112,7 +112,7 @@ const STR = {
     platforms: 'My streaming services', platformsHint: 'Tick your subscriptions: searches, genres and recommendations will only show what is available on them (subscription or free). Nothing ticked = all services.',
     onPlatforms: (n) => `On your services: ${n}`, editPlatforms: 'edit', allPlatforms: 'All streaming services', choosePlatforms: 'choose my services',
     trendsAllPlatforms: 'Trending covers all streaming services.', both: 'Both', clearAll: 'Untick all',
-    lookFor: 'Looking for', onWhere: 'On', allShort: 'All', morePlatforms: '+ more',
+    lookFor: 'Looking for', onWhere: 'On', allShort: 'All', othersChecked: (n) => `+ ${n} other${n > 1 ? 's' : ''} (settings)`,
     moods: {
       cosy: 'cozy', 'drôle': 'funny', intrigue: 'mystery', frissons: 'scary', tension: 'tension', action: 'action',
       aventure: 'adventure', romance: 'romance', 'émotion': 'emotional', SF: 'sci-fi', fantastique: 'fantasy',

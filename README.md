@@ -44,7 +44,7 @@ C'est une application web installable (PWA), sans serveur, sans compte, sans dé
 | 💬 **Envie** | Recherche en langage naturel, langage familier compris : humeurs, genres à éviter, film ou série, récent / court / classique, titre de référence (« comme Dark », « like Dark »). |
 | 🌍 **Bilingue** | Interface et recherche en français ou en anglais ; la langue du navigateur est détectée, et modifiable dans les réglages. |
 | 📺 **Films et séries** | Recherche, thématiques, tendances, notes et recommandations couvrent films et séries. Sur la page de recherche, un clic choisit **Films**, **Séries** ou **Les deux**. |
-| 🍿 **Mes plateformes** | Directement sur la page de recherche, choisis une ou plusieurs plateformes (Netflix, Prime Video, Disney+, Canal+…, selon ton pays) ou « Toutes » : les résultats se limitent à ce que tu peux regarder, et tes plateformes sont mises en avant dans chaque fiche. |
+| 🍿 **Mes plateformes** | Directement sur la page de recherche, choisis Netflix, Prime Video et/ou Disney+, ou « Toutes » ; les autres plateformes du pays (Canal+, Max…) se cochent dans les réglages : les résultats se limitent à ce que tu peux regarder, et tes plateformes sont mises en avant dans chaque fiche. |
 | 📍 **Ton pays** | Choix du pays de résidence parmi 31 pays européens, directement depuis la fiche : les plateformes affichées sont celles disponibles chez toi. |
 | 🔥 **Tendances** | Films et séries tendance de la semaine, avec un badge **Nouveau** sur ce qui est apparu depuis ta dernière visite. |
 | 🎭 **Thématiques** | Parcours par genre, par popularité ou par note. |
