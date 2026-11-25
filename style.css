@@ -103,3 +103,16 @@ small.mine { color: var(--new); letter-spacing: .05em; }
 .prov-pick img { width: 28px; height: 28px; border-radius: 6px; flex: none; }
 .prov-pick.on { border-color: var(--acc); background: rgba(229, 72, 77, .15); }
 .prov img.mine { outline: 2px solid var(--ok); outline-offset: 1px; }
+
+.filters { display: grid; gap: .5rem; margin: .25rem 0 .9rem; padding: .75rem; background: var(--bg2); border: 1px solid var(--bg3); border-radius: var(--r); }
+.frow { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.flabel { color: var(--mut); font-size: .85rem; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; min-width: 6.5rem; }
+.fchips { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
+.tchip, .pchip { display: inline-flex; align-items: center; gap: .4rem; padding: .45rem .85rem; border-radius: 999px; background: var(--bg); border: 1px solid var(--bg3); font-size: .95rem; }
+.pchip img { width: 20px; height: 20px; border-radius: 5px; }
+.tchip.on, .pchip.on { background: var(--acc); border-color: var(--acc); color: #fff; }
+.filters .more { font-size: .9rem; padding: 0 .3rem; }
+@media (max-width: 560px) {
+  .flabel { min-width: 0; width: 100%; }
+  .tchip, .pchip { padding: .4rem .7rem; font-size: .9rem; }
+}

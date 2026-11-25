@@ -130,31 +130,74 @@ function bindKeyForm() {
 
 // ---------- Vue « Envie du moment » ----------
 let lastQuery = '';
+// Plateformes proposées en raccourci sur la page de recherche (identifiants TMDB) :
+// Netflix, Prime Video, Disney+ d'abord, puis les suivantes du pays.
+const QUICK = [[8, 'Netflix'], [119, 'Prime Video'], [337, 'Disney+']];
+const QUICK_MORE = 5;
+
+function filterBar() {
+  const type = store.getMediaType();
+  const sel = new Set(api.getProviders());
+  const known = [...providerNames.values()];
+  const extra = known.filter((p) => !QUICK.some(([id]) => id === p.id)).slice(0, QUICK_MORE);
+  const chips = [...QUICK.map(([id, name]) => ({ id, name: providerNames.get(id)?.name || name, logo: providerNames.get(id)?.logo })), ...extra];
+  // une plateforme cochée dans les réglages mais absente des raccourcis reste visible
+  for (const id of sel) if (!chips.some((c) => c.id === id) && providerNames.get(id)) chips.push(providerNames.get(id));
+  const chip = (p) => `<button type="button" class="pchip ${sel.has(p.id) ? 'on' : ''}" data-p="${p.id}" aria-pressed="${sel.has(p.id)}">${p.logo ? `<img src="${esc(`${api.IMG}w92${p.logo}`)}" alt="">` : ''}${esc(p.name)}</button>`;
+  return `
+    <div class="filters">
+      <div class="frow"><span class="flabel">${t('lookFor')}</span>
+        <div class="fchips" role="group">${[['movie', `🎬 ${t('movies')}`], ['tv', `📺 ${t('series')}`], ['all', t('both')]].map(([v, l]) => `<button type="button" class="tchip ${v === type ? 'on' : ''}" data-v="${v}" aria-pressed="${v === type}">${l}</button>`).join('')}</div>
+      </div>
+      <div class="frow"><span class="flabel">${t('onWhere')}</span>
+        <div class="fchips" role="group">
+          <button type="button" class="pchip ${sel.size ? '' : 'on'}" data-p="all" aria-pressed="${!sel.size}">${t('allShort')}</button>
+          ${chips.map(chip).join('')}
+          <a class="more" href="#reglages">${t('morePlatforms')}</a>
+        </div>
+      </div>
+    </div>`;
+}
+
+function bindFilterBar(onChange) {
+  const box = $('#filterBox');
+  box.innerHTML = filterBar();
+  box.querySelectorAll('.tchip').forEach((b) => b.addEventListener('click', () => {
+    store.setMediaType(b.dataset.v); bindFilterBar(onChange); onChange();
+  }));
+  box.querySelectorAll('.pchip').forEach((b) => b.addEventListener('click', () => {
+    let next = [];
+    if (b.dataset.p !== 'all') {
+      const id = Number(b.dataset.p);
+      const sel = new Set(api.getProviders());
+      if (sel.has(id)) sel.delete(id); else sel.add(id);
+      next = [...sel];
+    }
+    store.setProviders(api.getRegion(), next); api.setProviders(next);
+    bindFilterBar(onChange); onChange();
+  }));
+}
+
 async function viewEnvie() {
   const presets = t('presets');
   view.innerHTML = `
     <section class="hero">
       <h2>${t('ask')}</h2>
+      <div id="filterBox"></div>
       <form id="moodForm" class="row">
         <input id="moodInput" placeholder="${esc(t('askPh'))}" value="${esc(lastQuery)}">
         <button class="primary">${t('find')}</button>
       </form>
       <div class="chips">${presets.map((p) => `<button class="chip" data-q="${esc(p)}">${esc(p)}</button>`).join('')}</div>
-      <div class="row opts">
-        <div class="seg" id="typeSeg">${[['all', t('both')], ['movie', t('movies')], ['tv', t('series')]].map(([v, l]) => `<button type="button" data-v="${v}" class="${v === store.getMediaType() ? 'on' : ''}">${l}</button>`).join('')}</div>
-        <div id="pill">${platformPill()}</div>
-      </div>
     </section>
     <div id="moodOut"></div>`;
+  const rerun = () => { if (lastQuery) runMood(lastQuery); };
+  bindFilterBar(rerun);
   $('#moodForm').addEventListener('submit', (e) => { e.preventDefault(); runMood($('#moodInput').value); });
-  view.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => { $('#moodInput').value = c.dataset.q; runMood(c.dataset.q); }));
-  view.querySelectorAll('#typeSeg button').forEach((b) => b.addEventListener('click', () => {
-    store.setMediaType(b.dataset.v);
-    view.querySelectorAll('#typeSeg button').forEach((x) => x.classList.toggle('on', x === b));
-    if (lastQuery) runMood(lastQuery);
-  }));
-  refreshPill();
+  view.querySelectorAll('.hero .chip').forEach((c) => c.addEventListener('click', () => { $('#moodInput').value = c.dataset.q; runMood(c.dataset.q); }));
   if (lastQuery) runMood(lastQuery);
+  // Charge logos et noms des plateformes du pays, puis redessine la barre
+  if (!providerNames.size && api.hasCredential()) { await loadProviderNames(); if ($('#filterBox')) bindFilterBar(rerun); }
 }
 
 async function runMood(q) {
@@ -227,6 +270,7 @@ async function runMood(q) {
       mood.similarTo ? (ref ? `${t('near')} <b>${esc(titleOf(ref))}</b> (${esc(year(ref))})` : esc(t('notFound')(mood.similarTo))) : '',
       mood.type !== 'all' ? t('only')(mood.type) : '',
       profile.count >= 3 ? `<i>${t('tasteBoost')}</i>` : '',
+      api.getProviders().length ? `${t('onWhere').toLowerCase()} <b>${esc(api.getProviders().map((id) => providerNames.get(id)?.name || QUICK.find(([q]) => q === id)?.[1] || id).join(', '))}</b>` : '',
       mood.recent ? `<b>${t('recent')}</b>` : '', mood.classic ? `<b>${t('classic')}</b>` : '', mood.short ? `<b>${t('short')}</b>` : '',
     ].filter(Boolean).join(' · ');
     out.innerHTML = `<p class="hint">${t('understood')} ${summary || t('nothing')}.</p>${grid(items, (it) => ({ why: it._why }))}`;

@@ -1,5 +1,9 @@
 # Journal des versions
 
+## 0.5.0 (novembre 2026)
+- Barre de filtres sur la page de recherche : Films / Séries / Les deux, et plateformes (Toutes, Netflix, Prime Video, Disney+…) en multi-choix.
+- Le résumé des résultats rappelle les plateformes choisies.
+
 ## 0.4.0 (novembre 2026)
 - Filtre « Mes plateformes » : choix des services de streaming du pays (Netflix, Prime Video, Disney+, Canal+…), mémorisé par pays, appliqué aux recherches, thématiques et recommandations.
 - Choix Films / Séries / Les deux pour la recherche par envie.
