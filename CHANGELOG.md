@@ -5,6 +5,7 @@
 - Interface complète en français ou en anglais, choix mémorisé.
 - Choix du pays de résidence parmi 31 pays européens : plateformes légales affichées selon le pays, sélecteur aussi dans la fiche.
 - Tests des traductions et du client TMDB.
+- Nouvelle icône basée sur le pictogramme « clapperboard » de Lucide (ISC).
 
 ## 0.1.0 (novembre 2026)
 Première version publique.

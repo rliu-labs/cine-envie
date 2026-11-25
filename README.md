@@ -148,5 +148,6 @@ Les idées sont bienvenues : voir [CONTRIBUTING.md](CONTRIBUTING.md).
 
 Données films et séries : [TMDB](https://www.themoviedb.org/). Ce produit utilise l'API TMDB mais n'est ni approuvé ni certifié par TMDB.
 Disponibilités streaming : JustWatch, via TMDB.
+Icône : pictogramme « clapperboard » de [Lucide](https://lucide.dev) (licence ISC, voir [icons/LICENSE-lucide.txt](icons/LICENSE-lucide.txt)).
 
 Code sous licence [MIT](LICENSE).
