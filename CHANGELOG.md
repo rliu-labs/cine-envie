@@ -1,5 +1,11 @@
 # Journal des versions
 
+## 0.2.0 (novembre 2026)
+- Recherche par envie en anglais (humeurs, type, période, « like … », « in the style of … »).
+- Interface complète en français ou en anglais, choix mémorisé.
+- Choix du pays de résidence parmi 31 pays européens : plateformes légales affichées selon le pays, sélecteur aussi dans la fiche.
+- Tests des traductions et du client TMDB.
+
 ## 0.1.0 (novembre 2026)
 Première version publique.
 - Recherche par envie en langage naturel (humeurs, exclusions, film ou série, récent / court / classique, titre de référence).
