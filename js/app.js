@@ -1,4 +1,4 @@
-import { parseMood, scoreItem, genreMaps } from './mood.js';
+import { parseMood, scoreItem, genreMaps, buildProfile } from './mood.js';
 import * as api from './tmdb.js';
 import * as store from './store.js';
 import { t, getLang, setLang, moodLabel, guessLang, guessCountry, countryName, countryOptions } from './i18n.js';
@@ -21,7 +21,20 @@ function applyLocale() {
   document.querySelectorAll('nav a').forEach((a, i) => { if (t('nav')[i]) a.textContent = t('nav')[i]; });
   const gear = $('nav a[href="#reglages"]');
   if (gear) { gear.textContent = '⚙︎'; gear.setAttribute('aria-label', t('settings')); }
+  renderFooter();
 }
+const tasteProfile = () => buildProfile(Object.values(store.getList()));
+
+// Mention TMDB obligatoire (logo + phrase exacte des conditions d'utilisation), en pied de page.
+function renderFooter() {
+  let f = $('#credits');
+  if (!f) { f = document.createElement('footer'); f.id = 'credits'; document.body.appendChild(f); }
+  f.innerHTML = `
+    <a href="https://www.themoviedb.org" target="_blank" rel="noopener" class="tmdb-logo"><img src="icons/tmdb.svg" alt="TMDB" width="120" height="16"></a>
+    <p>${t('tmdbNotice')} This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+    <p>${t('justwatch')} <a href="https://www.justwatch.com" target="_blank" rel="noopener">JustWatch</a>.</p>`;
+}
+
 const countrySelect = (id) => `<select id="${id}" aria-label="${esc(t('country'))}">${countryOptions().map(([c, n]) => `<option value="${c}" ${c === api.getRegion() ? 'selected' : ''}>${esc(n)}</option>`).join('')}</select>`;
 function setCountry(c) { store.setRegion(c); applyLocale(); }
 
@@ -45,6 +58,7 @@ function card(it, extra = {}) {
         <strong>${esc(titleOf(it))}</strong>
         <small>${it.media_type === 'tv' ? t('tv') : t('movie')} · ${esc(year(it)) || '—'}${genres ? ` · ${esc(genres)}` : ''}</small>
         ${extra.why ? `<small class="why">${esc(extra.why)}</small>` : ''}
+        ${extra.rating ? `<small class="mine">${'★'.repeat(extra.rating)}${'☆'.repeat(5 - extra.rating)}</small>` : ''}
       </div>
     </button>`;
 }
@@ -164,13 +178,15 @@ async function runMood(q) {
     let items = [...pool.values()];
     if (mood.type !== 'all') items = items.filter((it) => it.media_type === mood.type);
     if (ref) items = items.filter((it) => !(it.id === ref.id && it.media_type === ref.media_type));
-    items.sort((a, b) => scoreItem(b, mood) - scoreItem(a, mood));
+    const profile = tasteProfile();
+    items.sort((a, b) => scoreItem(b, mood, profile) - scoreItem(a, mood, profile));
     items = items.slice(0, 30);
 
     const summary = [
       moods.length ? `${t('mood')} <b>${esc(moods.join(', '))}</b>` : '',
       mood.similarTo ? (ref ? `${t('near')} <b>${esc(titleOf(ref))}</b> (${esc(year(ref))})` : esc(t('notFound')(mood.similarTo))) : '',
       mood.type !== 'all' ? t('only')(mood.type) : '',
+      profile.count >= 3 ? `<i>${t('tasteBoost')}</i>` : '',
       mood.recent ? `<b>${t('recent')}</b>` : '', mood.classic ? `<b>${t('classic')}</b>` : '', mood.short ? `<b>${t('short')}</b>` : '',
     ].filter(Boolean).join(' · ');
     out.innerHTML = `<p class="hint">${t('understood')} ${summary || t('nothing')}.</p>${grid(items, (it) => ({ why: it._why }))}`;
@@ -227,9 +243,43 @@ function viewListes() {
   view.innerHTML = `
     <section class="toolbar">
       <h2>${t('library')}</h2>
-      <div class="seg">${[['towatch', `${t('toWatch')} (${count('towatch')})`], ['seen', `${t('seenP')} (${count('seen')})`]].map(([v, l]) => `<button data-v="${v}" class="${v === listTab ? 'on' : ''}">${l}</button>`).join('')}</div>
-    </section>${grid(items)}`;
+      <div class="seg">${[['towatch', `${t('toWatch')} (${count('towatch')})`], ['seen', `${t('seenP')} (${count('seen')})`], ['taste', t('taste')]].map(([v, l]) => `<button data-v="${v}" class="${v === listTab ? 'on' : ''}">${l}</button>`).join('')}</div>
+    </section><div id="listOut">${listTab === 'taste' ? '' : grid(items, (it) => ({ rating: it.rating }))}</div>`;
   view.querySelectorAll('.seg button').forEach((b) => b.addEventListener('click', () => { listTab = b.dataset.v; viewListes(); }));
+  if (listTab === 'taste') viewTaste(all);
+}
+
+async function viewTaste(all) {
+  const out = $('#listOut');
+  const profile = buildProfile(all);
+  if (profile.count < 3) { out.innerHTML = `<p class="hint">${t('tasteEmpty')}</p>`; return; }
+  const names = (ids) => ids.slice(0, 6).map((g) => genreMaps(getLang()).movie[g] || genreMaps(getLang()).tv[g]).filter(Boolean);
+  const chips = (ids, cls) => names(ids).map((n) => `<span class="chip ${cls}">${esc(n)}</span>`).join('');
+  out.innerHTML = `
+    <section class="panel taste">
+      <p>${t('tasteIntro')(profile.count)}</p>
+      ${profile.liked.length ? `<h3>${t('likes')}</h3><div class="chips">${chips(profile.liked, 'like')}</div>` : ''}
+      ${profile.disliked.length ? `<h3>${t('dislikes')}</h3><div class="chips">${chips(profile.disliked, 'dislike')}</div>` : ''}
+      <p class="hint">${t('tasteLocal')}</p>
+    </section>
+    <h3>${t('forYou')}</h3><div id="forYou">${loading()}</div>`;
+  if (!api.hasCredential()) { $('#forYou').innerHTML = ''; return; }
+  try {
+    const known = new Set(all.map((e) => `${e.media_type}:${e.id}`));
+    const mood = { movieGenres: new Set(), tvGenres: new Set(), exclude: new Set(profile.disliked) };
+    const jobs = ['movie', 'tv'].map((type) => {
+      const map = genreMaps('fr')[type];
+      const liked = profile.liked.filter((g) => map[g]).slice(0, 3);
+      const disliked = profile.disliked.filter((g) => map[g] && !liked.includes(g));
+      if (!liked.length) return Promise.resolve([]);
+      return api.discover(type, { with_genres: liked.join('|'), without_genres: disliked.join(','), 'vote_count.gte': 300 });
+    });
+    const items = (await Promise.all(jobs)).flat()
+      .filter((it) => !known.has(`${it.media_type}:${it.id}`))
+      .sort((a, b) => scoreItem(b, mood, profile) - scoreItem(a, mood, profile))
+      .slice(0, 24);
+    $('#forYou').innerHTML = grid(items);
+  } catch (e) { $('#forYou').innerHTML = errorBox(e); }
 }
 
 // ---------- Vue « Réglages » ----------
@@ -248,7 +298,6 @@ function viewReglages() {
       <p id="ioMsg" class="hint"></p>
       <h3>${t('install')}</h3>
       <p class="hint">${t('installHint')}</p>
-      <p class="tmdb">${t('credits')}</p>
     </section>`;
   bindKeyForm();
   bindLangSwitch(viewReglages);
@@ -277,7 +326,9 @@ async function openDetail(type, id) {
     const cast = (d.credits?.cast || []).slice(0, 5).map((c) => c.name).join(', ');
     const director = (d.credits?.crew || []).find((c) => c.job === 'Director')?.name || (d.created_by || []).map((c) => c.name).join(', ');
     const render = () => {
-      const st = store.getEntry(it)?.status;
+      const entry = store.getEntry(it);
+      const st = entry?.status;
+      const myRating = entry?.rating || 0;
       // Toutes les régions sont renvoyées d'un coup : changer de pays ne refait pas d'appel.
       const prov = d['watch/providers']?.results?.[api.getRegion()] || {};
       const offers = provRow(t('flatrate'), prov.flatrate) + provRow(t('free'), [...(prov.free || []), ...(prov.ads || [])]) + provRow(t('rent'), prov.rent) + provRow(t('buy'), prov.buy);
@@ -297,12 +348,20 @@ async function openDetail(type, id) {
               ${trailer ? `<a class="btn" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=${esc(encodeURIComponent(trailer.key))}">${t('trailer')}</a>` : ''}
               <button data-more>${t('similar')}</button>
             </div>
+            <div class="rating">
+              <span class="hint">${t('rate')}</span>
+              ${[1, 2, 3, 4, 5].map((n) => `<button class="star ${n <= myRating ? 'on' : ''}" data-r="${n}" aria-label="${esc(t('stars')(n))}">★</button>`).join('')}
+              ${myRating ? `<button class="link" data-r="0">${t('clearRate')}</button>` : ''}
+            </div>
             <div class="row where"><h3>${t('whereIn')}</h3>${countrySelect('detailCountry')}</div>
             ${offers || `<p class="hint">${t('noOffer')}</p>`}
             ${prov.link ? `<p class="hint"><a href="${esc(prov.link)}" target="_blank" rel="noopener">${t('allOffers')}</a></p>` : ''}
           </div>
         </div>`;
       $('.close', dlg).addEventListener('click', () => dlg.close());
+      dlg.querySelectorAll('[data-r]').forEach((b) => b.addEventListener('click', () => {
+        store.setRating(it, Number(b.dataset.r)); render(); refreshBadges();
+      }));
       $('#detailCountry', dlg).addEventListener('change', (e) => { setCountry(e.target.value); render(); });
       dlg.querySelectorAll('[data-s]').forEach((b) => b.addEventListener('click', () => {
         store.setStatus(it, st === b.dataset.s ? null : b.dataset.s); render(); refreshBadges();

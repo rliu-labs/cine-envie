@@ -17,6 +17,17 @@ export const itemKey = (it) => `${it.media_type}:${it.id}`;
 export function getList() { return read(K.list, {}); }
 export function getEntry(it) { return getList()[itemKey(it)] || null; }
 
+// Note de 1 à 5 sur un titre vu (0 pour l'effacer). Noter un titre le marque comme vu.
+export function setRating(it, rating) {
+  if (!getEntry(it) || getEntry(it).status !== 'seen') setStatus(it, 'seen');
+  const list = getList();
+  const k = itemKey(it);
+  if (rating >= 1 && rating <= 5) list[k].rating = Math.round(rating);
+  else delete list[k].rating;
+  list[k].updatedAt = Date.now();
+  write(K.list, list);
+}
+
 export function setStatus(it, status) {
   const list = getList();
   const k = itemKey(it);
@@ -24,6 +35,7 @@ export function setStatus(it, status) {
   else {
     list[k] = {
       ...(list[k] || {}),
+      ...(status !== 'seen' ? { rating: undefined } : {}),
       id: it.id, media_type: it.media_type,
       title: it.title || it.name, poster_path: it.poster_path,
       date: it.release_date || it.first_air_date || '',

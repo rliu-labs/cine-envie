@@ -133,8 +133,39 @@ export function parseMood(input) {
   return res;
 }
 
+// Profil de goûts : à partir des notes (1 à 5) données aux titres vus,
+// calcule une affinité par genre entre -1 (déteste) et +1 (adore).
+export function buildProfile(entries) {
+  const rated = (entries || []).filter((e) => e && e.rating >= 1 && e.rating <= 5);
+  const sum = new Map();
+  const n = new Map();
+  for (const e of rated) {
+    const v = (e.rating - 3) / 2; // 1★ -> -1, 3★ -> 0, 5★ -> +1
+    for (const g of e.genre_ids || []) {
+      sum.set(g, (sum.get(g) || 0) + v);
+      n.set(g, (n.get(g) || 0) + 1);
+    }
+  }
+  const genres = new Map();
+  // Moyenne lissée : un genre vu une seule fois pèse moins qu'un genre confirmé.
+  for (const [g, s] of sum) genres.set(g, s / (n.get(g) + 1));
+  const sorted = [...genres].sort((a, b) => b[1] - a[1]);
+  return {
+    count: rated.length,
+    genres,
+    liked: sorted.filter(([, w]) => w > 0.15).map(([g]) => g),
+    disliked: sorted.filter(([, w]) => w < -0.15).reverse().map(([g]) => g),
+  };
+}
+
+// Bonus de profil pour un résultat (0 si pas encore de profil).
+export function profileBonus(item, profile) {
+  if (!profile || !profile.count) return 0;
+  return (item.genre_ids || []).reduce((acc, g) => acc + (profile.genres.get(g) || 0), 0) * 3;
+}
+
 // Score d'un résultat TMDB par rapport à l'envie analysée (plus haut = mieux).
-export function scoreItem(item, mood) {
+export function scoreItem(item, mood, profile = null) {
   const genres = item.genre_ids || [];
   const wanted = item.media_type === 'tv' ? mood.tvGenres : mood.movieGenres;
   let score = 0;
@@ -145,5 +176,6 @@ export function scoreItem(item, mood) {
   score += (item.vote_average || 0) / 2;
   score += Math.log10((item.vote_count || 0) + 1);
   if (item._fromSimilar) score += 4;
+  score += profileBonus(item, profile);
   return score;
 }

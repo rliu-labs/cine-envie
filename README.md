@@ -47,6 +47,7 @@ C'est une application web installable (PWA), sans serveur, sans compte, sans dé
 | 🔥 **Tendances** | Films et séries tendance de la semaine, avec un badge **Nouveau** sur ce qui est apparu depuis ta dernière visite. |
 | 🎭 **Thématiques** | Parcours par genre, par popularité ou par note. |
 | 🎬 **Fiche** | Résumé, réalisateur, casting, bande‑annonce et plateformes légales du pays choisi (abonnement, gratuit, location, achat). |
+| ⭐ **Profil de goûts** | Note les titres vus de 1 à 5 étoiles : l'appli en déduit les genres que tu aimes ou évites, ajuste le classement de chaque recherche et propose une sélection « Recommandé pour toi ». |
 | 📋 **Mes listes** | « À voir » et « Vus », stockés dans le navigateur, avec export / import JSON pour changer d'appareil. |
 | 📱 **Installable** | Sur ordinateur (Chrome, Edge), Android et iPhone ; l'interface reste disponible hors ligne. |
 
@@ -81,6 +82,8 @@ Exemples réels de sortie de l'analyseur :
 
 Chaque résultat reçoit ensuite un score : +3 par genre voulu, −6 par genre exclu, plus la note et la popularité, et un bonus s'il vient des recommandations du titre de référence.
 
+Le **profil de goûts** s'ajoute à ce score : chaque note donne à ses genres une affinité entre −1 (1★) et +1 (5★), moyennée et lissée pour qu'un seul film ne fasse pas la loi. Tout est calculé dans le navigateur.
+
 ## Architecture
 
 ```
@@ -91,11 +94,12 @@ Chaque résultat reçoit ensuite un score : +3 par genre voulu, −6 par genre e
 │   ├── mood.js            Analyse de l'envie et score (pur JS, testé)
 │   ├── i18n.js            Textes FR / EN, pays européens, détection langue et pays
 │   ├── tmdb.js            Client API TMDB (langue et pays réglables, cache mémoire)
-│   └── store.js           Stockage local : langue, pays, clé, listes, veille
+│   └── store.js           Stockage local : langue, pays, clé, listes, notes, veille
 ├── sw.js                  Service worker (interface hors ligne, cache des affiches)
 ├── manifest.webmanifest   Manifeste PWA
-├── icons/                 Icônes de l'appli
-└── tests/                 Tests node:test (analyseur, traductions, client TMDB)
+├── icons/                 Icône de l'appli, logo TMDB
+├── scripts/captures.mjs   Génère les captures et le GIF du README (Playwright)
+└── tests/                 Tests node:test (analyseur, profil, traductions, client TMDB)
 ```
 
 **Choix techniques**
@@ -112,7 +116,7 @@ Ciné‑Envie est conçu pour ne rien savoir de toi.
 | 🖥️ **Aucun serveur** | Site 100 % statique hébergé sur GitHub Pages, servi en HTTPS. |
 | 🔑 **Ta clé reste chez toi** | La clé TMDB est stockée dans ton navigateur et envoyée uniquement à l'API TMDB. |
 | 🙈 **Aucun pistage** | Pas de statistiques, de publicité, de cookies ni de service tiers. |
-| 📦 **Zéro dépendance** | Aucun paquet npm ni script externe : rien qui puisse être compromis en amont. |
+| 📦 **Zéro dépendance** | La page ne charge aucun paquet npm ni script externe : rien qui puisse être compromis en amont. (Les seuls paquets npm servent à générer les captures, jamais à l'appli.) |
 | 🛡️ **Content Security Policy** | Le navigateur bloque tout script étranger et toute connexion hors de TMDB. |
 | 🧹 **Données échappées** | Tout ce qui vient de TMDB ou d'un import est neutralisé avant affichage. |
 
@@ -134,6 +138,14 @@ Tests :
 npm test
 ```
 
+Captures d'écran et GIF de démonstration, avec de vraies données (nécessite ta clé TMDB) :
+
+```bash
+npm install
+npx playwright install chromium
+TMDB_KEY=ta_cle npm run captures   # résultat dans docs/captures/
+```
+
 ## Feuille de route
 
 - [ ] Mode démo sans clé, pour essayer l'appli en un clic
@@ -146,8 +158,13 @@ Les idées sont bienvenues : voir [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Crédits
 
-Données films et séries : [TMDB](https://www.themoviedb.org/). Ce produit utilise l'API TMDB mais n'est ni approuvé ni certifié par TMDB.
-Disponibilités streaming : JustWatch, via TMDB.
+<a href="https://www.themoviedb.org/"><img src="icons/tmdb.svg" alt="The Movie Database (TMDB)" height="18"></a>
+
+Données et images de films et séries : [TMDB](https://www.themoviedb.org/).
+*This product uses the TMDB API but is not endorsed or certified by TMDB.*
+
+Disponibilités streaming : [JustWatch](https://www.justwatch.com/), via l'API TMDB.
+
 Icône : pictogramme « clapperboard » de [Lucide](https://lucide.dev) (licence ISC, voir [icons/LICENSE-lucide.txt](icons/LICENSE-lucide.txt)).
 
 Code sous licence [MIT](LICENSE).

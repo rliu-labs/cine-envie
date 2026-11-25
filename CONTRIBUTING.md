@@ -14,7 +14,7 @@ Merci de ton intérêt ! Ciné‑Envie est un petit projet perso, mais les idée
    ```
 
 ## Principes du projet
-- **Zéro dépendance, zéro build** : du HTML, du CSS et des modules JavaScript natifs.
+- **Zéro dépendance, zéro build pour l'appli** : du HTML, du CSS et des modules JavaScript natifs. Les paquets npm sont réservés à l'outillage (captures).
 - **Rien côté serveur** : la clé TMDB et les listes restent dans le navigateur de l'utilisateur.
 - **En français** : interface, messages et commentaires.
 - **Légal** : on n'indique que des offres de streaming officielles.

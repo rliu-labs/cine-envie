@@ -8,9 +8,9 @@ Je réponds dès que possible et je corrige en priorité.
 ## Ce que l'appli protège
 - **Pas de serveur** : Ciné‑Envie est un site statique. Aucune donnée ne transite par un serveur à moi.
 - **Clé TMDB locale** : elle est enregistrée uniquement dans le navigateur (`localStorage`) et n'est envoyée qu'à `api.themoviedb.org`, en HTTPS.
-- **Listes locales** : « à voir » et « vus » restent sur ton appareil ; l'export JSON est un fichier que tu gardes.
+- **Listes et notes locales** : « à voir », « vus », tes notes et ton profil de goûts restent sur ton appareil ; l'export JSON est un fichier que tu gardes.
 - **Aucun pistage** : pas de statistiques, pas de publicité, pas de cookies, pas de service tiers en dehors de TMDB.
-- **Zéro dépendance** : aucun paquet npm ni script externe chargé, donc pas de risque lié à la chaîne d'approvisionnement.
+- **Zéro dépendance dans l'appli** : la page ne charge aucun paquet npm ni script externe, donc pas de risque lié à la chaîne d'approvisionnement. Les paquets de développement (génération des captures) ne sont jamais servis aux utilisateurs.
 - **Content Security Policy stricte** : la page ne peut exécuter que ses propres scripts et ne peut contacter que l'API TMDB et son serveur d'images.
 - **Échappement systématique** des données affichées (titres, résumés, fichiers importés) contre les injections HTML.
 

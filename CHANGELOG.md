@@ -1,5 +1,10 @@
 # Journal des versions
 
+## 0.3.0 (novembre 2026)
+- Profil de goûts : note de 1 à 5 étoiles sur les titres vus, affinités par genre, classement ajusté et sélection « Recommandé pour toi ».
+- Mention TMDB obligatoire (logo officiel et avertissement) et attribution JustWatch en pied de page.
+- Script `npm run captures` pour générer captures et GIF avec de vraies données.
+
 ## 0.2.0 (novembre 2026)
 - Recherche par envie en anglais (humeurs, type, période, « like … », « in the style of … »).
 - Interface complète en français ou en anglais, choix mémorisé.
