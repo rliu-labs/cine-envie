@@ -23,8 +23,64 @@ function applyLocale() {
   const gear = $('nav a[href="#reglages"]');
   if (gear) { gear.textContent = '⚙︎'; gear.setAttribute('aria-label', t('settings')); }
   renderFooter();
+  renderLangMenu();
 }
 const tasteProfile = () => buildProfile(Object.values(store.getList()));
+
+// Menu de langue dans l'en-tête (style Material : bouton globe + menu déroulant)
+const LANGS = [['fr', 'Français', 'FR'], ['en', 'English', 'EN']];
+function renderLangMenu() {
+  const header = $('header');
+  if (!header) return;
+  let box = $('#langMenu');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'langMenu';
+    box.className = 'langmenu';
+    header.appendChild(box);
+    document.addEventListener('click', (e) => { if (!box.contains(e.target)) closeLangMenu(); });
+  }
+  const cur = LANGS.find(([c]) => c === getLang()) || LANGS[0];
+  box.innerHTML = `
+    <button type="button" class="lm-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="lmList" aria-label="${esc(t('lang'))} : ${esc(cur[1])}">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      <span>${cur[2]}</span><span class="lm-caret" aria-hidden="true">▾</span>
+    </button>
+    <ul class="lm-list" id="lmList" role="menu" hidden>
+      ${LANGS.map(([c, name]) => `<li role="none"><button type="button" role="menuitemradio" aria-checked="${c === cur[0]}" data-lang="${c}" tabindex="-1"><span class="lm-check" aria-hidden="true">${c === cur[0] ? '✓' : ''}</span>${name}</button></li>`).join('')}
+    </ul>`;
+  const btn = $('.lm-btn', box);
+  const list = $('.lm-list', box);
+  const items = [...list.querySelectorAll('[role="menuitemradio"]')];
+  const open = (focusIdx = items.findIndex((i) => i.dataset.lang === cur[0])) => {
+    list.hidden = false; btn.setAttribute('aria-expanded', 'true'); items[Math.max(0, focusIdx)].focus();
+  };
+  btn.addEventListener('click', () => (list.hidden ? open() : closeLangMenu(true)));
+  btn.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); open(e.key === 'ArrowUp' ? items.length - 1 : 0); }
+  });
+  list.addEventListener('keydown', (e) => {
+    const i = items.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+    else if (e.key === 'Home') { e.preventDefault(); items[0].focus(); }
+    else if (e.key === 'End') { e.preventDefault(); items[items.length - 1].focus(); }
+    else if (e.key === 'Escape' || e.key === 'Tab') closeLangMenu(e.key === 'Escape');
+  });
+  items.forEach((it) => it.addEventListener('click', () => {
+    const l = it.dataset.lang;
+    closeLangMenu(true);
+    if (l !== getLang()) { store.setLang(l); applyLocale(); route(); $('#langMenu .lm-btn')?.focus(); }
+  }));
+}
+function closeLangMenu(refocus = false) {
+  const box = $('#langMenu');
+  const list = box && $('.lm-list', box);
+  if (!list || list.hidden) return;
+  list.hidden = true;
+  $('.lm-btn', box).setAttribute('aria-expanded', 'false');
+  if (refocus) $('.lm-btn', box).focus();
+}
 
 // Mention TMDB obligatoire (logo + phrase exacte des conditions d'utilisation), en pied de page.
 function renderFooter() {

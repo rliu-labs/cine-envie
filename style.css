@@ -116,3 +116,20 @@ small.mine { color: var(--new); letter-spacing: .05em; }
   .flabel { min-width: 0; width: 100%; }
   .tchip, .pchip { padding: .4rem .7rem; font-size: .9rem; }
 }
+
+/* Menu de langue (en-tête) */
+.langmenu { position: relative; margin-left: auto; }
+.lm-btn { display: inline-flex; align-items: center; gap: .35rem; background: transparent; color: var(--mut); border: 1px solid var(--bg3); border-radius: 999px; padding: .35rem .7rem; font-size: .9rem; }
+.lm-btn:hover, .lm-btn[aria-expanded="true"] { color: var(--fg); background: var(--bg3); filter: none; }
+.lm-btn:focus-visible { outline: 2px solid #8ab4ff; outline-offset: 2px; }
+.lm-caret { font-size: .7rem; }
+.lm-list { position: absolute; right: 0; top: calc(100% + 6px); min-width: 11rem; margin: 0; padding: .35rem 0; list-style: none; background: var(--bg2); border: 1px solid var(--bg3); border-radius: var(--r); box-shadow: 0 8px 24px rgba(0, 0, 0, .45); z-index: 20; }
+.lm-list[hidden] { display: none; }
+.lm-list button { display: flex; align-items: center; gap: .6rem; width: 100%; text-align: left; background: none; border-radius: 0; padding: .6rem 1rem; color: var(--fg); }
+.lm-list button:hover, .lm-list button:focus-visible { background: var(--bg3); outline: none; filter: none; }
+.lm-check { width: 1rem; color: var(--acc); }
+@media (max-width: 560px) {
+  header h1 { flex: 1; }
+  .langmenu { order: 2; margin-left: 0; }
+  nav { order: 3; width: 100%; }
+}

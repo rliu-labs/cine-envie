@@ -1,5 +1,8 @@
 # Journal des versions
 
+## 0.7.0 (novembre 2026)
+- Menu déroulant de langue dans l’en-tête (globe FR / EN), façon Material Design : accessible au clavier, synchronisé avec les réglages.
+
 ## 0.6.0 (novembre 2026)
 - « Mes plateformes » par défaut : Netflix, Prime Video et Disney+.
 - Page de recherche : un bouton par plateforme cochée dans les réglages ; « Toutes » = l'ensemble de mes plateformes ; lien « + ajouter une plateforme ».
