@@ -1,5 +1,5 @@
 // Stockage local (navigateur) : langue, pays, clé TMDB, listes « à voir » / « vus », veille des tendances.
-const K = { providers: 'cine.providers', mediaType: 'cine.mediaType', lang: 'cine.lang', region: 'cine.region', key: 'cine.tmdbKey', list: 'cine.list', trend: 'cine.trendSeen', trendAt: 'cine.trendAt' };
+const K = { active: 'cine.activeProviders', providers: 'cine.providers', mediaType: 'cine.mediaType', lang: 'cine.lang', region: 'cine.region', key: 'cine.tmdbKey', list: 'cine.list', trend: 'cine.trendSeen', trendAt: 'cine.trendAt' };
 
 const read = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
 const write = (k, v) => localStorage.setItem(k, JSON.stringify(v));
@@ -12,12 +12,31 @@ export const setLang = (v) => localStorage.setItem(K.lang, v);
 export const getRegion = () => localStorage.getItem(K.region) || '';
 export const setRegion = (v) => localStorage.setItem(K.region, v);
 
-// Plateformes choisies, mémorisées par pays : { FR: [8, 119], BE: [...] }
-export const getProviders = (region) => (read(K.providers, {})[region] || []);
+// Mes plateformes (abonnements), mémorisées par pays : { FR: [8, 119], BE: [...] }.
+// Par défaut : Netflix, Prime Video et Disney+.
+export const DEFAULT_PROVIDERS = [8, 119, 337];
+export function getProviders(region) {
+  const all = read(K.providers, {});
+  return Array.isArray(all[region]) ? all[region] : [...DEFAULT_PROVIDERS];
+}
 export function setProviders(region, ids) {
   const all = read(K.providers, {});
   all[region] = [...new Set(ids.map(Number))];
   write(K.providers, all);
+  setActive(region, getActive(region).filter((id) => all[region].includes(id)));
+}
+// Sélection en cours sur la page de recherche (sous-ensemble de mes plateformes ; vide = « Toutes »)
+export const getActive = (region) => (read(K.active, {})[region] || []);
+export function setActive(region, ids) {
+  const all = read(K.active, {});
+  all[region] = [...new Set(ids.map(Number))];
+  write(K.active, all);
+}
+// Plateformes réellement utilisées pour filtrer : la sélection en cours, sinon toutes mes plateformes.
+export function effectiveProviders(region) {
+  const mine = getProviders(region);
+  const active = getActive(region).filter((id) => mine.includes(id));
+  return active.length ? active : mine;
 }
 // Préférence Films / Séries / Les deux pour la recherche par envie
 export const getMediaType = () => (['movie', 'tv', 'all'].includes(read(K.mediaType, 'all')) ? read(K.mediaType, 'all') : 'all');

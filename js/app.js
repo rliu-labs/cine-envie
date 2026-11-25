@@ -18,7 +18,7 @@ const langs = typeof navigator !== 'undefined' ? [...(navigator.languages || [na
 function applyLocale() {
   setLang(store.getLang() || guessLang(langs));
   api.setLocale(getLang(), store.getRegion() || guessCountry(langs));
-  api.setProviders(store.getProviders(api.getRegion()));
+  api.setProviders(store.effectiveProviders(api.getRegion()));
   document.querySelectorAll('nav a').forEach((a, i) => { if (t('nav')[i]) a.textContent = t('nav')[i]; });
   const gear = $('nav a[href="#reglages"]');
   if (gear) { gear.textContent = '⚙︎'; gear.setAttribute('aria-label', t('settings')); }
@@ -130,16 +130,17 @@ function bindKeyForm() {
 
 // ---------- Vue « Envie du moment » ----------
 let lastQuery = '';
-// Plateformes proposées en raccourci sur la page de recherche (identifiants TMDB) :
-// seulement Netflix, Prime Video et Disney+ ; les autres se choisissent dans les réglages.
+// Noms de secours des plateformes par défaut (avant le chargement de la liste TMDB)
 const QUICK = [[8, 'Netflix'], [119, 'Prime Video'], [337, 'Disney+']];
+const provName = (id) => providerNames.get(id)?.name || QUICK.find(([q]) => q === id)?.[1] || '';
 
 function filterBar() {
   const type = store.getMediaType();
-  const sel = new Set(api.getProviders());
-  const chips = QUICK.map(([id, name]) => ({ id, name, logo: providerNames.get(id)?.logo }));
-  // Plateformes cochées dans les réglages en plus des trois raccourcis : simple rappel discret
-  const others = [...sel].filter((id) => !QUICK.some(([q]) => q === id)).length;
+  // Les puces = mes plateformes (réglages). « Toutes » = toutes mes plateformes.
+  const region = api.getRegion();
+  const mine = store.getProviders(region);
+  const sel = new Set(store.getActive(region).filter((id) => mine.includes(id)));
+  const chips = mine.map((id) => ({ id, name: provName(id), logo: providerNames.get(id)?.logo })).filter((p) => p.name);
   const chip = (p) => `<button type="button" class="pchip ${sel.has(p.id) ? 'on' : ''}" data-p="${p.id}" aria-pressed="${sel.has(p.id)}">${p.logo ? `<img src="${esc(`${api.IMG}w92${p.logo}`)}" alt="">` : ''}${esc(p.name)}</button>`;
   return `
     <div class="filters">
@@ -150,7 +151,7 @@ function filterBar() {
         <div class="fchips" role="group">
           <button type="button" class="pchip ${sel.size ? '' : 'on'}" data-p="all" aria-pressed="${!sel.size}">${t('allShort')}</button>
           ${chips.map(chip).join('')}
-          ${others ? `<a class="more" href="#reglages">${t('othersChecked')(others)}</a>` : ''}
+          <a class="more" href="#reglages">${t('addPlatform')}</a>
         </div>
       </div>
     </div>`;
@@ -163,14 +164,15 @@ function bindFilterBar(onChange) {
     store.setMediaType(b.dataset.v); bindFilterBar(onChange); onChange();
   }));
   box.querySelectorAll('.pchip').forEach((b) => b.addEventListener('click', () => {
+    const region = api.getRegion();
     let next = [];
     if (b.dataset.p !== 'all') {
       const id = Number(b.dataset.p);
-      const sel = new Set(api.getProviders());
+      const sel = new Set(store.getActive(region));
       if (sel.has(id)) sel.delete(id); else sel.add(id);
       next = [...sel];
     }
-    store.setProviders(api.getRegion(), next); api.setProviders(next);
+    store.setActive(region, next); api.setProviders(store.effectiveProviders(region));
     bindFilterBar(onChange); onChange();
   }));
 }
@@ -194,7 +196,7 @@ async function viewEnvie() {
   view.querySelectorAll('.hero .chip').forEach((c) => c.addEventListener('click', () => { $('#moodInput').value = c.dataset.q; runMood(c.dataset.q); }));
   if (lastQuery) runMood(lastQuery);
   // Charge logos et noms des plateformes du pays, puis redessine la barre
-  if (!providerNames.size && api.hasCredential()) { await loadProviderNames(); if ($('#filterBox')) bindFilterBar(rerun); }
+  if ((!providerNames.size || store.getProviders(api.getRegion()).some((id) => !providerNames.has(id))) && api.hasCredential()) { await loadProviderNames(); if ($('#filterBox')) bindFilterBar(rerun); }
 }
 
 async function runMood(q) {
@@ -267,7 +269,7 @@ async function runMood(q) {
       mood.similarTo ? (ref ? `${t('near')} <b>${esc(titleOf(ref))}</b> (${esc(year(ref))})` : esc(t('notFound')(mood.similarTo))) : '',
       mood.type !== 'all' ? t('only')(mood.type) : '',
       profile.count >= 3 ? `<i>${t('tasteBoost')}</i>` : '',
-      api.getProviders().length ? `${t('onWhere').toLowerCase()} <b>${esc(api.getProviders().map((id) => providerNames.get(id)?.name || QUICK.find(([q]) => q === id)?.[1] || id).join(', '))}</b>` : '',
+      api.getProviders().length ? `${t('onWhere').toLowerCase()} <b>${esc(api.getProviders().map((id) => provName(id) || id).join(', '))}</b>` : '',
       mood.recent ? `<b>${t('recent')}</b>` : '', mood.classic ? `<b>${t('classic')}</b>` : '', mood.short ? `<b>${t('short')}</b>` : '',
     ].filter(Boolean).join(' · ');
     out.innerHTML = `<p class="hint">${t('understood')} ${summary || t('nothing')}.</p>${grid(items, (it) => ({ why: it._why }))}`;
@@ -402,10 +404,13 @@ function viewReglages() {
 async function renderProviderPicker() {
   const box = $('#provPick');
   if (!box || !api.hasCredential()) return;
-  const list = (await loadProviderNames()).slice(0, 30);
+  const all = await loadProviderNames();
+  // les 30 principales du pays, plus celles déjà cochées si elles sont plus loin dans la liste
+  const mine = store.getProviders(api.getRegion());
+  const list = [...all.slice(0, 30), ...all.slice(30).filter((p) => mine.includes(p.id))];
   if (!$('#provPick')) return;
   const draw = () => {
-    const sel = new Set(api.getProviders());
+    const sel = new Set(store.getProviders(api.getRegion()));
     box.innerHTML = `<div class="provs">${list.map((p) => `
       <button type="button" class="prov-pick ${sel.has(p.id) ? 'on' : ''}" data-p="${p.id}" aria-pressed="${sel.has(p.id)}">
         <img src="${esc(`${api.IMG}w92${p.logo}`)}" alt=""><span>${esc(p.name)}</span></button>`).join('')}</div>
@@ -413,7 +418,7 @@ async function renderProviderPicker() {
     box.querySelectorAll('[data-p]').forEach((b) => b.addEventListener('click', () => {
       const id = Number(b.dataset.p);
       const next = sel.has(id) ? [...sel].filter((x) => x !== id) : [...sel, id];
-      store.setProviders(api.getRegion(), next); api.setProviders(next); draw();
+      store.setProviders(api.getRegion(), next); api.setProviders(store.effectiveProviders(api.getRegion())); draw();
     }));
     $('#provClear', box)?.addEventListener('click', () => { store.setProviders(api.getRegion(), []); api.setProviders([]); draw(); });
   };
@@ -428,7 +433,7 @@ async function openDetail(type, id) {
   try {
     const d = await api.details(type, id);
     const it = { ...d, media_type: type, genre_ids: d.genres.map((g) => g.id) };
-    const provRow = (label, list) => list?.length ? `<div class="prov"><span>${label}</span>${list.map((p) => `<img class="${api.getProviders().includes(p.provider_id) ? 'mine' : ''}" title="${esc(p.provider_name)}" alt="${esc(p.provider_name)}" src="${esc(`${api.IMG}w92${p.logo_path}`)}">`).join('')}</div>` : '';
+    const provRow = (label, list) => list?.length ? `<div class="prov"><span>${label}</span>${list.map((p) => `<img class="${store.getProviders(api.getRegion()).includes(p.provider_id) ? 'mine' : ''}" title="${esc(p.provider_name)}" alt="${esc(p.provider_name)}" src="${esc(`${api.IMG}w92${p.logo_path}`)}">`).join('')}</div>` : '';
     const trailer = (d.videos?.results || []).find((v) => v.site === 'YouTube' && v.type === 'Trailer') || (d.videos?.results || []).find((v) => v.site === 'YouTube');
     const runtime = d.runtime ? `${Math.floor(d.runtime / 60)}h${String(d.runtime % 60).padStart(2, '0')}` : (d.number_of_seasons ? t('seasons')(d.number_of_seasons) : '');
     const cast = (d.credits?.cast || []).slice(0, 5).map((c) => c.name).join(', ');

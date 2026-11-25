@@ -54,8 +54,19 @@ test('plateformes mémorisées par pays et préférence films / séries', () => 
   store.setProviders('BE', [337]);
   assert.deepEqual(store.getProviders('FR'), [8, 119]);
   assert.deepEqual(store.getProviders('BE'), [337]);
-  assert.deepEqual(store.getProviders('DE'), []);
+  assert.deepEqual(store.getProviders('DE'), [8, 119, 337], 'par défaut : Netflix, Prime Video, Disney+');
   assert.equal(store.getMediaType(), 'all');
   store.setMediaType('tv');
   assert.equal(store.getMediaType(), 'tv');
+});
+
+test('« Toutes » = toutes mes plateformes, la sélection affine', () => {
+  store.setProviders('IT', [8, 119, 337, 381]);
+  assert.deepEqual(store.effectiveProviders('IT'), [8, 119, 337, 381], 'rien de sélectionné = toutes mes plateformes');
+  store.setActive('IT', [8, 337]);
+  assert.deepEqual(store.effectiveProviders('IT'), [8, 337]);
+  store.setProviders('IT', [8, 119]);
+  assert.deepEqual(store.getActive('IT'), [8], 'une plateforme décochée dans les réglages sort de la sélection');
+  store.setProviders('IT', []);
+  assert.deepEqual(store.effectiveProviders('IT'), [], 'aucune plateforme cochée = tout le catalogue');
 });

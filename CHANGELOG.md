@@ -1,5 +1,10 @@
 # Journal des versions
 
+## 0.6.0 (novembre 2026)
+- « Mes plateformes » par défaut : Netflix, Prime Video et Disney+.
+- Page de recherche : un bouton par plateforme cochée dans les réglages ; « Toutes » = l'ensemble de mes plateformes ; lien « + ajouter une plateforme ».
+- Les nouvelles versions de l'appli s'affichent dès le chargement suivant.
+
 ## 0.5.0 (novembre 2026)
 - Barre de filtres sur la page de recherche : Films / Séries / Les deux, et plateformes (Toutes, Netflix, Prime Video, Disney+) en multi-choix ; les autres plateformes se choisissent dans les réglages.
 - Le résumé des résultats rappelle les plateformes choisies.
