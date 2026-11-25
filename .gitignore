@@ -1,0 +1,15 @@
+# Système / éditeurs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Node (outillage éventuel)
+node_modules/
+npm-debug.log*
+
+# Données locales : ne jamais committer de clé ni d'export perso
+.env
+.env.*
+cinematheque-*.json
