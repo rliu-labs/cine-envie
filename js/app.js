@@ -1,7 +1,7 @@
 import { parseMood, scoreItem, genreMaps, buildProfile } from './mood.js';
 import * as api from './tmdb.js';
 import * as store from './store.js';
-import { t, getLang, setLang, moodLabel, guessLang, guessCountry, countryName, countryOptions } from './i18n.js';
+import { t, getLang, setLang, LANGS, moodLabel, guessLang, guessCountry, countryName, countryOptions } from './i18n.js';
 
 const $ = (s, el = document) => el.querySelector(s);
 const view = $('#view');
@@ -28,7 +28,6 @@ function applyLocale() {
 const tasteProfile = () => buildProfile(Object.values(store.getList()));
 
 // Menu de langue dans l'en-tête (style Material : bouton globe + menu déroulant)
-const LANGS = [['fr', 'Français', 'FR'], ['en', 'English', 'EN']];
 function renderLangMenu() {
   const header = $('header');
   if (!header) return;
@@ -146,7 +145,7 @@ function loading(msg = t('loading')) { return `<p class="loading">${msg}</p>`; }
 function errorBox(e) { return `<p class="error">${esc(e.message || e)}</p>`; }
 
 function langSwitch() {
-  return `<div class="seg" id="langSeg">${[['fr', 'Français'], ['en', 'English']].map(([v, l]) => `<button type="button" data-l="${v}" class="${v === getLang() ? 'on' : ''}">${l}</button>`).join('')}</div>`;
+  return `<div class="seg" id="langSeg">${LANGS.map(([v, l]) => `<button type="button" data-l="${v}" class="${v === getLang() ? 'on' : ''}">${l}</button>`).join('')}</div>`;
 }
 function bindLangSwitch(again) {
   view.querySelectorAll('#langSeg button').forEach((b) => b.addEventListener('click', () => { store.setLang(b.dataset.l); applyLocale(); again(); }));

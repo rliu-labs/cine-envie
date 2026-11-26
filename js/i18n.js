@@ -1,4 +1,4 @@
-// Langue de l'interface (fr / en) et pays de résidence pour les plateformes de streaming.
+// Langue de l'interface (fr / en / darija marocain en lettres latines) et pays de résidence pour les plateformes de streaming.
 
 // Pays européens proposés (codes ISO 3166-1 utilisés par TMDB / JustWatch).
 export const COUNTRIES = ['AT', 'BE', 'BG', 'CH', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GB', 'GR', 'HR', 'HU',
@@ -120,14 +120,78 @@ const STR = {
       historique: 'historical', 'film de daron': 'dad movie', crime: 'crime', western: 'western', musique: 'music',
     },
   },
+  ary: {
+    nav: ['Chno bghit', 'Trend', 'Anwa3', 'Lista dyali'],
+    welcome: 'Merhba 👋',
+    welcomeText: 'L\'appli kat5dem b la base l-batel <a href="https://www.themoviedb.org" target="_blank" rel="noopener">TMDB</a> l trend, l anwa3 w les plateformes dyal streaming.',
+    step1: 'Dir compte batel f <a href="https://www.themoviedb.org/signup" target="_blank" rel="noopener">themoviedb.org</a>.',
+    step2: 'Sir l <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">Paramètres → API</a> w tleb clé (l rassek).',
+    step3: 'Lsse9 « Clé d\'API » wla « Jeton d\'accès en lecture » hna lta7t.',
+    keyPh: 'Clé API TMDB', save: 'Sjjel', checking: 'Kan9elleb…', keyOk: 'Clé mzyana ✔',
+    loading: 'Kayt7ellel…', empty: 'Ma l9it walo daba.',
+    isNew: 'Jdid', seen: 'Chefto', toWatch: 'Nchoufo', movie: 'Film', tv: 'Msalsal',
+    ask: 'Chno bghiti tchouf had lila?',
+    askPh: 'ex. chi 7aja cosy, dyal d7k w fiha lghaz, b7al À couteaux tirés',
+    find: '9elleb', searching: 'Kan9elleb lik 3la chi afkar…',
+    presets: [
+      'Bghit chi film dyal d7k w fih lghaz', 'Film action jdid ma kaykhdemch rasso b ljedd',
+      'Msalsal fih tachwi9 b7al Dark', 'Chi 7aja katkhl3 walakin machi bzaf', 'Film l l3a2ila l nhar l7ed',
+      'Film dyal l7ob kaydir l9alb', 'Film dyal lfada kaykhellik tfekker b7al Interstellar', 'Film dyal chfara mgade b7al Ocean\'s Eleven',
+    ],
+    closeTo: (t) => `9rib l ${t}`, fits: (m) => `Kayji m3a : ${m}`, popular: 'Machi l7al daba',
+    understood: 'Hada li fhemt :', nothing: 'ma 3titinich chi 7aja m7ddda, ha chno kaytchaf daba',
+    mood: 'l mood :', near: '9rib l', notFound: (t) => `ma l9itch « ${t} »`,
+    only: (k) => `<b>${k === 'tv' ? 'msalsalat' : 'aflam'}</b> ghir`, recent: 'jdad', classic: 'dyal zman', short: '9sar',
+    trends: 'Trend dyal had simana', all: 'Kolchi', movies: 'Aflam', series: 'Msalsalat',
+    newSince: (n) => `${n} 7aja jdida mn a5er merra jiti.`,
+    byTheme: 'B l anwa3', popularS: 'Machin', topRated: 'A7san n9at',
+    library: 'Cinémathèque dyali', seenP: 'Chefthom',
+    settings: 'Réglages', lang: 'Lougha', country: 'Blad li sakna fiha',
+    countryHint: 'Bach nwerik les plateformes l9anouniya li kaynin 3endek.',
+    tmdbKey: 'Clé TMDB', backup: 'Sauvegarde dyal les listes dyali',
+    backupHint: 'Les listes dyalek m7foudin f had navigateur. Exportihom bach tdihom l appareil akhor.',
+    exp: 'Exporter (.json)', imp: 'Importer', imported: (n) => `${n} titre t-importaw ✔`,
+    install: 'Installer l\'appli',
+    installHint: 'F Chrome/Edge (Windows, Mac, Android) : menu ⋮ → « Installer l\'application ». F iPhone (Safari) : Partager → « Sur l\'écran d\'accueil ».',
+    credits: 'Data mn TMDB. Had l produit kaykhdem b l\'API TMDB walakin TMDB ma 9blatouch w ma certifiatouch. Streaming : JustWatch 3la TMDB.',
+    close: 'Sedd', seasons: (n) => `${n} saison`, noOverview: 'Ma kaynch résumé.',
+    by: 'Dyal', with: 'm3a', inList: '✔ F lista dyali', addList: '+ Nchoufo', isSeen: '✔ Chefto', markSeen: 'Chefto',
+    trailer: '▶ Bande-annonce', similar: 'Afkar b7alo', likeQ: (t) => `b7al ${t}`,
+    whereIn: 'Fin tchoufo', flatrate: 'Abonnement', free: 'Batel', rent: 'Kra', buy: 'Chra',
+    noOffer: 'Ma kayna 7tta offre l9anouniya f had lblad daba (ghaliban l film mazal f cinéma).',
+    allOffers: 'Chouf ga3 les offres (JustWatch)',
+    taste: 'Dou9i', rate: 'N9ta dyalek', rateHint: '3ti n9ta l les films li cheftihom : les recommandations ghadi yt3ellmo dou9ek.',
+    clearRate: 'Mse7', stars: (n) => `${n} njma`,
+    tasteIntro: (n) => `3la 7sab ${n} n9ta li 3titi, ha chno kat7ebb.`,
+    tasteEmpty: '3ti n9ta l 3 titres 3la l9ell (7ell fiche, w 3tiha njoum) bach nbniw dou9ek.',
+    likes: 'Kat7ebb', dislikes: 'Machi dou9ek', forYou: 'Mkhtarin lik',
+    tasteLocal: 'Dou9ek kayt7seb f navigateur dyalek w ma kaytsifet l 7tta blassa.',
+    tasteBoost: '3la 7sab dou9ek',
+    tmdbNotice: 'Data w tsawer mn TMDB.',
+    justwatch: 'Disponibilités streaming mn',
+    platforms: 'Les plateformes dyali', platformsHint: '3lem 3la les abonnements dyalek (par défaut Netflix, Prime Video w Disney+). Kayban bouton l kol wa7ed f page dyal l bi7t, w « Kolhom » kat3ni had les plateformes kamlin. Ila ma 3lemti 3la walo = catalogue kamel.',
+    onPlatforms: (n) => `F les plateformes dyalek : ${n}`, editPlatforms: 'beddel', allPlatforms: 'Catalogue kamel', choosePlatforms: 'khtar les plateformes dyali',
+    trendsAllPlatforms: 'Trend fih ga3 les plateformes.', both: 'Bjouj', clearAll: 'Mse7 kolchi',
+    lookFor: 'Kan9elleb 3la', onWhere: 'F', allShort: 'Kolhom', addPlatform: '+ zid plateforme',
+    moods: {
+      cosy: 'cosy / ra7a', 'drôle': 'd7k', intrigue: 'lghaz', frissons: 'khl3a', tension: 'tachwi9', action: 'action',
+      aventure: 'moghamara', romance: 'l7ob', 'émotion': 'kaybekki', SF: 'lfada / SF', fantastique: 'fantastique',
+      famille: 'l3a2ila', animation: 'rssoum mot7arrika', 'docu / histoire vraie': 'wata2i9i / 9issa wa9i3iya',
+      historique: 'tarikh', 'film de daron': 'film dyal bba', crime: 'chfara / crime', western: 'western', musique: 'mousi9a',
+    },
+  },
 };
 
 let lang = 'fr';
 export const getLang = () => lang;
+// Langues proposées : code interne, nom affiché, abréviation du menu, attribut lang HTML.
+export const LANGS = [['fr', 'Français', 'FR', 'fr'], ['en', 'English', 'EN', 'en'], ['ary', 'Darija', 'DRJ', 'ary-Latn']];
 export function setLang(l) {
   lang = STR[l] ? l : 'fr';
-  if (typeof document !== 'undefined') document.documentElement.lang = lang;
+  if (typeof document !== 'undefined') document.documentElement.lang = LANGS.find((x) => x[0] === lang)[3];
 }
+// Langue utilisée pour Intl (noms de pays, tri) : le darija retombe sur le français.
+export const intlLang = (l = lang) => (l === 'en' ? 'en' : 'fr');
 export const t = (k) => STR[lang][k] ?? STR.fr[k];
 export const moodLabel = (m) => STR[lang].moods[m] || m;
 
@@ -144,8 +208,8 @@ export function guessCountry(langs = []) {
 }
 
 export function countryName(code, l = lang) {
-  try { return new Intl.DisplayNames([l], { type: 'region' }).of(code); } catch { return code; }
+  try { return new Intl.DisplayNames([intlLang(l)], { type: 'region' }).of(code); } catch { return code; }
 }
 export function countryOptions(l = lang) {
-  return COUNTRIES.map((c) => [c, countryName(c, l)]).sort((a, b) => a[1].localeCompare(b[1], l));
+  return COUNTRIES.map((c) => [c, countryName(c, l)]).sort((a, b) => a[1].localeCompare(b[1], intlLang(l)));
 }

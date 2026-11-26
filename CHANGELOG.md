@@ -1,5 +1,10 @@
 # Journal des versions
 
+## 0.8.0 (novembre 2026)
+- Interface complète en darija marocain (lettres latines), 3e choix du menu de langue et des réglages.
+- La recherche par envie comprend le darija en « arabizi » (3, 7, 9…), ses variantes d’orthographe et les mélanges français / darija : « bghit chi film dyal d7k », « chi 7aja katkhl3 », « msalsal b7al Dark »…
+- En darija, les fiches TMDB (titres, résumés) s’affichent en français.
+
 ## 0.7.0 (novembre 2026)
 - Menu déroulant de langue dans l’en-tête (globe FR / EN), façon Material Design : accessible au clavier, synchronisé avec les réglages.
 

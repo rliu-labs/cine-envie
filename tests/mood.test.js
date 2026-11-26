@@ -105,3 +105,47 @@ test('« casse-tête » ne déclenche pas le registre crime', () => {
   assert.ok(r.moods.includes('intrigue'));
   assert.ok(!r.moods.includes('crime'));
 });
+
+test('darija en lettres latines (arabizi) et variantes d\'orthographe', () => {
+  const cas = {
+    'bghit chi film dyal d7k': 'drôle',
+    'chi film kaydahek bzaf': 'drôle',
+    'chi 7aja katkhl3': 'frissons',
+    'film dyal lkhouf w jnoun': 'frissons',
+    'film dyal l7ob': 'romance',
+    'bghit nbki lyouma': 'émotion',
+    'film fih dbaz w 9rtas': 'action',
+    'msalsal fih tachwi9': 'intrigue',
+    'film dyal chfara': 'crime',
+    'bghit nrta7 m3a chi film': 'cosy',
+    'chi 7aja l drari': 'famille',
+    'film dyal lfada': 'SF',
+    'chi moghamara': 'aventure',
+    'film tarikhi': 'historique',
+    'film dyal bba': 'film de daron',
+  };
+  for (const [q, m] of Object.entries(cas)) assert.ok(parseMood(q).moods.includes(m), `${q} -> ${m}`);
+});
+
+test('darija : type, récent, court, ancien et « b7al »', () => {
+  const r = parseMood('msalsal jdid b7al Dark w fih d7k');
+  assert.equal(r.type, 'tv');
+  assert.ok(r.recent);
+  assert.equal(r.similarTo, 'Dark');
+  assert.ok(r.moods.includes('drôle'));
+  assert.equal(parseMood('chi aflam dyal d7k').type, 'movie');
+  assert.ok(parseMood('film 9sir').short);
+  assert.ok(parseMood('film dyal zman').classic);
+});
+
+test('mélange français / darija', () => {
+  const r = parseMood('soirée cosy, film dyal d7k w l7ob');
+  assert.deepEqual(r.moods.sort(), ['cosy', 'drôle', 'romance'].sort());
+  assert.equal(r.type, 'movie');
+});
+
+test('le darija ne crée pas de faux positifs en français ou en anglais', () => {
+  for (const q of ['khlas safi', 'un film à voir ce soir', 'a movie about a hub of robbers', 'chi film']) {
+    assert.deepEqual(parseMood(q).moods, [], q);
+  }
+});

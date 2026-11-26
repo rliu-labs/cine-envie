@@ -42,7 +42,7 @@ C'est une application web installable (PWA), sans serveur, sans compte, sans dé
 | | |
 |---|---|
 | 💬 **Envie** | Recherche en langage naturel, langage familier compris : humeurs, genres à éviter, film ou série, récent / court / classique, titre de référence (« comme Dark », « like Dark »). |
-| 🌍 **Bilingue** | Interface et recherche en français ou en anglais ; la langue du navigateur est détectée, et se change en un clic depuis le menu déroulant de l’en-tête (globe FR / EN) ou dans les réglages. |
+| 🌍 **Trilingue** | Interface et recherche en français, en anglais ou en darija marocain (lettres latines, avec les chiffres 3, 7, 9…) ; la langue du navigateur est détectée, et se change en un clic depuis le menu déroulant de l’en-tête (globe FR / EN) ou dans les réglages. |
 | 📺 **Films et séries** | Recherche, thématiques, tendances, notes et recommandations couvrent films et séries. Sur la page de recherche, un clic choisit **Films**, **Séries** ou **Les deux**. |
 | 🍿 **Mes plateformes** | Dans les réglages, coche tes abonnements (par défaut Netflix, Prime Video et Disney+ ; Canal+, Max… selon ton pays). Ils deviennent des boutons sur la page de recherche : « Toutes » cherche sur l'ensemble de tes plateformes, un clic sur l'une d'elles affine. Tes plateformes sont aussi mises en avant dans chaque fiche. |
 | 📍 **Ton pays** | Choix du pays de résidence parmi 31 pays européens, directement depuis la fiche : les plateformes affichées sont celles disponibles chez toi. |
@@ -55,7 +55,7 @@ C'est une application web installable (PWA), sans serveur, sans compte, sans dé
 
 ## Comment ça marche
 
-Le cœur de l'appli est [`js/mood.js`](js/mood.js) : un petit analyseur de langage naturel bilingue, sans service externe, qui transforme une phrase en critères de recherche.
+Le cœur de l'appli est [`js/mood.js`](js/mood.js) : un petit analyseur de langage naturel (français, anglais, darija), sans service externe, qui transforme une phrase en critères de recherche.
 
 ```mermaid
 flowchart LR
@@ -85,8 +85,13 @@ Exemples réels de sortie de l'analyseur :
 | un bon film de daron | film de daron | film | | |
 | une série à binger qui me retourne le cerveau | intrigue | série | | |
 | un truc chill sous la couette | cosy | tout | Horreur, Thriller, Guerre | |
+| bghit chi film dyal d7k | drôle | film | | |
+| msalsal jdid b7al Dark w fih d7k | drôle | série · récent | | Dark |
+| soirée cosy, film dyal d7k w l7ob | cosy, drôle, romance | film | Horreur, Thriller, Guerre | |
 
 Chaque résultat reçoit ensuite un score : +3 par genre voulu, −6 par genre exclu, plus la note et la popularité, et un bonus s'il vient des recommandations du titre de référence.
+
+Le **darija** n'a pas d'orthographe fixe en lettres latines : l'analyseur replie d'abord les chiffres-lettres (3 → ع, 7 → ح, 9 → ق…) et les lettres doublées, puis reconnaît les mots avec des motifs souples qui acceptent les variantes (« d7k », « dahk », « kaydahek ») et les préfixes verbaux. L'interface en darija suit la graphie « arabizi » courante au Maroc ; elle mériterait une relecture par un locuteur natif, et les suggestions sont les bienvenues. Les fiches TMDB (titres, résumés) s'affichent alors en français.
 
 Le **profil de goûts** s'ajoute à ce score : chaque note donne à ses genres une affinité entre −1 (1★) et +1 (5★), moyennée et lissée pour qu'un seul film ne fasse pas la loi. Tout est calculé dans le navigateur.
 

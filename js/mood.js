@@ -1,4 +1,4 @@
-// Analyse d'une « envie » en langage naturel (français ou anglais) -> critères de recherche TMDB.
+// Analyse d'une « envie » en langage naturel (français, anglais ou darija marocain en lettres latines) -> critères de recherche TMDB.
 // Pur JS, sans dépendance : testable avec node.
 
 export const MOVIE_GENRES = {
@@ -102,7 +102,47 @@ const MOODS = [
       'music', 'musical'], m: [10402], t: [] },
 ];
 
-const SIMILAR_RE = /(?:similaire\s+(?:à|a)|comme|dans\s+le\s+style\s+(?:de|d')|façon|facon|du\s+genre\s+(?:de\s+)?|à\s+la|qui\s+ressemble\s+(?:à|a)|proche\s+de|similar\s+to|(?<!\b(?:would|i|we|you|they|feel|feels|feeling|'d)\s)like|in\s+the\s+(?:style|vein|spirit)\s+of|reminiscent\s+of|along\s+the\s+lines\s+of)\s+["«“]?([^,;.!?"»”]+)/i;
+
+// Darija marocain écrit en lettres latines (« arabizi ») : pas d'orthographe standard.
+// On replie d'abord le texte (chiffres-lettres 3, 7, 9…, lettres doublées), puis on
+// teste chaque mot avec des motifs souples qui tolèrent les variantes et les préfixes
+// verbaux (ka-, kay-, n-, t-, gha-…). Les motifs renvoient aux humeurs ci-dessus.
+export function foldDarija(s) {
+  return norm(s)
+    .replace(/5/g, 'kh').replace(/7/g, 'h').replace(/9/g, 'q').replace(/8/g, 'gh')
+    .replace(/[32]/g, 'a')
+    .replace(/([a-z])\1+/g, '$1');
+}
+
+const V = '(?:ka|ki|kay|kan|kat|gha|ghad[ai]?|mo|mu|n|t|y|m|l)?'; // préfixes verbaux et article
+const DARIJA = [
+  { label: 'drôle', re: [`^${V}${V}d[aeiou]?h[aeiou]?k`, `^${V}a?q[ae]?ch[ae]?b`, '^n[ou]kat$'] },
+  { label: 'frissons', re: [`^${V}${V}khl[ae](a|ni|tni|k|tek)?$`, '^l?r[ou]+ab$', `^${V}${V}khw[aei]f`, '^l?kh[ou]+f$', '^l?j[ae]?n[ou]+n$', '^l?afarit$'] },
+  { label: 'romance', re: ['^l?hob$', '^lhub$', `^${V}${V}ach[ae]?q`, '^l?gh?ram$', '^m?ghr[ae]m$'] },
+  { label: 'émotion', re: [`^${V}${V}bk(i|a|ani|ini|iw|iti)$`, '^l?h[ae]?z[ie]?n[ae]?$', '^mo?u?ath?[ie]r$', '^l?dmou?a$'] },
+  { label: 'action', re: [`^${V}${V}d[ae]?b[ae]?z`, `^${V}q[ae]?rt[ae]?s`, '^l?darb$'] },
+  { label: 'intrigue', re: ['^(a?l)?(o|a)?ghaz$', '^l?[oa]?ghz$', `^${V}tachwi?q`, '^m?ch[ae]wi?q$'] },
+  { label: 'tension', re: [`^${V}tachwi?q`] },
+  { label: 'crime', re: ['^l?ch[ae]?f[ae]?r[ae]?$', '^l?b[ou]+l[ie]+s(i|ia|iya)?$', '^l?mafia$'] },
+  { label: 'cosy', re: [`^${V}rt[ae]h$`, '^l?raha$'] },
+  { label: 'famille', re: ['^l?d[ae]?rari$', '^l?w[ae]?lad$', '^l?familia$', '^ayla$', '^(l|a)?aila$', '^l?sghar$'] },
+  { label: 'SF', re: ['^a?lfada$', 'm[ou]st[ae]qb[ae]l'] },
+  { label: 'aventure', re: ['m[ou]gh[ae]m[ae]ra', '^(s|l)?s?afar$'] },
+  { label: 'docu / histoire vraie', re: ['^l?wath?a+i?q?i(ya|a)?$', '^waq[ie]a?i?(ya|a|ia)?$'] },
+  { label: 'historique', re: ['^(a?l)?tarikh(i|ia|iya)?$', '^l?harb$'] },
+  { label: 'animation', re: ['^l?r[ae]?s[ou]+m$', '^mot?harika$'] },
+  { label: 'musique', re: ['^l?mo?u?siqa$', '^l?gh?na$'] },
+].map((d) => ({ ...d, re: d.re.map((r) => new RegExp(r)) }));
+
+const DARIJA_FLAGS = {
+  tv: /^(l?m[ou]?s[ae]?ls[ae]?l(a|at)?|l?msalsl[ae]t?)$/,
+  movie: /^(l?aflam|l?filmat|lfilm)$/,
+  recent: /^(jdid|jdida|jdad|l?jdid)$/,
+  short: /^(qsir|qsira|qsar)$/,
+  classic: /^(qdim|qdima|qdam)$/,
+};
+
+const SIMILAR_RE = /(?:\b(?:b7al|bhal|b7el|bhel|f7al|fhal)|similaire\s+(?:à|a)|comme|dans\s+le\s+style\s+(?:de|d')|façon|facon|du\s+genre\s+(?:de\s+)?|à\s+la|qui\s+ressemble\s+(?:à|a)|proche\s+de|similar\s+to|(?<!\b(?:would|i|we|you|they|feel|feels|feeling|'d)\s)like|in\s+the\s+(?:style|vein|spirit)\s+of|reminiscent\s+of|along\s+the\s+lines\s+of)\s+["«“]?([^,;.!?"»”]+)/i;
 
 function norm(s) {
   return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
@@ -122,10 +162,11 @@ export function parseMood(input) {
   };
 
   const sim = raw.match(SIMILAR_RE);
-  if (sim) res.similarTo = sim[1].trim().replace(/\s+(et|mais|avec|and|but|with|that|which)\s.*$/i, '').trim();
+  if (sim) res.similarTo = sim[1].trim().replace(/\s+(et|mais|avec|and|but|with|that|which|w|walakin|wlakin|m3a)\s.*$/i, '').trim();
 
   // Retire le titre cité pour ne pas en déduire des humeurs (ex. « comme Mission Impossible »)
-  const moodText = sim ? norm(raw.replace(sim[0], ' ')) : text;
+  // (on garde ce qui suit le titre : « comme Dark et drôle », « b7al Dark w fih d7k »)
+  const moodText = sim ? norm(raw.replace(sim[0], ` ${sim[1].trim().slice(res.similarTo.length)}`)) : text;
 
   for (const mood of MOODS) {
     if (mood.words.some((w) => hasWord(moodText, w))) {
@@ -135,6 +176,20 @@ export function parseMood(input) {
       (mood.x || []).forEach((g) => res.exclude.add(g));
     }
   }
+  // Darija (arabizi), seul ou mélangé au français
+  const tokens = foldDarija(moodText).split(/[^a-z]+/).filter(Boolean);
+  const folded = ` ${tokens.join(' ')} `;
+  const addMood = (label) => {
+    const mood = MOODS.find((m) => m.label === label);
+    if (res.moods.includes(label)) return;
+    res.moods.push(label);
+    mood.m.forEach((g) => res.movieGenres.add(g));
+    mood.t.forEach((g) => res.tvGenres.add(g));
+    (mood.x || []).forEach((g) => res.exclude.add(g));
+  };
+  for (const d of DARIJA) if (tokens.some((w) => d.re.some((r) => r.test(w)))) addMood(d.label);
+  if (/ (film|aflam) dyal (ba|bouya|lwalid) /.test(folded)) addMood('film de daron');
+
   // Un genre demandé explicitement ne doit pas être exclu par une autre humeur
   for (const g of res.movieGenres) res.exclude.delete(g);
 
@@ -142,6 +197,11 @@ export function parseMood(input) {
   else if (/\b(film|films|long[- ]metrage|movie|movies)\b/.test(moodText)) res.type = 'movie';
   if (/\b(recent|recents|nouveau|nouveaute|nouveautes|sorti recemment|cette annee|qui vient de sortir|du moment|new|newer|latest|this year|recently released|brand new)\b/.test(moodText)) res.recent = true;
   if (/\b(court|courte|rapide|pas trop long|vite fait|pas long|short|quick|not too long|quick watch)\b/.test(moodText)) res.short = true;
+  if (tokens.some((w) => DARIJA_FLAGS.tv.test(w))) res.type = 'tv';
+  else if (res.type === 'all' && tokens.some((w) => DARIJA_FLAGS.movie.test(w))) res.type = 'movie';
+  if (tokens.some((w) => DARIJA_FLAGS.recent.test(w)) || / (ad|yalah) (khrej|khrjat|kherj) /.test(folded)) res.recent = true;
+  if (tokens.some((w) => DARIJA_FLAGS.short.test(w)) || / mach(i)? t[ae]?wil/.test(folded)) res.short = true;
+  if (tokens.some((w) => DARIJA_FLAGS.classic.test(w)) || / dyal (zman|zaman) /.test(folded)) res.classic = true;
   if (/\b(classique|culte|vieux|ancien|annees \d0|classic|classics|cult|old|oldies?|\d0s)\b/.test(moodText)) res.classic = true;
 
   return res;

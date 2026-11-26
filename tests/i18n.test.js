@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { COUNTRIES, guessCountry, guessLang, countryOptions, setLang, t, moodLabel } from '../js/i18n.js';
+import { COUNTRIES, guessCountry, guessLang, countryOptions, countryName, setLang, getLang, intlLang, LANGS, t, moodLabel } from '../js/i18n.js';
 import { genreMaps } from '../js/mood.js';
 
 test('pays par défaut déduit de la langue du navigateur', () => {
@@ -24,11 +24,26 @@ test('liste des pays européens complète et triée', () => {
   assert.deepEqual(names, [...names].sort((a, b) => a.localeCompare(b, 'fr')));
 });
 
-test('chaque texte existe en français et en anglais', async () => {
+test('chaque texte existe en français, en anglais et en darija', async () => {
   const src = await import('node:fs').then((fs) => fs.readFileSync(new URL('../js/i18n.js', import.meta.url), 'utf8'));
-  const keys = (block) => [...block.matchAll(/^\s{4}(\w+):/gm)].map((m) => m[1]).sort();
-  const [fr, en] = src.split(/^\s{2}en: \{$/m);
-  assert.deepEqual(keys(fr.split(/^\s{2}fr: \{$/m)[1]), keys(en.split(/^\};$/m)[0]));
+  const keys = (block) => [...block.matchAll(/(?:^\s{4}|, )(\w+): /gm)].map((m) => m[1]).sort();
+  const block = (l) => src.split(new RegExp(`^\\s{2}${l}: \\{$`, 'm'))[1].split(/^\s{2}(?:\w+: \{|\};)$/m)[0].split(/^\s{4}moods:/m)[0];
+  const fr = keys(block('fr'));
+  assert.ok(fr.length > 90, `${fr.length} clés`);
+  assert.deepEqual(keys(block('en')), fr);
+  assert.deepEqual(keys(block('ary')), fr);
+});
+
+test('darija : 3e langue, pays en français, humeurs traduites', () => {
+  assert.deepEqual(LANGS.map((l) => l[0]), ['fr', 'en', 'ary']);
+  setLang('ary');
+  assert.equal(getLang(), 'ary');
+  assert.equal(t('find'), '9elleb');
+  assert.equal(moodLabel('drôle'), 'd7k');
+  assert.equal(intlLang(), 'fr');
+  assert.equal(countryName('BE'), 'Belgique');
+  setLang('xx');
+  assert.equal(getLang(), 'fr');
 });
 
 test('traductions de l\'interface et des humeurs', () => {
