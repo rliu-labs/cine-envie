@@ -242,12 +242,14 @@ const STR = {
   },
 };
 
-let lang = 'fr';
+let lang = 'en';
 export const getLang = () => lang;
 // Langues proposées : code interne, nom affiché, abréviation du menu, attribut lang HTML.
-export const LANGS = [['fr', 'Français', 'FR', 'fr'], ['en', 'English', 'EN', 'en'], ['es', 'Español', 'ES', 'es'], ['ary', 'Darija', 'DRJ', 'ary-Latn']];
+// L'anglais (langue par défaut) en tête, puis les autres par ordre alphabétique de leur nom.
+export const LANGS = [['en', 'English', 'EN', 'en'], ['ary', 'Darija', 'DRJ', 'ary-Latn'], ['es', 'Español', 'ES', 'es'], ['fr', 'Français', 'FR', 'fr']];
+export const DEFAULT_LANG = 'en';
 export function setLang(l) {
-  lang = STR[l] ? l : 'fr';
+  lang = STR[l] ? l : DEFAULT_LANG;
   if (typeof document !== 'undefined') document.documentElement.lang = LANGS.find((x) => x[0] === lang)[3];
 }
 // Langue utilisée pour Intl (noms de pays, tri) : le darija retombe sur le français.
@@ -255,15 +257,7 @@ export const intlLang = (l = lang) => (['en', 'es'].includes(l) ? l : 'fr');
 export const t = (k) => STR[lang][k] ?? STR.fr[k];
 export const moodLabel = (m) => STR[lang].moods[m] || m;
 
-// Langue et pays par défaut d'après le navigateur.
-export function guessLang(langs = []) {
-  // Première langue du navigateur que l'appli sait afficher (sinon français).
-  for (const l of langs) {
-    const m = /^(fr|en|es)\b/i.exec(l);
-    if (m) return m[1].toLowerCase();
-  }
-  return 'fr';
-}
+// Pays par défaut d'après la langue du navigateur.
 export function guessCountry(langs = []) {
   for (const l of langs) {
     const c = (l.split('-')[1] || '').toUpperCase();

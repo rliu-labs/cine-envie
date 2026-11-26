@@ -44,7 +44,7 @@ C'est une application web installable (PWA), sans serveur, sans compte, sans dé
 | | |
 |---|---|
 | 💬 **Envie** | Recherche en langage naturel, langage familier compris : humeurs, genres à éviter, film ou série, récent / court / classique, titre de référence (« comme Dark », « like Dark », « como Dark », « b7al Dark »). |
-| 🌍 **4 langues** | Interface et recherche en **français**, **anglais**, **espagnol** et **darija marocain** (lettres latines, avec les chiffres 3, 7, 9…). La langue du navigateur est détectée, et se change en un clic depuis le menu déroulant de l’en-tête (globe) ou dans les réglages. |
+| 🌍 **4 langues** | Interface et recherche en **français**, **anglais**, **espagnol** et **darija marocain** (lettres latines, avec les chiffres 3, 7, 9…). L’appli s’ouvre en anglais, et la langue se change en un clic depuis le menu déroulant de l’en-tête (globe) ou dans les réglages. |
 | 📺 **Films et séries** | Recherche, thématiques, tendances, notes et recommandations couvrent films et séries. Sur la page de recherche, un clic choisit **Films**, **Séries** ou **Les deux**. |
 | 🍿 **Mes plateformes** | Dans les réglages, coche tes abonnements (par défaut Netflix, Prime Video et Disney+ ; Canal+, Max… selon ton pays). Ils deviennent des boutons sur la page de recherche : « Toutes » cherche sur l'ensemble de tes plateformes, un clic sur l'une d'elles affine. Tes plateformes sont aussi mises en avant dans chaque fiche. |
 | 📍 **Ton pays** | Choix du pays de résidence parmi 31 pays européens, directement depuis la fiche : les plateformes affichées sont celles disponibles chez toi. |

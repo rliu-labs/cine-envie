@@ -44,7 +44,7 @@ Es una aplicación web instalable (PWA), sin servidor, sin cuenta y sin dependen
 | | |
 |---|---|
 | 💬 **Antojo** | Búsqueda en lenguaje natural que entiende el registro coloquial: ambiente, géneros a evitar, película o serie, reciente / corta / clásica y un título de referencia («como Dark», «like Dark», «comme Dark», «b7al Dark»). |
-| 🌍 **4 idiomas** | Interfaz y búsqueda en **español**, **inglés**, **francés** y **darija marroquí** (alfabeto latino, con los números 3, 7, 9…). Se detecta el idioma del navegador y se cambia con un clic desde el menú desplegable de la cabecera (globo) o en los ajustes. |
+| 🌍 **4 idiomas** | Interfaz y búsqueda en **español**, **inglés**, **francés** y **darija marroquí** (alfabeto latino, con los números 3, 7, 9…). La app se abre en inglés y el idioma se cambia con un clic desde el menú desplegable de la cabecera (globo) o en los ajustes. |
 | 📺 **Películas y series** | La búsqueda, los géneros, las tendencias, las notas y las recomendaciones cubren películas y series. En la página de búsqueda, un clic elige **Películas**, **Series** o **Ambas**. |
 | 🍿 **Mis plataformas** | En los ajustes, marca tus suscripciones (por defecto Netflix, Prime Video y Disney+; Movistar Plus+, Max… según tu país). Se convierten en botones en la página de búsqueda: «Todas» busca en todas tus plataformas y un clic en una de ellas afina. Tus plataformas también se destacan en cada ficha. |
 | 📍 **Tu país** | Elige tu país de residencia entre 31 países europeos, desde la propia ficha: las plataformas que se muestran son las disponibles donde vives. |

@@ -1,5 +1,9 @@
 # Journal des versions
 
+## 0.10.0 (novembre 2026)
+- L’anglais devient la langue par défaut pour un nouvel utilisateur (un choix déjà enregistré est conservé).
+- Menu de langue et réglages : English en tête, puis Darija, Español, Français par ordre alphabétique.
+
 ## 0.9.0 (novembre 2026)
 - Espagnol : interface complète (4e choix du menu de langue et des réglages), recherche par envie en espagnol avec le registre familier, genres et fiches TMDB en espagnol.
 - README en 4 langues : anglais (principal), français, espagnol et darija, avec un sélecteur en haut de chaque version ; bannière et capture d’accueil dans chaque langue.

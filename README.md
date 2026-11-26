@@ -44,7 +44,7 @@ It is an installable web app (PWA) with no server, no account and no dependencie
 | | |
 |---|---|
 | 💬 **Mood search** | Natural-language search that understands slang: moods, genres to avoid, movie or series, recent / short / classic, and a reference title ("like Dark", "comme Dark", "como Dark", "b7al Dark"). |
-| 🌍 **4 languages** | Interface and search in **English**, **French**, **Spanish** and **Moroccan Darija** (Latin script, with the digits 3, 7, 9…). The browser language is detected, and you can switch in one click from the header dropdown (globe) or in the settings. |
+| 🌍 **4 languages** | Interface and search in **English**, **French**, **Spanish** and **Moroccan Darija** (Latin script, with the digits 3, 7, 9…). The app opens in English, and you can switch in one click from the header dropdown (globe) or in the settings. |
 | 📺 **Movies and series** | Search, genres, trending, ratings and recommendations cover both movies and series. On the search page, one click picks **Movies**, **Series** or **Both**. |
 | 🍿 **My streaming services** | In the settings, tick your subscriptions (Netflix, Prime Video and Disney+ by default; Canal+, Max… depending on your country). They become buttons on the search page: "All" searches across all your services, and clicking one narrows it down. Your services are also highlighted on every title page. |
 | 📍 **Your country** | Pick your country of residence among 31 European countries, right from the title page: the services shown are the ones available where you live. |

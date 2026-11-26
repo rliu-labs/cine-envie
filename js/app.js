@@ -1,7 +1,7 @@
-import { parseMood, scoreItem, genreMaps, buildProfile } from './mood.js?v=14';
-import * as api from './tmdb.js?v=14';
-import * as store from './store.js?v=14';
-import { t, getLang, setLang, LANGS, moodLabel, guessLang, guessCountry, countryName, countryOptions } from './i18n.js?v=14';
+import { parseMood, scoreItem, genreMaps, buildProfile } from './mood.js?v=15';
+import * as api from './tmdb.js?v=15';
+import * as store from './store.js?v=15';
+import { t, getLang, setLang, LANGS, moodLabel, DEFAULT_LANG, guessCountry, countryName, countryOptions } from './i18n.js?v=15';
 
 const $ = (s, el = document) => el.querySelector(s);
 const view = $('#view');
@@ -16,7 +16,7 @@ const genreName = (it, g) => {
 // ---------- Langue et pays ----------
 const langs = typeof navigator !== 'undefined' ? [...(navigator.languages || [navigator.language || ''])] : [];
 function applyLocale() {
-  setLang(store.getLang() || guessLang(langs));
+  setLang(store.getLang() || DEFAULT_LANG); // anglais pour un nouvel utilisateur, sinon le choix enregistré
   api.setLocale(getLang(), store.getRegion() || guessCountry(langs));
   api.setProviders(store.effectiveProviders(api.getRegion()));
   document.querySelectorAll('nav a').forEach((a, i) => { if (t('nav')[i]) a.textContent = t('nav')[i]; });

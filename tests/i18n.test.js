@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { COUNTRIES, guessCountry, guessLang, countryOptions, countryName, setLang, getLang, intlLang, LANGS, t, moodLabel } from '../js/i18n.js';
+import { COUNTRIES, guessCountry, DEFAULT_LANG, countryOptions, countryName, setLang, getLang, intlLang, LANGS, t, moodLabel } from '../js/i18n.js';
 import { genreMaps } from '../js/mood.js';
 
 test('pays par défaut déduit de la langue du navigateur', () => {
@@ -11,11 +11,9 @@ test('pays par défaut déduit de la langue du navigateur', () => {
 });
 
 test('langue par défaut', () => {
-  assert.equal(guessLang(['en-GB']), 'en');
-  assert.equal(guessLang(['fr-FR', 'en']), 'fr');
-  assert.equal(guessLang(['de-DE']), 'fr');
-  assert.equal(guessLang(['es-ES', 'fr']), 'es');
-  assert.equal(guessLang(['de-DE', 'es']), 'es');
+  assert.equal(DEFAULT_LANG, 'en');
+  setLang('xx');
+  assert.equal(getLang(), 'en');
 });
 
 test('liste des pays européens complète et triée', () => {
@@ -38,7 +36,9 @@ test('chaque texte existe dans les 4 langues', async () => {
 });
 
 test('darija : 3e langue, pays en français, humeurs traduites', () => {
-  assert.deepEqual(LANGS.map((l) => l[0]), ['fr', 'en', 'es', 'ary']);
+  assert.deepEqual(LANGS.map((l) => l[0]), ['en', 'ary', 'es', 'fr']);
+  const rest = LANGS.slice(1).map((l) => l[1]);
+  assert.deepEqual(rest, [...rest].sort((a, b) => a.localeCompare(b)));
   setLang('ary');
   assert.equal(getLang(), 'ary');
   assert.equal(t('find'), '9elleb');
@@ -46,7 +46,7 @@ test('darija : 3e langue, pays en français, humeurs traduites', () => {
   assert.equal(intlLang(), 'fr');
   assert.equal(countryName('BE'), 'Belgique');
   setLang('xx');
-  assert.equal(getLang(), 'fr');
+  assert.equal(getLang(), 'en');
 });
 
 test('traductions de l\'interface et des humeurs', () => {

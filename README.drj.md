@@ -44,7 +44,7 @@ Hiya application web katinstalla (PWA), bla serveur, bla compte, bla dépendance
 | | |
 |---|---|
 | 💬 **Chno bghit** | Bi7t b lougha 3adiya, kayfhem 7tta l hadra dyal zn9a : l mood, les genres li ma bghitihomch, film wla msalsal, jdid / 9sir / dyal zman, w film li bghiti b7alo (« b7al Dark », « like Dark », « comme Dark », « como Dark »). |
-| 🌍 **4 loughat** | L'interface w l bi7t b **darija**, **fransawiya**, **engliziya** w **sbanyoliya**. Darija kattketeb b l7rouf latiniya m3a l ar9am 3, 7, 9… L'appli kat3ref lougha dyal navigateur, w katbeddelha b click wa7ed mn l menu li f lfou9 (globe) wla mn Réglages. |
+| 🌍 **4 loughat** | L'interface w l bi7t b **darija**, **fransawiya**, **engliziya** w **sbanyoliya**. Darija kattketeb b l7rouf latiniya m3a l ar9am 3, 7, 9… L'appli kat7ell b l engliziya, w katbeddel lougha b click wa7ed mn l menu li f lfou9 (globe) wla mn Réglages. |
 | 📺 **Aflam w msalsalat** | L bi7t, les genres, trend, n9at w recommandations kaychmlo aflam w msalsalat. F page dyal l bi7t, b click katkhtar **Aflam**, **Msalsalat** wla **Bjouj**. |
 | 🍿 **Les plateformes dyali** | F Réglages, 3lem 3la les abonnements dyalek (par défaut Netflix, Prime Video w Disney+ ; Canal+, Max… 3la 7sab bladek). Kayweliw boutons f page dyal l bi7t : « Kolhom » kay9elleb f ga3 les plateformes dyalek, w click 3la wa7da kaydi9 l bi7t. Les plateformes dyalek kaybano 7tta f kol fiche. |
 | 📍 **Bladek** | Khtar l blad li sakn fiha mn 31 blad f Oroppa, direct mn l fiche : les plateformes li kaybano homa li kaynin 3endek. |
