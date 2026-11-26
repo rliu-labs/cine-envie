@@ -1,4 +1,4 @@
-// Petit client TMDB (https://developer.themoviedb.org). Langue et pays réglables (fr-FR / en-US, pays européen).
+// Petit client TMDB (https://developer.themoviedb.org). Langue et pays réglables (fr-FR / en-US / es-ES, pays européen).
 const BASE = 'https://api.themoviedb.org/3';
 export const IMG = 'https://image.tmdb.org/t/p/';
 
@@ -9,7 +9,7 @@ export function hasCredential() { return !!credential; }
 let language = 'fr-FR';
 let region = 'FR';
 export function setLocale(lang, country) {
-  language = lang === 'en' ? 'en-US' : 'fr-FR';
+  language = { en: 'en-US', es: 'es-ES' }[lang] || 'fr-FR'; // le darija retombe sur le français
   if (/^[A-Z]{2}$/.test(country || '')) region = country;
 }
 export const getRegion = () => region;

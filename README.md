@@ -1,173 +1,173 @@
+<p align="center"><b>English</b> · <a href="README.fr.md">Français</a></p>
+
 <p align="center">
-  <img src="docs/banner.svg" alt="Ciné‑Envie : dis ce que tu as envie de regarder, l'appli trouve le film ou la série" width="100%">
+  <img src="docs/banner.en.svg" alt="Ciné‑Envie: say what you feel like watching, the app finds the movie or series" width="100%">
 </p>
 
 <p align="center">
-  <a href="https://rliu-labs.github.io/cine-envie/"><b>▶ Essayer l'appli</b></a>
+  <a href="https://rliu-labs.github.io/cine-envie/"><b>▶ Try the app</b></a>
   ·
-  <a href="#fonctionnalités">Fonctionnalités</a>
+  <a href="#features">Features</a>
   ·
-  <a href="#comment-ça-marche">Comment ça marche</a>
+  <a href="#how-it-works">How it works</a>
   ·
-  <a href="#sécurité-et-vie-privée">Sécurité</a>
+  <a href="#security-and-privacy">Security</a>
   ·
-  <a href="#lancer-en-local">Lancer en local</a>
+  <a href="#run-locally">Run locally</a>
 </p>
 
 <p align="center">
-  <a href="https://rliu-labs.github.io/cine-envie/"><img alt="Démo en ligne" src="https://img.shields.io/badge/démo-en_ligne-e5484d?style=flat-square"></a>
+  <a href="https://rliu-labs.github.io/cine-envie/"><img alt="Live demo" src="https://img.shields.io/badge/demo-live-e5484d?style=flat-square"></a>
   <a href="https://github.com/rliu-labs/cine-envie/actions/workflows/tests.yml"><img alt="Tests" src="https://img.shields.io/github/actions/workflow/status/rliu-labs/cine-envie/tests.yml?branch=main&label=tests&style=flat-square"></a>
   <img alt="PWA" src="https://img.shields.io/badge/PWA-installable-5a0fc8?style=flat-square">
-  <img alt="Zéro dépendance" src="https://img.shields.io/badge/dépendances-0-3fb67d?style=flat-square">
-  <img alt="JavaScript" src="https://img.shields.io/badge/JavaScript-modules_natifs-f7df1e?style=flat-square&logo=javascript&logoColor=black">
-  <a href="LICENSE"><img alt="Licence MIT" src="https://img.shields.io/badge/licence-MIT-blue?style=flat-square"></a>
+  <img alt="Zero dependencies" src="https://img.shields.io/badge/dependencies-0-3fb67d?style=flat-square">
+  <img alt="JavaScript" src="https://img.shields.io/badge/JavaScript-native_modules-f7df1e?style=flat-square&logo=javascript&logoColor=black">
+  <a href="LICENSE"><img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-blue?style=flat-square"></a>
 </p>
 
 ---
 
-**Ciné‑Envie** répond à la question de tous les soirs : *« on regarde quoi ? »*.
-Tu écris ton envie comme tu la dirais à un ami, **en français ou en anglais**, et l'appli propose des films et séries qui collent, avec **où les regarder légalement dans ton pays** (31 pays européens).
+**Ciné‑Envie** answers the question everyone asks every evening: *"what shall we watch?"*.
+You describe what you feel like watching the way you would tell a friend, **in English, French, Spanish or Moroccan Darija**, and the app suggests matching movies and series, along with **where to stream them legally in your country** (31 European countries).
 
-> « soirée cosy, drôle avec de l'intrigue comme À couteaux tirés »
-> → humeurs *cosy, drôle, intrigue* · pas d'horreur ni de thriller · proche de *À couteaux tirés*
+> "A cozy, funny night with some mystery, like Knives Out"
+> → moods *cozy, funny, mystery* · no horror or thriller · similar to *Knives Out*
 
-C'est une application web installable (PWA), sans serveur, sans compte, sans dépendance : du HTML, du CSS et du JavaScript natif.
+It is an installable web app (PWA) with no server, no account and no dependencies: plain HTML, CSS and native JavaScript.
 
 <p align="center">
-  <img src="docs/accueil.png" alt="Écran d'accueil de Ciné‑Envie" width="760">
+  <img src="docs/accueil.png" alt="Ciné‑Envie home screen" width="760">
 </p>
 
-## Fonctionnalités
+## Features
 
 | | |
 |---|---|
-| 💬 **Envie** | Recherche en langage naturel, langage familier compris : humeurs, genres à éviter, film ou série, récent / court / classique, titre de référence (« comme Dark », « like Dark »). |
-| 🌍 **Trilingue** | Interface et recherche en français, en anglais ou en darija marocain (lettres latines, avec les chiffres 3, 7, 9…) ; la langue du navigateur est détectée, et se change en un clic depuis le menu déroulant de l’en-tête (globe FR / EN) ou dans les réglages. |
-| 📺 **Films et séries** | Recherche, thématiques, tendances, notes et recommandations couvrent films et séries. Sur la page de recherche, un clic choisit **Films**, **Séries** ou **Les deux**. |
-| 🍿 **Mes plateformes** | Dans les réglages, coche tes abonnements (par défaut Netflix, Prime Video et Disney+ ; Canal+, Max… selon ton pays). Ils deviennent des boutons sur la page de recherche : « Toutes » cherche sur l'ensemble de tes plateformes, un clic sur l'une d'elles affine. Tes plateformes sont aussi mises en avant dans chaque fiche. |
-| 📍 **Ton pays** | Choix du pays de résidence parmi 31 pays européens, directement depuis la fiche : les plateformes affichées sont celles disponibles chez toi. |
-| 🔥 **Tendances** | Films et séries tendance de la semaine, avec un badge **Nouveau** sur ce qui est apparu depuis ta dernière visite. |
-| 🎭 **Thématiques** | Parcours par genre, par popularité ou par note. |
-| 🎬 **Fiche** | Résumé, réalisateur, casting, bande‑annonce et plateformes légales du pays choisi (abonnement, gratuit, location, achat). |
-| ⭐ **Profil de goûts** | Note les titres vus de 1 à 5 étoiles : l'appli en déduit les genres que tu aimes ou évites, ajuste le classement de chaque recherche et propose une sélection « Recommandé pour toi ». |
-| 📋 **Mes listes** | « À voir » et « Vus », stockés dans le navigateur, avec export / import JSON pour changer d'appareil. |
-| 📱 **Installable** | Sur ordinateur (Chrome, Edge), Android et iPhone ; l'interface reste disponible hors ligne. |
+| 💬 **Mood search** | Natural-language search that understands slang: moods, genres to avoid, movie or series, recent / short / classic, and a reference title ("like Dark", "comme Dark", "como Dark", "b7al Dark"). |
+| 🌍 **4 languages** | Interface and search in **English**, **French**, **Spanish** and **Moroccan Darija** (Latin script, with the digits 3, 7, 9…). The browser language is detected, and you can switch in one click from the header dropdown (globe) or in the settings. |
+| 📺 **Movies and series** | Search, genres, trending, ratings and recommendations cover both movies and series. On the search page, one click picks **Movies**, **Series** or **Both**. |
+| 🍿 **My streaming services** | In the settings, tick your subscriptions (Netflix, Prime Video and Disney+ by default; Canal+, Max… depending on your country). They become buttons on the search page: "All" searches across all your services, and clicking one narrows it down. Your services are also highlighted on every title page. |
+| 📍 **Your country** | Pick your country of residence among 31 European countries, right from the title page: the services shown are the ones available where you live. |
+| 🔥 **Trending** | This week's trending movies and series, with a **New** badge on what appeared since your last visit. |
+| 🎭 **Genres** | Browse by genre, popularity or rating. |
+| 🎬 **Title page** | Overview, director, cast, trailer and the legal streaming offers in the chosen country (subscription, free, rent, buy). |
+| ⭐ **Taste profile** | Rate the titles you have seen from 1 to 5 stars: the app works out which genres you like or avoid, adjusts the ranking of every search and offers a "Recommended for you" selection. |
+| 📋 **My lists** | "To watch" and "Seen", stored in the browser, with JSON export / import to move to another device. |
+| 📱 **Installable** | On desktop (Chrome, Edge), Android and iPhone; the interface stays available offline. |
 
-## Comment ça marche
+## How it works
 
-Le cœur de l'appli est [`js/mood.js`](js/mood.js) : un petit analyseur de langage naturel (français, anglais, darija), sans service externe, qui transforme une phrase en critères de recherche.
+The heart of the app is [`js/mood.js`](js/mood.js): a small natural-language parser (English, French, Spanish, Darija), with no external service, that turns a sentence into search criteria.
 
 ```mermaid
 flowchart LR
-  A["Phrase de l'utilisateur"] --> B["mood.js<br/>analyse de l'envie"]
-  B --> C["Genres voulus<br/>et exclus"]
-  B --> D["Film / série<br/>récent, court, classique"]
-  B --> E["Titre de référence"]
+  A["User's sentence"] --> B["mood.js<br/>mood parsing"]
+  B --> C["Wanted and<br/>excluded genres"]
+  B --> D["Movie / series<br/>recent, short, classic"]
+  B --> E["Reference title"]
   C & D --> F["TMDB /discover"]
-  E --> G["TMDB /search<br/>puis /recommendations"]
-  F & G --> H["Score et classement"]
-  H --> I["Résultats + plateformes FR"]
+  E --> G["TMDB /search<br/>then /recommendations"]
+  F & G --> H["Scoring and ranking"]
+  H --> I["Results + services in your country"]
 ```
 
-Exemples réels de sortie de l'analyseur :
+Real parser output:
 
-| Ce que tu écris | Humeurs | Type | Exclu | Référence |
+| What you type | Moods | Type | Excluded | Reference |
 |---|---|---|---|---|
-| soirée cosy, drôle avec de l'intrigue comme À couteaux tirés | cosy, drôle, intrigue | tout | Horreur, Thriller, Guerre | À couteaux tirés |
-| un film d'action récent qui ne se prend pas au sérieux | action | film · récent | | |
-| une série à suspense comme Dark | intrigue | série | | Dark |
-| film familial pour dimanche soir | famille | film | Horreur | |
-| de la SF qui fait réfléchir comme Interstellar | SF | tout | | Interstellar |
-| A cozy, funny night with some mystery, like Knives Out | cosy, drôle, intrigue | tout | Horreur, Thriller, Guerre | Knives Out |
-| a classic 90s thriller | tension | tout · classique | | |
-| I would like something funny | drôle | tout | | *(aucune : « like » n'est pas pris pour un titre)* |
-| un truc qui fout les jetons | frissons | tout | | |
-| un bon film de daron | film de daron | film | | |
-| une série à binger qui me retourne le cerveau | intrigue | série | | |
-| un truc chill sous la couette | cosy | tout | Horreur, Thriller, Guerre | |
-| bghit chi film dyal d7k | drôle | film | | |
-| msalsal jdid b7al Dark w fih d7k | drôle | série · récent | | Dark |
-| soirée cosy, film dyal d7k w l7ob | cosy, drôle, romance | film | Horreur, Thriller, Guerre | |
+| A cozy, funny night with some mystery, like Knives Out | cozy, funny, mystery | all | Horror, Thriller, War | Knives Out |
+| a classic 90s thriller | tension | all · classic | | |
+| I would like something funny | funny | all | | *(none: "like" is not taken as a title)* |
+| a dad movie with explosions | dad movie, action | movie | | |
+| soirée cosy, drôle avec de l'intrigue comme À couteaux tirés | cozy, funny, mystery | all | Horror, Thriller, War | À couteaux tirés |
+| une série à binger qui me retourne le cerveau | mystery | series | | |
+| una serie de suspense como Dark | mystery, tension | series | | Dark |
+| una peli para partirse de risa | funny | movie | | |
+| bghit chi film dyal d7k | funny | movie | | |
+| msalsal jdid b7al Dark w fih d7k | funny | series · recent | | Dark |
+| soirée cosy, film dyal d7k w l7ob | cozy, funny, romance | movie | Horror, Thriller, War | |
 
-Chaque résultat reçoit ensuite un score : +3 par genre voulu, −6 par genre exclu, plus la note et la popularité, et un bonus s'il vient des recommandations du titre de référence.
+Each result then gets a score: +3 per wanted genre, −6 per excluded genre, plus its rating and popularity, and a bonus if it comes from the reference title's recommendations.
 
-Le **darija** n'a pas d'orthographe fixe en lettres latines : l'analyseur replie d'abord les chiffres-lettres (3 → ع, 7 → ح, 9 → ق…) et les lettres doublées, puis reconnaît les mots avec des motifs souples qui acceptent les variantes (« d7k », « dahk », « kaydahek ») et les préfixes verbaux. L'interface en darija suit la graphie « arabizi » courante au Maroc ; elle mériterait une relecture par un locuteur natif, et les suggestions sont les bienvenues. Les fiches TMDB (titres, résumés) s'affichent alors en français.
+In **Spanish**, the parser also understands everyday slang from Spain ("peli", "partirse de risa", "da yuyu", "de tiros"…), and TMDB title pages are shown in Spanish.
 
-Le **profil de goûts** s'ajoute à ce score : chaque note donne à ses genres une affinité entre −1 (1★) et +1 (5★), moyennée et lissée pour qu'un seul film ne fasse pas la loi. Tout est calculé dans le navigateur.
+**Darija** has no fixed spelling in Latin script: the parser first folds the letter-digits (3 → ع, 7 → ح, 9 → ق…) and doubled letters, then recognises words with flexible patterns that accept spelling variants ("d7k", "dahk", "kaydahek") and verb prefixes. The Darija interface follows the "Arabizi" spelling commonly used in Morocco; it would benefit from a review by a native speaker, and suggestions are welcome. TMDB title pages are then shown in French.
+
+The **taste profile** adds to this score: each rating gives its genres an affinity between −1 (1★) and +1 (5★), averaged and smoothed so that a single movie does not dominate. Everything is computed in the browser.
 
 ## Architecture
 
 ```
-├── index.html             Coquille de l'appli
-├── style.css              Thème sombre, mise en page responsive
+├── index.html             App shell
+├── style.css              Dark theme, responsive layout
 ├── js/
-│   ├── app.js             Vues, navigation par hash, fiche détaillée
-│   ├── mood.js            Analyse de l'envie et score (pur JS, testé)
-│   ├── i18n.js            Textes FR / EN, pays européens, détection langue et pays
-│   ├── tmdb.js            Client API TMDB (langue et pays réglables, cache mémoire)
-│   └── store.js           Stockage local : langue, pays, clé, listes, notes, veille
-├── sw.js                  Service worker (interface hors ligne, cache des affiches)
-├── manifest.webmanifest   Manifeste PWA
-├── icons/                 Icône de l'appli, logo TMDB
-├── scripts/captures.mjs   Génère les captures et le GIF du README (Playwright)
-└── tests/                 Tests node:test (analyseur, profil, traductions, client TMDB)
+│   ├── app.js             Views, hash navigation, title page
+│   ├── mood.js            Mood parsing and scoring (pure JS, tested)
+│   ├── i18n.js            EN / FR / ES / Darija strings, European countries, language and country detection
+│   ├── tmdb.js            TMDB API client (configurable language and country, in-memory cache)
+│   └── store.js           Local storage: language, country, key, lists, ratings, last visit
+├── sw.js                  Service worker (offline interface, poster cache)
+├── manifest.webmanifest   PWA manifest
+├── icons/                 App icon, TMDB logo
+├── scripts/captures.mjs   Generates the README screenshots and GIF (Playwright)
+└── tests/                 node:test tests (parser, profile, translations, TMDB client)
 ```
 
-**Choix techniques**
-- **Zéro build, zéro dépendance** : modules ES natifs, servis tels quels par GitHub Pages.
-- **Clé v3 ou jeton v4** : le client détecte le format et utilise le paramètre `api_key` ou l'en‑tête `Bearer`.
-- **Service worker « réseau d'abord »** : les mises à jour arrivent tout de suite, le cache prend le relais hors ligne.
+**Technical choices**
+- **No build, no dependencies**: native ES modules, served as-is by GitHub Pages.
+- **v3 key or v4 token**: the client detects the format and uses either the `api_key` parameter or the `Bearer` header.
+- **Network-first service worker**: updates arrive immediately, and the cache takes over offline.
 
-## Sécurité et vie privée
+## Security and privacy
 
-Ciné‑Envie est conçu pour ne rien savoir de toi.
+Ciné‑Envie is designed to know nothing about you.
 
 | | |
 |---|---|
-| 🖥️ **Aucun serveur** | Site 100 % statique hébergé sur GitHub Pages, servi en HTTPS. |
-| 🔑 **Ta clé reste chez toi** | La clé TMDB est stockée dans ton navigateur et envoyée uniquement à l'API TMDB. |
-| 🙈 **Aucun pistage** | Pas de statistiques, de publicité, de cookies ni de service tiers. |
-| 📦 **Zéro dépendance** | La page ne charge aucun paquet npm ni script externe : rien qui puisse être compromis en amont. (Les seuls paquets npm servent à générer les captures, jamais à l'appli.) |
-| 🛡️ **Content Security Policy** | Le navigateur bloque tout script étranger et toute connexion hors de TMDB. |
-| 🧹 **Données échappées** | Tout ce qui vient de TMDB ou d'un import est neutralisé avant affichage. |
+| 🖥️ **No server** | A 100% static site hosted on GitHub Pages, served over HTTPS. |
+| 🔑 **Your key stays with you** | The TMDB key is stored in your browser and sent only to the TMDB API. |
+| 🙈 **No tracking** | No analytics, ads, cookies or third-party services. |
+| 📦 **Zero dependencies** | The page loads no npm package or external script: nothing that can be compromised upstream. (The only npm packages are used to generate screenshots, never by the app.) |
+| 🛡️ **Content Security Policy** | The browser blocks any foreign script and any connection outside TMDB. |
+| 🧹 **Escaped data** | Everything that comes from TMDB or from an import is neutralised before it is displayed. |
 
-Une faille ? Voir [SECURITY.md](SECURITY.md) pour la signaler en privé.
+Found a vulnerability? See [SECURITY.md](SECURITY.md) to report it privately.
 
-## Lancer en local
+## Run locally
 
 ```bash
 git clone https://github.com/rliu-labs/cine-envie.git
 cd cine-envie
-python3 -m http.server 8000   # ou : npm start
+python3 -m http.server 8000   # or: npm start
 ```
 
-Ouvre http://localhost:8000 et colle ta clé TMDB (gratuite : themoviedb.org → Paramètres → API).
+Open http://localhost:8000 and paste your TMDB key (free: themoviedb.org → Settings → API).
 
-Tests :
+Tests:
 
 ```bash
 npm test
 ```
 
-Captures d'écran et GIF de démonstration, avec de vraies données (nécessite ta clé TMDB) :
+Demo screenshots and GIF, with real data (requires your TMDB key):
 
 ```bash
 npm install
 npx playwright install chromium
-TMDB_KEY=ta_cle npm run captures   # résultat dans docs/captures/
+TMDB_KEY=your_key npm run captures   # output in docs/captures/
 ```
 
-Les idées sont bienvenues : voir [CONTRIBUTING.md](CONTRIBUTING.md).
+Ideas are welcome: see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Crédits
+## Credits
 
 <a href="https://www.themoviedb.org/"><img src="icons/tmdb.svg" alt="The Movie Database (TMDB)" height="18"></a>
 
-Données et images de films et séries : [TMDB](https://www.themoviedb.org/).
+Movie and series data and images: [TMDB](https://www.themoviedb.org/).
 *This product uses the TMDB API but is not endorsed or certified by TMDB.*
 
-Disponibilités streaming : [JustWatch](https://www.justwatch.com/), via l'API TMDB.
+Streaming availability: [JustWatch](https://www.justwatch.com/), via the TMDB API.
 
-Icône : pictogramme « clapperboard » de [Lucide](https://lucide.dev) (licence ISC, voir [icons/LICENSE-lucide.txt](icons/LICENSE-lucide.txt)).
+Icon: "clapperboard" pictogram from [Lucide](https://lucide.dev) (ISC licence, see [icons/LICENSE-lucide.txt](icons/LICENSE-lucide.txt)).
 
-Code sous licence [MIT](LICENSE).
+Code under the [MIT](LICENSE) licence.

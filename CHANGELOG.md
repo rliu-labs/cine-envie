@@ -1,5 +1,9 @@
 # Journal des versions
 
+## 0.9.0 (novembre 2026)
+- Espagnol : interface complète (4e choix du menu de langue et des réglages), recherche par envie en espagnol avec le registre familier, genres et fiches TMDB en espagnol.
+- README principal en anglais, version française dans README.fr.md (lien pour passer de l’une à l’autre).
+
 ## 0.8.0 (novembre 2026)
 - Interface complète en darija marocain (lettres latines), 3e choix du menu de langue et des réglages.
 - La recherche par envie comprend le darija en « arabizi » (3, 7, 9…), ses variantes d’orthographe et les mélanges français / darija : « bghit chi film dyal d7k », « chi 7aja katkhl3 », « msalsal b7al Dark »…

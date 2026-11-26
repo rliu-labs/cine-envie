@@ -30,7 +30,7 @@ input { font: inherit; color: var(--fg); background: var(--bg2); border: 1px sol
 .chip.on { background: var(--acc); border-color: var(--acc); }
 .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.5rem; }
 .toolbar h2 { margin-right: auto; }
-.seg { display: inline-flex; background: var(--bg2); border-radius: var(--r); padding: 3px; }
+.seg { display: inline-flex; flex-wrap: wrap; max-width: 100%; background: var(--bg2); border-radius: var(--r); padding: 3px; }
 .seg button { background: none; padding: .4rem .9rem; }
 .seg button.on { background: var(--bg3); }
 

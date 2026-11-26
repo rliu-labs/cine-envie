@@ -1,4 +1,4 @@
-// Analyse d'une « envie » en langage naturel (français, anglais ou darija marocain en lettres latines) -> critères de recherche TMDB.
+// Analyse d'une « envie » en langage naturel (français, anglais, espagnol ou darija marocain en lettres latines) -> critères de recherche TMDB.
 // Pur JS, sans dépendance : testable avec node.
 
 export const MOVIE_GENRES = {
@@ -27,10 +27,24 @@ export const TV_GENRES_EN = {
   9648: 'Mystery', 10765: 'Sci-Fi & Fantasy', 10768: 'War & Politics', 37: 'Western',
 };
 
-// Noms de genres dans la langue de l'interface.
-export const genreMaps = (lang) => (lang === 'en'
-  ? { movie: MOVIE_GENRES_EN, tv: TV_GENRES_EN }
-  : { movie: MOVIE_GENRES, tv: TV_GENRES });
+export const MOVIE_GENRES_ES = {
+  28: 'Acción', 12: 'Aventura', 16: 'Animación', 35: 'Comedia', 80: 'Crimen',
+  99: 'Documental', 18: 'Drama', 10751: 'Familia', 14: 'Fantasía',
+  36: 'Historia', 27: 'Terror', 10402: 'Música', 9648: 'Misterio',
+  10749: 'Romance', 878: 'Ciencia ficción', 53: 'Suspense', 10752: 'Bélica', 37: 'Western',
+};
+
+export const TV_GENRES_ES = {
+  10759: 'Acción y aventura', 16: 'Animación', 35: 'Comedia', 80: 'Crimen',
+  99: 'Documental', 18: 'Drama', 10751: 'Familia', 10762: 'Infantil',
+  9648: 'Misterio', 10765: 'Ciencia ficción y fantasía', 10768: 'Bélica y política', 37: 'Western',
+};
+
+// Noms de genres dans la langue de l'interface (le darija utilise le français).
+export const genreMaps = (lang) => ({
+  en: { movie: MOVIE_GENRES_EN, tv: TV_GENRES_EN },
+  es: { movie: MOVIE_GENRES_ES, tv: TV_GENRES_ES },
+}[lang] || { movie: MOVIE_GENRES, tv: TV_GENRES });
 
 // Chaque humeur : genres films (m), genres séries (t), genres à exclure (x).
 const MOODS = [
@@ -103,6 +117,30 @@ const MOODS = [
 ];
 
 
+// Vocabulaire espagnol (dont le registre familier), ajouté aux humeurs ci-dessus.
+const ES_WORDS = {
+  cosy: ['acogedora', 'acogedor', 'tranquila', 'tranquilo', 'relajante', 'para relajarse', 'reconfortante', 'bajo la manta', 'de manta y sofá', 'de sofá', 'domingo lluvioso', 'que haga sentir bien', 'buen rollo'],
+  'drôle': ['divertida', 'divertido', 'graciosa', 'gracioso', 'comedia', 'humor', 'risa', 'risas', 'reír', 'reirme', 'reírme', 'partirse de risa', 'me parta de risa', 'para partirse', 'desternillante', 'tronchante', 'absurda', 'ligera'],
+  intrigue: ['misterio', 'intriga', 'enigma', 'detective', 'investigación', 'giro', 'giros', 'giro final', 'policiaca', 'policíaca', 'que te rompa la cabeza', 'rayada', 'flipante', 'quién es el asesino'],
+  frissons: ['miedo', 'terror', 'de miedo', 'que dé miedo', 'que de miedo', 'aterradora', 'escalofriante', 'escalofríos', 'da yuyu', 'yuyu', 'acojonante', 'mal rollo', 'sustos', 'de sustos'],
+  tension: ['tensión', 'tensa', 'trepidante', 'angustiosa', 'que no puedas despegarte', 'en vilo', 'de infarto', 'suspense', 'suspenso'],
+  action: ['acción', 'adrenalina', 'peleas', 'tortas', 'de tiros', 'tiros', 'explosiones', 'cañera', 'trepidante'],
+  aventure: ['aventura', 'aventuras', 'viaje', 'épica', 'epopeya', 'búsqueda del tesoro'],
+  romance: ['romántica', 'romántico', 'amor', 'de amor', 'historia de amor', 'cita', 'pastelona', 'moñas', 'ñoña'],
+  'émotion': ['emotiva', 'emocionante', 'conmovedora', 'llorar', 'para llorar', 'triste', 'drama', 'lacrimógena', 'que me haga llorar'],
+  SF: ['ciencia ficción', 'ciencia-ficción', 'espacio', 'futuro', 'futurista', 'distopía', 'robots', 'extraterrestres', 'viaje en el tiempo', 'viajes en el tiempo', 'nave espacial'],
+  fantastique: ['fantasía', 'magia', 'mágica', 'dragones', 'brujas', 'mago', 'magos'],
+  famille: ['familia', 'familiar', 'niños', 'con los niños', 'con los críos', 'críos', 'peques', 'para todos los públicos', 'todos los públicos'],
+  animation: ['animación', 'animada', 'dibujos', 'dibujos animados'],
+  'docu / histoire vraie': ['documental', 'docu', 'historia real', 'basada en hechos reales', 'hechos reales', 'inspiradora'],
+  historique: ['histórica', 'histórico', 'de época', 'guerra', 'medieval', 'bélica'],
+  crime: ['crimen', 'criminal', 'mafia', 'atraco', 'robo', 'gánsteres', 'narcos', 'narco'],
+  'film de daron': ['peli de padre', 'película de padre', 'peli de mi padre', 'peli de papá', 'cine de papá'],
+  western: ['vaqueros', 'del oeste'],
+  musique: ['música', 'musical', 'concierto'],
+};
+for (const m of MOODS) m.words.push(...(ES_WORDS[m.label] || []));
+
 // Darija marocain écrit en lettres latines (« arabizi ») : pas d'orthographe standard.
 // On replie d'abord le texte (chiffres-lettres 3, 7, 9…, lettres doublées), puis on
 // teste chaque mot avec des motifs souples qui tolèrent les variantes et les préfixes
@@ -142,7 +180,7 @@ const DARIJA_FLAGS = {
   classic: /^(qdim|qdima|qdam)$/,
 };
 
-const SIMILAR_RE = /(?:\b(?:b7al|bhal|b7el|bhel|f7al|fhal)|similaire\s+(?:à|a)|comme|dans\s+le\s+style\s+(?:de|d')|façon|facon|du\s+genre\s+(?:de\s+)?|à\s+la|qui\s+ressemble\s+(?:à|a)|proche\s+de|similar\s+to|(?<!\b(?:would|i|we|you|they|feel|feels|feeling|'d)\s)like|in\s+the\s+(?:style|vein|spirit)\s+of|reminiscent\s+of|along\s+the\s+lines\s+of)\s+["«“]?([^,;.!?"»”]+)/i;
+const SIMILAR_RE = /(?:\b(?:b7al|bhal|b7el|bhel|f7al|fhal)|similaire\s+(?:à|a)|comme|\bcomo|parecid[ao]s?\s+a|al\s+estilo\s+de|en\s+plan|del\s+estilo\s+de|\btipo|dans\s+le\s+style\s+(?:de|d')|façon|facon|du\s+genre\s+(?:de\s+)?|à\s+la|qui\s+ressemble\s+(?:à|a)|proche\s+de|similar\s+to|(?<!\b(?:would|i|we|you|they|feel|feels|feeling|'d)\s)like|in\s+the\s+(?:style|vein|spirit)\s+of|reminiscent\s+of|along\s+the\s+lines\s+of)\s+["«“]?([^,;.!?"»”]+)/i;
 
 function norm(s) {
   return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
@@ -162,7 +200,7 @@ export function parseMood(input) {
   };
 
   const sim = raw.match(SIMILAR_RE);
-  if (sim) res.similarTo = sim[1].trim().replace(/\s+(et|mais|avec|and|but|with|that|which|w|walakin|wlakin|m3a)\s.*$/i, '').trim();
+  if (sim) res.similarTo = sim[1].trim().replace(/\s+(et|mais|avec|and|but|with|that|which|w|walakin|wlakin|m3a|y|pero|con|que)\s.*$/i, '').trim();
 
   // Retire le titre cité pour ne pas en déduire des humeurs (ex. « comme Mission Impossible »)
   // (on garde ce qui suit le titre : « comme Dark et drôle », « b7al Dark w fih d7k »)
@@ -193,16 +231,16 @@ export function parseMood(input) {
   // Un genre demandé explicitement ne doit pas être exclu par une autre humeur
   for (const g of res.movieGenres) res.exclude.delete(g);
 
-  if (/\b(serie|series|saisons?|episodes?|show|shows|tv|seasons?|binge|binger|bingewatch|binge-watch)\b/.test(moodText)) res.type = 'tv';
-  else if (/\b(film|films|long[- ]metrage|movie|movies)\b/.test(moodText)) res.type = 'movie';
-  if (/\b(recent|recents|nouveau|nouveaute|nouveautes|sorti recemment|cette annee|qui vient de sortir|du moment|new|newer|latest|this year|recently released|brand new)\b/.test(moodText)) res.recent = true;
-  if (/\b(court|courte|rapide|pas trop long|vite fait|pas long|short|quick|not too long|quick watch)\b/.test(moodText)) res.short = true;
+  if (/\b(serie|series|saisons?|episodes?|show|shows|tv|seasons?|binge|binger|bingewatch|binge-watch|temporadas?|capitulos?|maraton)\b/.test(moodText)) res.type = 'tv';
+  else if (/\b(film|films|long[- ]metrage|movie|movies|pelicula|peliculas|peli|pelis)\b/.test(moodText)) res.type = 'movie';
+  if (/\b(recent|recents|nouveau|nouveaute|nouveautes|sorti recemment|cette annee|qui vient de sortir|du moment|new|newer|latest|this year|recently released|brand new|reciente|recientes|nueva|nuevas|nuevo|nuevos|estreno|estrenos|este ano|de este ano)\b/.test(moodText)) res.recent = true;
+  if (/\b(court|courte|rapide|pas trop long|vite fait|pas long|short|quick|not too long|quick watch|corta|corto|cortita|no muy larga|no muy largo)\b/.test(moodText)) res.short = true;
   if (tokens.some((w) => DARIJA_FLAGS.tv.test(w))) res.type = 'tv';
   else if (res.type === 'all' && tokens.some((w) => DARIJA_FLAGS.movie.test(w))) res.type = 'movie';
   if (tokens.some((w) => DARIJA_FLAGS.recent.test(w)) || / (ad|yalah) (khrej|khrjat|kherj) /.test(folded)) res.recent = true;
   if (tokens.some((w) => DARIJA_FLAGS.short.test(w)) || / mach(i)? t[ae]?wil/.test(folded)) res.short = true;
   if (tokens.some((w) => DARIJA_FLAGS.classic.test(w)) || / dyal (zman|zaman) /.test(folded)) res.classic = true;
-  if (/\b(classique|culte|vieux|ancien|annees \d0|classic|classics|cult|old|oldies?|\d0s)\b/.test(moodText)) res.classic = true;
+  if (/\b(classique|culte|vieux|ancien|annees \d0|classic|classics|cult|old|oldies?|\d0s|clasico|clasica|clasicos|clasicas|de culto|antigua|antiguo|de los \d0|anos \d0)\b/.test(moodText)) res.classic = true;
 
   return res;
 }

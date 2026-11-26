@@ -1,4 +1,4 @@
-// Langue de l'interface (fr / en / darija marocain en lettres latines) et pays de résidence pour les plateformes de streaming.
+// Langue de l'interface (fr / en / es / darija marocain en lettres latines) et pays de résidence pour les plateformes de streaming.
 
 // Pays européens proposés (codes ISO 3166-1 utilisés par TMDB / JustWatch).
 export const COUNTRIES = ['AT', 'BE', 'BG', 'CH', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GB', 'GR', 'HR', 'HU',
@@ -120,6 +120,66 @@ const STR = {
       historique: 'historical', 'film de daron': 'dad movie', crime: 'crime', western: 'western', musique: 'music',
     },
   },
+  es: {
+    nav: ['Antojo', 'Tendencias', 'Géneros', 'Mis listas'],
+    welcome: 'Bienvenido 👋',
+    welcomeText: 'La app usa la base de datos gratuita <a href="https://www.themoviedb.org" target="_blank" rel="noopener">TMDB</a> para las tendencias, los géneros y las plataformas de streaming.',
+    step1: 'Crea una cuenta gratuita en <a href="https://www.themoviedb.org/signup" target="_blank" rel="noopener">themoviedb.org</a>.',
+    step2: 'Ve a <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">Ajustes → API</a> y solicita una clave (uso personal).',
+    step3: 'Pega la «Clave de la API» o el «Token de acceso de lectura» aquí abajo.',
+    keyPh: 'Clave API de TMDB', save: 'Guardar', checking: 'Comprobando…', keyOk: 'Clave válida ✔',
+    loading: 'Cargando…', empty: 'Nada por ahora.',
+    isNew: 'Nuevo', seen: 'Vista', toWatch: 'Por ver', movie: 'Película', tv: 'Serie',
+    ask: '¿Qué te apetece ver esta noche?',
+    askPh: 'p. ej. noche tranquila, divertida y con misterio, como Puñales por la espalda',
+    find: 'Buscar', searching: 'Buscando ideas…',
+    presets: [
+      'Una noche tranquila, divertida y con misterio', 'Una peli de acción reciente que no se tome en serio',
+      'Una serie de suspense como Dark', 'Algo que dé miedo pero sin mucha sangre', 'Peli familiar para el domingo',
+      'Una comedia romántica para sentirse bien', 'Ciencia ficción que haga pensar como Interstellar', 'Un atraco ingenioso al estilo de Ocean\'s Eleven',
+    ],
+    closeTo: (t) => `Parecida a ${t}`, fits: (m) => `Encaja con: ${m}`, popular: 'Popular ahora mismo',
+    understood: 'Esto es lo que he entendido:', nothing: 'nada concreto, aquí tienes lo imprescindible del momento',
+    mood: 'ambiente:', near: 'parecida a', notFound: (t) => `no encuentro «${t}»`,
+    only: (k) => `solo <b>${k === 'tv' ? 'series' : 'películas'}</b>`, recent: 'recientes', classic: 'clásicos', short: 'cortos',
+    trends: 'Tendencias de la semana', all: 'Todo', movies: 'Películas', series: 'Series',
+    newSince: (n) => `${n} novedad${n > 1 ? 'es' : ''} desde tu última visita.`,
+    byTheme: 'Por género', popularS: 'Populares', topRated: 'Mejor valoradas',
+    library: 'Mi filmoteca', seenP: 'Vistas',
+    settings: 'Ajustes', lang: 'Idioma', country: 'País de residencia',
+    countryHint: 'Sirve para mostrar las plataformas legales disponibles donde vives.',
+    tmdbKey: 'Clave de TMDB', backup: 'Copia de seguridad de mis listas',
+    backupHint: 'Tus listas se guardan en este navegador. Expórtalas para pasarlas a otro dispositivo.',
+    exp: 'Exportar (.json)', imp: 'Importar', imported: (n) => `${n} títulos importados ✔`,
+    install: 'Instalar la app',
+    installHint: 'En Chrome/Edge (Windows, Mac, Android): menú ⋮ → «Instalar aplicación». En iPhone (Safari): Compartir → «Añadir a pantalla de inicio».',
+    credits: 'Datos proporcionados por TMDB. Este producto usa la API de TMDB pero no está avalado ni certificado por TMDB. Disponibilidad en streaming: JustWatch vía TMDB.',
+    close: 'Cerrar', seasons: (n) => `${n} temporada${n > 1 ? 's' : ''}`, noOverview: 'No hay sinopsis disponible.',
+    by: 'De', with: 'con', inList: '✔ En mi lista', addList: '+ Por ver', isSeen: '✔ Vista', markSeen: 'Marcar como vista',
+    trailer: '▶ Tráiler', similar: 'Ideas parecidas', likeQ: (t) => `como ${t}`,
+    whereIn: 'Dónde verla', flatrate: 'Suscripción', free: 'Gratis', rent: 'Alquiler', buy: 'Compra',
+    noOffer: 'Todavía no hay ninguna oferta legal en este país (suele pasar con las películas que siguen en cines).',
+    allOffers: 'Ver todas las ofertas (JustWatch)',
+    taste: 'Mis gustos', rate: 'Tu nota', rateHint: 'Puntúa lo que has visto: las recomendaciones se adaptan a tus gustos.',
+    clearRate: 'Borrar', stars: (n) => `${n} estrella${n > 1 ? 's' : ''}`,
+    tasteIntro: (n) => `Según tus ${n} nota${n > 1 ? 's' : ''}, esto es lo que te gusta.`,
+    tasteEmpty: 'Puntúa al menos 3 títulos que hayas visto (abre una ficha y dale estrellas) para crear tu perfil de gustos.',
+    likes: 'Te gusta', dislikes: 'No es lo tuyo', forYou: 'Recomendado para ti',
+    tasteLocal: 'Tu perfil se calcula en tu navegador y no se envía a ningún sitio.',
+    tasteBoost: 'ajustado a tus gustos',
+    tmdbNotice: 'Datos e imágenes proporcionados por TMDB.',
+    justwatch: 'Disponibilidad en streaming proporcionada por',
+    platforms: 'Mis plataformas', platformsHint: 'Marca tus suscripciones (por defecto Netflix, Prime Video y Disney+). Aparecen como botones en la página de búsqueda, donde «Todas» significa todas estas plataformas. Nada marcado = todo el catálogo.',
+    onPlatforms: (n) => `En tus plataformas: ${n}`, editPlatforms: 'cambiar', allPlatforms: 'Todo el catálogo', choosePlatforms: 'elegir mis plataformas',
+    trendsAllPlatforms: 'Las tendencias incluyen todas las plataformas.', both: 'Ambas', clearAll: 'Desmarcar todo',
+    lookFor: 'Busco', onWhere: 'En', allShort: 'Todas', addPlatform: '+ añadir una plataforma',
+    moods: {
+      cosy: 'tranquila', 'drôle': 'divertida', intrigue: 'misterio', frissons: 'miedo', tension: 'tensión', action: 'acción',
+      aventure: 'aventura', romance: 'romance', 'émotion': 'emotiva', SF: 'ciencia ficción', fantastique: 'fantasía',
+      famille: 'familiar', animation: 'animación', 'docu / histoire vraie': 'documental / historia real',
+      historique: 'histórica', 'film de daron': 'peli de padre', crime: 'crimen', western: 'western', musique: 'música',
+    },
+  },
   ary: {
     nav: ['Chno bghit', 'Trend', 'Anwa3', 'Lista dyali'],
     welcome: 'Merhba 👋',
@@ -185,19 +245,24 @@ const STR = {
 let lang = 'fr';
 export const getLang = () => lang;
 // Langues proposées : code interne, nom affiché, abréviation du menu, attribut lang HTML.
-export const LANGS = [['fr', 'Français', 'FR', 'fr'], ['en', 'English', 'EN', 'en'], ['ary', 'Darija', 'DRJ', 'ary-Latn']];
+export const LANGS = [['fr', 'Français', 'FR', 'fr'], ['en', 'English', 'EN', 'en'], ['es', 'Español', 'ES', 'es'], ['ary', 'Darija', 'DRJ', 'ary-Latn']];
 export function setLang(l) {
   lang = STR[l] ? l : 'fr';
   if (typeof document !== 'undefined') document.documentElement.lang = LANGS.find((x) => x[0] === lang)[3];
 }
 // Langue utilisée pour Intl (noms de pays, tri) : le darija retombe sur le français.
-export const intlLang = (l = lang) => (l === 'en' ? 'en' : 'fr');
+export const intlLang = (l = lang) => (['en', 'es'].includes(l) ? l : 'fr');
 export const t = (k) => STR[lang][k] ?? STR.fr[k];
 export const moodLabel = (m) => STR[lang].moods[m] || m;
 
 // Langue et pays par défaut d'après le navigateur.
 export function guessLang(langs = []) {
-  return langs.some((l) => /^fr\b/i.test(l)) || !langs.length ? 'fr' : (langs.some((l) => /^en\b/i.test(l)) ? 'en' : 'fr');
+  // Première langue du navigateur que l'appli sait afficher (sinon français).
+  for (const l of langs) {
+    const m = /^(fr|en|es)\b/i.exec(l);
+    if (m) return m[1].toLowerCase();
+  }
+  return 'fr';
 }
 export function guessCountry(langs = []) {
   for (const l of langs) {

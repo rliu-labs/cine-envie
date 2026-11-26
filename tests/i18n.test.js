@@ -14,6 +14,8 @@ test('langue par défaut', () => {
   assert.equal(guessLang(['en-GB']), 'en');
   assert.equal(guessLang(['fr-FR', 'en']), 'fr');
   assert.equal(guessLang(['de-DE']), 'fr');
+  assert.equal(guessLang(['es-ES', 'fr']), 'es');
+  assert.equal(guessLang(['de-DE', 'es']), 'es');
 });
 
 test('liste des pays européens complète et triée', () => {
@@ -24,18 +26,19 @@ test('liste des pays européens complète et triée', () => {
   assert.deepEqual(names, [...names].sort((a, b) => a.localeCompare(b, 'fr')));
 });
 
-test('chaque texte existe en français, en anglais et en darija', async () => {
+test('chaque texte existe dans les 4 langues', async () => {
   const src = await import('node:fs').then((fs) => fs.readFileSync(new URL('../js/i18n.js', import.meta.url), 'utf8'));
   const keys = (block) => [...block.matchAll(/(?:^\s{4}|, )(\w+): /gm)].map((m) => m[1]).sort();
   const block = (l) => src.split(new RegExp(`^\\s{2}${l}: \\{$`, 'm'))[1].split(/^\s{2}(?:\w+: \{|\};)$/m)[0].split(/^\s{4}moods:/m)[0];
   const fr = keys(block('fr'));
   assert.ok(fr.length > 90, `${fr.length} clés`);
   assert.deepEqual(keys(block('en')), fr);
+  assert.deepEqual(keys(block('es')), fr);
   assert.deepEqual(keys(block('ary')), fr);
 });
 
 test('darija : 3e langue, pays en français, humeurs traduites', () => {
-  assert.deepEqual(LANGS.map((l) => l[0]), ['fr', 'en', 'ary']);
+  assert.deepEqual(LANGS.map((l) => l[0]), ['fr', 'en', 'es', 'ary']);
   setLang('ary');
   assert.equal(getLang(), 'ary');
   assert.equal(t('find'), '9elleb');
@@ -59,4 +62,16 @@ test('noms de genres dans les deux langues', () => {
   assert.equal(genreMaps('fr').movie[35], 'Comédie');
   assert.equal(genreMaps('en').movie[35], 'Comedy');
   assert.deepEqual(Object.keys(genreMaps('fr').tv), Object.keys(genreMaps('en').tv));
+});
+
+test('espagnol : interface, pays et genres', () => {
+  setLang('es');
+  assert.equal(t('find'), 'Buscar');
+  assert.equal(moodLabel('drôle'), 'divertida');
+  assert.equal(intlLang(), 'es');
+  assert.equal(countryName('DE'), 'Alemania');
+  assert.equal(genreMaps('es').movie[27], 'Terror');
+  assert.deepEqual(Object.keys(genreMaps('es').movie), Object.keys(genreMaps('fr').movie));
+  assert.deepEqual(Object.keys(genreMaps('es').tv), Object.keys(genreMaps('fr').tv));
+  setLang('fr');
 });

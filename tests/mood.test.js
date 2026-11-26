@@ -149,3 +149,33 @@ test('le darija ne crée pas de faux positifs en français ou en anglais', () =>
     assert.deepEqual(parseMood(q).moods, [], q);
   }
 });
+
+test('recherche en espagnol, y compris le registre familier', () => {
+  const cas = {
+    'una noche tranquila y divertida': 'cosy',
+    'una peli para partirse de risa': 'drôle',
+    'una serie con giros y misterio': 'intrigue',
+    'algo que dé miedo': 'frissons',
+    'algo que me haga llorar': 'émotion',
+    'una peli de tiros': 'action',
+    'una comedia romántica': 'romance',
+    'ciencia ficción con viajes en el tiempo': 'SF',
+    'para ver con los críos': 'famille',
+    'un documental basado en hechos reales': 'docu / histoire vraie',
+    'un atraco': 'crime',
+    'una peli de padre': 'film de daron',
+  };
+  for (const [q, m] of Object.entries(cas)) assert.ok(parseMood(q).moods.includes(m), `${q} -> ${m}`);
+});
+
+test('espagnol : type, récent, court, classique et titre de référence', () => {
+  const r = parseMood('una serie reciente de suspense como Dark y con giros');
+  assert.equal(r.type, 'tv');
+  assert.ok(r.recent);
+  assert.equal(r.similarTo, 'Dark');
+  assert.ok(r.moods.includes('intrigue'));
+  assert.equal(parseMood('una peli de acción').type, 'movie');
+  assert.ok(parseMood('algo corto').short);
+  assert.ok(parseMood('un clásico de los 80').classic);
+  assert.equal(parseMood('un atraco al estilo de Ocean\'s Eleven').similarTo, 'Ocean\'s Eleven');
+});
