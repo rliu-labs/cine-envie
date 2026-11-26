@@ -86,6 +86,9 @@ select { font: inherit; color: var(--fg); background: var(--bg2); border: 1px so
 footer#credits { max-width: 1400px; margin: 2rem auto 0; padding: 1.25rem 1rem calc(1.25rem + env(safe-area-inset-bottom)); border-top: 1px solid var(--bg3); color: var(--mut); font-size: .8rem; }
 footer#credits p { margin: .35rem 0 0; }
 footer#credits .tmdb-logo img { display: block; height: 16px; width: auto; }
+footer#credits .about { margin-top: .6rem; }
+footer#credits .about summary { cursor: pointer; width: fit-content; }
+footer#credits .about p { max-width: 70ch; }
 .rating { display: flex; align-items: center; gap: .15rem; flex-wrap: wrap; margin-top: 1rem; }
 .rating .hint { margin-right: .5rem; }
 .rating .star { background: none; padding: .1rem .25rem; font-size: 1.6rem; line-height: 1; color: var(--bg3); }
