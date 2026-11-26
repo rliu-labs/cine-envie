@@ -1,7 +1,7 @@
-import { parseMood, scoreItem, genreMaps, buildProfile } from './mood.js?v=16';
-import * as api from './tmdb.js?v=16';
-import * as store from './store.js?v=16';
-import { t, getLang, setLang, LANGS, moodLabel, DEFAULT_LANG, guessCountry, countryName, countryOptions } from './i18n.js?v=16';
+import { parseMood, scoreItem, genreMaps, buildProfile } from './mood.js?v=17';
+import * as api from './tmdb.js?v=17';
+import * as store from './store.js?v=17';
+import { t, getLang, setLang, LANGS, moodLabel, DEFAULT_LANG, guessCountry, countryName, countryOptions } from './i18n.js?v=17';
 
 const $ = (s, el = document) => el.querySelector(s);
 const view = $('#view');
@@ -81,14 +81,20 @@ function closeLangMenu(refocus = false) {
   if (refocus) $('.lm-btn', box).focus();
 }
 
-// Mention TMDB obligatoire (logo + phrase exacte des conditions d'utilisation), en pied de page.
+// Mention TMDB obligatoire (logo + phrase exacte des conditions d'utilisation), puis « À propos » repliable
+// (confidentialité, marques, mentions légales), en pied de page : visible même sans clé TMDB.
 function renderFooter() {
   let f = $('#credits');
   if (!f) { f = document.createElement('footer'); f.id = 'credits'; document.body.appendChild(f); }
   f.innerHTML = `
     <a href="https://www.themoviedb.org" target="_blank" rel="noopener" class="tmdb-logo"><img src="icons/tmdb.svg" alt="TMDB" width="120" height="16"></a>
     <p>${t('tmdbNotice')} This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
-    <p>${t('justwatch')} <a href="https://www.justwatch.com" target="_blank" rel="noopener">JustWatch</a>.</p>`;
+    <p>${t('justwatch')} <a href="https://www.justwatch.com" target="_blank" rel="noopener">JustWatch</a>.</p>
+    <details class="about"><summary>${t('about')}</summary>
+      <p>${t('privacyNote')}</p>
+      <p>${t('trademarks')}</p>
+      <p>${t('legalNotice')}</p>
+    </details>`;
 }
 
 // Bandeau « Sur tes plateformes : … » (ou lien pour les choisir)

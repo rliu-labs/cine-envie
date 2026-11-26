@@ -133,7 +133,8 @@ Ciné‑Envie est conçu pour ne rien savoir de toi.
 |---|---|
 | 🖥️ **Aucun serveur** | Site 100 % statique hébergé sur GitHub Pages, servi en HTTPS. |
 | 🔑 **Ta clé reste chez toi** | La clé TMDB est stockée dans ton navigateur et envoyée uniquement à l'API TMDB. |
-| 🙈 **Aucun pistage** | Pas de statistiques, de publicité, de cookies ni de service tiers. |
+| 🙈 **Aucun pistage** | Pas de statistiques, de publicité ni de cookies. |
+| 🌐 **Ce que ton navigateur contacte** | TMDB (données et images) et GitHub Pages, qui héberge l'appli et peut enregistrer ton adresse IP. Les bandes-annonces s'ouvrent sur YouTube. |
 | 📦 **Zéro dépendance** | La page ne charge aucun paquet npm ni script externe : rien qui puisse être compromis en amont. (Les seuls paquets npm servent à générer les captures, jamais à l'appli.) |
 | 🛡️ **Content Security Policy** | Le navigateur bloque tout script étranger et toute connexion hors de TMDB. |
 | 🧹 **Données échappées** | Tout ce qui vient de TMDB ou d'un import est neutralisé avant affichage. |
@@ -176,5 +177,9 @@ Données et images de films et séries : [TMDB](https://www.themoviedb.org/).
 Disponibilités streaming : [JustWatch](https://www.justwatch.com/), via l'API TMDB.
 
 Icône : pictogramme « clapperboard » de [Lucide](https://lucide.dev) (licence ISC, voir [icons/LICENSE-lucide.txt](icons/LICENSE-lucide.txt)).
+
+Netflix, Prime Video, Disney+ et les autres noms et logos de plateformes sont des marques de leurs propriétaires. Ciné‑Envie n'est affilié à aucun de ces services, ni à TMDB ou JustWatch.
+
+Mentions légales : projet personnel, gratuit et non commercial, publié par rliu-labs et hébergé par GitHub, Inc. (88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis). Contact : [issues GitHub](https://github.com/rliu-labs/cine-envie/issues).
 
 Code sous licence [MIT](LICENSE).

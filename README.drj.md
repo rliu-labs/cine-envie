@@ -121,7 +121,8 @@ Ciné‑Envie mdayra bach ma t3ref 7tta 7aja 3lik.
 |---|---|
 | 🖥️ **Bla serveur** | Site statique 100 %, f GitHub Pages, b HTTPS. |
 | 🔑 **L clé dyalek katb9a 3endek** | Clé TMDB m7fouda f navigateur dyalek w katsifet ghir l API dyal TMDB. |
-| 🙈 **Bla tracking** | Bla statistiques, bla publicité, bla cookies, bla services dyal nas khrin. |
+| 🙈 **Bla tracking** | Bla statistiques, bla publicité, bla cookies. |
+| 🌐 **Chno kaytwasel m3ah navigateur dyalek** | TMDB (data w tsawer) w GitHub Pages, li fih l appli w ymken ysjjel l adresse IP dyalek. Les bandes-annonces kayt7lo f YouTube. |
 | 📦 **0 dépendance** | L page ma katchargi 7tta package npm wla script mn barra : walo li y9der yt5errb mn l'extérieur. (Les packages npm kaynin ghir bach ndiro les captures, l'appli ma kat5demch bihom.) |
 | 🛡️ **Content Security Policy** | L navigateur kaybloqui ay script gharib w ay connexion barra TMDB. |
 | 🧹 **Data m9adda** | Kolchi li jay mn TMDB wla mn import kayt9adda 9bel ma yban. |
@@ -164,5 +165,9 @@ Data w tsawer dyal aflam w msalsalat : [TMDB](https://www.themoviedb.org/).
 Disponibilités streaming : [JustWatch](https://www.justwatch.com/), 3la API dyal TMDB.
 
 Icône : pictogramme « clapperboard » mn [Lucide](https://lucide.dev) (licence ISC, chouf [icons/LICENSE-lucide.txt](icons/LICENSE-lucide.txt)).
+
+Netflix, Prime Video, Disney+ w smiyat w logos dyal plateformes khrin homa marques dyal moualin dyalhom. Ciné‑Envie ma3ndha 7ta 3ala9a m3a had les services, wla m3a TMDB wla JustWatch.
+
+Mentions légales : projet perso, batel w machi commercial, nachro rliu-labs, w l hébergeur howa GitHub, Inc. (88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA). Contact : [issues GitHub](https://github.com/rliu-labs/cine-envie/issues).
 
 Code ta7t licence [MIT](LICENSE).
