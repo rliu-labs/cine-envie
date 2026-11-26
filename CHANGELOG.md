@@ -2,7 +2,7 @@
 
 ## 0.9.0 (novembre 2026)
 - Espagnol : interface complète (4e choix du menu de langue et des réglages), recherche par envie en espagnol avec le registre familier, genres et fiches TMDB en espagnol.
-- README principal en anglais, version française dans README.fr.md (lien pour passer de l’une à l’autre).
+- README en 4 langues : anglais (principal), français, espagnol et darija, avec un sélecteur en haut de chaque version ; bannière et capture d’accueil dans chaque langue.
 
 ## 0.8.0 (novembre 2026)
 - Interface complète en darija marocain (lettres latines), 3e choix du menu de langue et des réglages.

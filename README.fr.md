@@ -1,4 +1,4 @@
-<p align="center"><a href="README.md">English</a> · <b>Français</b></p>
+<p align="center"><a href="README.md">English</a> · <b>Français</b> · <a href="README.es.md">Español</a> · <a href="README.drj.md">Darija</a></p>
 
 <p align="center">
   <img src="docs/banner.svg" alt="Ciné‑Envie : dis ce que tu as envie de regarder, l'appli trouve le film ou la série" width="100%">

@@ -1,4 +1,4 @@
-<p align="center"><b>English</b> · <a href="README.fr.md">Français</a></p>
+<p align="center"><b>English</b> · <a href="README.fr.md">Français</a> · <a href="README.es.md">Español</a> · <a href="README.drj.md">Darija</a></p>
 
 <p align="center">
   <img src="docs/banner.en.svg" alt="Ciné‑Envie: say what you feel like watching, the app finds the movie or series" width="100%">
@@ -36,7 +36,7 @@ You describe what you feel like watching the way you would tell a friend, **in E
 It is an installable web app (PWA) with no server, no account and no dependencies: plain HTML, CSS and native JavaScript.
 
 <p align="center">
-  <img src="docs/accueil.png" alt="Ciné‑Envie home screen" width="760">
+  <img src="docs/accueil.en.png" alt="Ciné‑Envie home screen" width="760">
 </p>
 
 ## Features
