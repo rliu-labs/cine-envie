@@ -1,4 +1,4 @@
-<p align="center"><a href="README.md">English</a> · <b>Français</b> · <a href="README.es.md">Español</a> · <a href="README.drj.md">Darija</a></p>
+<p align="center"><a href="README.md">English</a> · <a href="README.drj.md">Darija</a> · <a href="README.de.md">Deutsch</a> · <a href="README.es.md">Español</a> · <b>Français</b> · <a href="README.it.md">Italiano</a> · <a href="README.pt.md">Português</a></p>
 
 <p align="center">
   <img src="docs/banner.svg" alt="Ciné‑Envie : dis ce que tu as envie de regarder, l'appli trouve le film ou la série" width="100%">
@@ -28,7 +28,7 @@
 ---
 
 **Ciné‑Envie** répond à la question de tous les soirs : *« on regarde quoi ? »*.
-Tu écris ton envie comme tu la dirais à un ami, **en français, en anglais, en espagnol ou en darija marocain**, et l'appli propose des films et séries qui collent, avec **où les regarder légalement dans ton pays** (31 pays européens).
+Tu écris ton envie comme tu la dirais à un ami, **en français, anglais, espagnol, allemand, italien, portugais ou darija marocain**, et l'appli propose des films et séries qui collent, avec **où les regarder légalement dans ton pays** (31 pays européens).
 
 > « soirée cosy, drôle avec de l'intrigue comme À couteaux tirés »
 > → humeurs *cosy, drôle, intrigue* · pas d'horreur ni de thriller · proche de *À couteaux tirés*
@@ -44,7 +44,7 @@ C'est une application web installable (PWA), sans serveur, sans compte, sans dé
 | | |
 |---|---|
 | 💬 **Envie** | Recherche en langage naturel, langage familier compris : humeurs, genres à éviter, film ou série, récent / court / classique, titre de référence (« comme Dark », « like Dark », « como Dark », « b7al Dark »). |
-| 🌍 **4 langues** | Interface et recherche en **français**, **anglais**, **espagnol** et **darija marocain** (lettres latines, avec les chiffres 3, 7, 9…). L’appli s’ouvre en anglais, et la langue se change en un clic depuis le menu déroulant de l’en-tête (globe) ou dans les réglages. |
+| 🌍 **7 langues** | Interface et recherche en **anglais**, **darija marocain** (lettres latines, avec les chiffres 3, 7, 9…), **allemand**, **espagnol**, **français**, **italien** et **portugais**. L’appli s’ouvre en anglais, et la langue se change en un clic depuis le menu déroulant de l’en-tête (globe) ou dans les réglages. |
 | 📺 **Films et séries** | Recherche, thématiques, tendances, notes et recommandations couvrent films et séries. Sur la page de recherche, un clic choisit **Films**, **Séries** ou **Les deux**. |
 | 🍿 **Mes plateformes** | Dans les réglages, coche tes abonnements (par défaut Netflix, Prime Video et Disney+ ; Canal+, Max… selon ton pays). Ils deviennent des boutons sur la page de recherche : « Toutes » cherche sur l'ensemble de tes plateformes, un clic sur l'une d'elles affine. Tes plateformes sont aussi mises en avant dans chaque fiche. |
 | 📍 **Ton pays** | Choix du pays de résidence parmi 31 pays européens, directement depuis la fiche : les plateformes affichées sont celles disponibles chez toi. |
@@ -57,7 +57,7 @@ C'est une application web installable (PWA), sans serveur, sans compte, sans dé
 
 ## Comment ça marche
 
-Le cœur de l'appli est [`js/mood.js`](js/mood.js) : un petit analyseur de langage naturel (français, anglais, espagnol, darija), sans service externe, qui transforme une phrase en critères de recherche.
+Le cœur de l'appli est [`js/mood.js`](js/mood.js) : un petit analyseur de langage naturel (français, anglais, espagnol, allemand, italien, portugais, darija), sans service externe, qui transforme une phrase en critères de recherche.
 
 ```mermaid
 flowchart LR
@@ -96,7 +96,7 @@ Exemples réels de sortie de l'analyseur :
 
 Chaque résultat reçoit ensuite un score : +3 par genre voulu, −6 par genre exclu, plus la note et la popularité, et un bonus s'il vient des recommandations du titre de référence.
 
-En **espagnol**, l'analyseur comprend aussi le registre familier d'Espagne (« peli », « partirse de risa », « da yuyu », « de tiros »…), et les fiches TMDB s'affichent en espagnol.
+En **espagnol**, l'analyseur comprend aussi le registre familier d'Espagne (« peli », « partirse de risa », « da yuyu », « de tiros »…), et les fiches TMDB s'affichent en espagnol. L'allemand, l'italien et le portugais fonctionnent de la même façon, avec des mots courants de chaque langue (« gruselig », « zum Heulen », « giallo », « da sbellicarsi », « miúdos », « porrada »…) et les mots composés allemands comme « Actionfilm ».
 
 Le **darija** n'a pas d'orthographe fixe en lettres latines : l'analyseur replie d'abord les chiffres-lettres (3 → ع, 7 → ح, 9 → ق…) et les lettres doublées, puis reconnaît les mots avec des motifs souples qui acceptent les variantes (« d7k », « dahk », « kaydahek ») et les préfixes verbaux. L'interface en darija suit la graphie « arabizi » courante au Maroc ; elle mériterait une relecture par un locuteur natif, et les suggestions sont les bienvenues. Les fiches TMDB (titres, résumés) s'affichent alors en français.
 
@@ -110,7 +110,7 @@ Le **profil de goûts** s'ajoute à ce score : chaque note donne à ses genres u
 ├── js/
 │   ├── app.js             Vues, navigation par hash, fiche détaillée
 │   ├── mood.js            Analyse de l'envie et score (pur JS, testé)
-│   ├── i18n.js            Textes FR / EN / ES / darija, pays européens, détection langue et pays
+│   ├── i18n.js            Textes dans les 7 langues, pays européens, détection langue et pays
 │   ├── tmdb.js            Client API TMDB (langue et pays réglables, cache mémoire)
 │   └── store.js           Stockage local : langue, pays, clé, listes, notes, veille
 ├── sw.js                  Service worker (interface hors ligne, cache des affiches)

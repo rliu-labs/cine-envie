@@ -24,19 +24,19 @@ test('liste des pays européens complète et triée', () => {
   assert.deepEqual(names, [...names].sort((a, b) => a.localeCompare(b, 'fr')));
 });
 
-test('chaque texte existe dans les 4 langues', async () => {
+test('chaque texte existe dans les 7 langues', async () => {
   const src = await import('node:fs').then((fs) => fs.readFileSync(new URL('../js/i18n.js', import.meta.url), 'utf8'));
   const keys = (block) => [...block.matchAll(/(?:^\s{4}|, )(\w+): /gm)].map((m) => m[1]).sort();
   const block = (l) => src.split(new RegExp(`^\\s{2}${l}: \\{$`, 'm'))[1].split(/^\s{2}(?:\w+: \{|\};)$/m)[0].split(/^\s{4}moods:/m)[0];
   const fr = keys(block('fr'));
   assert.ok(fr.length > 90, `${fr.length} clés`);
   assert.deepEqual(keys(block('en')), fr);
-  assert.deepEqual(keys(block('es')), fr);
+  for (const l of ['es', 'de', 'it', 'pt']) assert.deepEqual(keys(block(l)), fr, l);
   assert.deepEqual(keys(block('ary')), fr);
 });
 
 test('darija : 3e langue, pays en français, humeurs traduites', () => {
-  assert.deepEqual(LANGS.map((l) => l[0]), ['en', 'ary', 'es', 'fr']);
+  assert.deepEqual(LANGS.map((l) => l[0]), ['en', 'ary', 'de', 'es', 'fr', 'it', 'pt']);
   const rest = LANGS.slice(1).map((l) => l[1]);
   assert.deepEqual(rest, [...rest].sort((a, b) => a.localeCompare(b)));
   setLang('ary');
@@ -73,5 +73,20 @@ test('espagnol : interface, pays et genres', () => {
   assert.equal(genreMaps('es').movie[27], 'Terror');
   assert.deepEqual(Object.keys(genreMaps('es').movie), Object.keys(genreMaps('fr').movie));
   assert.deepEqual(Object.keys(genreMaps('es').tv), Object.keys(genreMaps('fr').tv));
+  setLang('fr');
+});
+
+test('allemand, italien, portugais : interface, pays, genres et langue TMDB', () => {
+  const cas = { de: ['Finden', 'lustig', 'Frankreich', 'Komödie'], it: ['Trova', 'divertente', 'Francia', 'Commedia'], pt: ['Procurar', 'divertido', 'França', 'Comédia'] };
+  for (const [l, [find, funny, france, comedy]] of Object.entries(cas)) {
+    setLang(l);
+    assert.equal(t('find'), find);
+    assert.equal(moodLabel('drôle'), funny);
+    assert.equal(intlLang(), l);
+    assert.equal(countryName('FR'), france);
+    assert.equal(genreMaps(l).movie[35], comedy);
+    assert.deepEqual(Object.keys(genreMaps(l).movie), Object.keys(genreMaps('fr').movie));
+    assert.deepEqual(Object.keys(genreMaps(l).tv), Object.keys(genreMaps('fr').tv));
+  }
   setLang('fr');
 });

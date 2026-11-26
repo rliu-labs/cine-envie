@@ -1,4 +1,4 @@
-// Analyse d'une « envie » en langage naturel (français, anglais, espagnol ou darija marocain en lettres latines) -> critères de recherche TMDB.
+// Analyse d'une « envie » en langage naturel (français, anglais, espagnol, allemand, italien, portugais ou darija marocain en lettres latines) -> critères de recherche TMDB.
 // Pur JS, sans dépendance : testable avec node.
 
 export const MOVIE_GENRES = {
@@ -40,10 +40,47 @@ export const TV_GENRES_ES = {
   9648: 'Misterio', 10765: 'Ciencia ficción y fantasía', 10768: 'Bélica y política', 37: 'Western',
 };
 
+export const MOVIE_GENRES_DE = {
+  28: 'Action', 12: 'Abenteuer', 16: 'Animation', 35: 'Komödie', 80: 'Krimi',
+  99: 'Dokumentarfilm', 18: 'Drama', 10751: 'Familie', 14: 'Fantasy',
+  36: 'Historie', 27: 'Horror', 10402: 'Musik', 9648: 'Mystery',
+  10749: 'Liebesfilm', 878: 'Science-Fiction', 53: 'Thriller', 10752: 'Kriegsfilm', 37: 'Western',
+};
+export const TV_GENRES_DE = {
+  10759: 'Action & Abenteuer', 16: 'Animation', 35: 'Komödie', 80: 'Krimi',
+  99: 'Dokumentarfilm', 18: 'Drama', 10751: 'Familie', 10762: 'Kinder',
+  9648: 'Mystery', 10765: 'Sci-Fi & Fantasy', 10768: 'Krieg & Politik', 37: 'Western',
+};
+export const MOVIE_GENRES_IT = {
+  28: 'Azione', 12: 'Avventura', 16: 'Animazione', 35: 'Commedia', 80: 'Crime',
+  99: 'Documentario', 18: 'Dramma', 10751: 'Famiglia', 14: 'Fantasy',
+  36: 'Storia', 27: 'Horror', 10402: 'Musica', 9648: 'Mistero',
+  10749: 'Romance', 878: 'Fantascienza', 53: 'Thriller', 10752: 'Guerra', 37: 'Western',
+};
+export const TV_GENRES_IT = {
+  10759: 'Azione e avventura', 16: 'Animazione', 35: 'Commedia', 80: 'Crime',
+  99: 'Documentario', 18: 'Dramma', 10751: 'Famiglia', 10762: 'Bambini',
+  9648: 'Mistero', 10765: 'Fantascienza e fantasy', 10768: 'Guerra e politica', 37: 'Western',
+};
+export const MOVIE_GENRES_PT = {
+  28: 'Ação', 12: 'Aventura', 16: 'Animação', 35: 'Comédia', 80: 'Crime',
+  99: 'Documentário', 18: 'Drama', 10751: 'Família', 14: 'Fantasia',
+  36: 'História', 27: 'Terror', 10402: 'Música', 9648: 'Mistério',
+  10749: 'Romance', 878: 'Ficção científica', 53: 'Thriller', 10752: 'Guerra', 37: 'Faroeste',
+};
+export const TV_GENRES_PT = {
+  10759: 'Ação e aventura', 16: 'Animação', 35: 'Comédia', 80: 'Crime',
+  99: 'Documentário', 18: 'Drama', 10751: 'Família', 10762: 'Infantil',
+  9648: 'Mistério', 10765: 'Ficção científica e fantasia', 10768: 'Guerra e política', 37: 'Faroeste',
+};
+
 // Noms de genres dans la langue de l'interface (le darija utilise le français).
 export const genreMaps = (lang) => ({
   en: { movie: MOVIE_GENRES_EN, tv: TV_GENRES_EN },
   es: { movie: MOVIE_GENRES_ES, tv: TV_GENRES_ES },
+  de: { movie: MOVIE_GENRES_DE, tv: TV_GENRES_DE },
+  it: { movie: MOVIE_GENRES_IT, tv: TV_GENRES_IT },
+  pt: { movie: MOVIE_GENRES_PT, tv: TV_GENRES_PT },
 }[lang] || { movie: MOVIE_GENRES, tv: TV_GENRES });
 
 // Chaque humeur : genres films (m), genres séries (t), genres à exclure (x).
@@ -139,7 +176,73 @@ const ES_WORDS = {
   western: ['vaqueros', 'del oeste'],
   musique: ['música', 'musical', 'concierto'],
 };
-for (const m of MOODS) m.words.push(...(ES_WORDS[m.label] || []));
+
+// Allemand, italien et portugais. Un mot qui finit par * est un radical : il couvre
+// les terminaisons (gemütlich*, gemütlicher, gemütliches… ; divertent* : divertente, divertenti…).
+const DE_WORDS = {
+  cosy: ['gemütlich*', 'kuschelig*', 'entspann*', 'wohlfühl*', 'chillig*', 'auf der couch', 'sofaabend', 'zum runterkommen'],
+  'drôle': ['lustig*', 'witzig*', 'komödie*', 'komisch*', 'zum lachen', 'lachen', 'humorvoll*', 'spaßig*', 'albern*', 'zum totlachen', 'brüller'],
+  intrigue: ['rätsel*', 'mysteriös*', 'krimi', 'krimis', 'detektiv*', 'wendung*', 'verwirrend*', 'kopfkino', 'wer ist der mörder'],
+  frissons: ['grusel*', 'angst', 'schaurig*', 'unheimlich*', 'gänsehaut', 'erschreck*', 'zum fürchten', 'schocker', 'horrorfilm*'],
+  tension: ['spannend*', 'spannung*', 'nervenkitzel', 'packend*', 'fesselnd*'],
+  action: ['actionreich*', 'actionfilm*', 'schießerei*', 'prügelei*', 'explosion*', 'ballerei*', 'krachend*'],
+  aventure: ['abenteuer*', 'episch*', 'schatzsuche'],
+  romance: ['romantisch*', 'liebe', 'liebesfilm*', 'liebesgeschichte*', 'schnulz*', 'kitschig*'],
+  'émotion': ['emotional*', 'traurig*', 'weinen', 'heulen', 'rührend*', 'bewegend*', 'zum heulen', 'tränendrüs*'],
+  SF: ['weltraum*', 'zukunft*', 'futuristisch*', 'dystop*', 'außerirdisch*', 'zeitreise*', 'raumschiff*'],
+  fantastique: ['magie', 'magisch*', 'drachen', 'zauber*'],
+  famille: ['familie*', 'kinder', 'mit den kindern', 'kinderfilm*', 'für die ganze familie'],
+  animation: ['animiert*', 'zeichentrick*', 'animationsfilm*', 'trickfilm*'],
+  'docu / histoire vraie': ['doku', 'dokus', 'dokumentar*', 'wahre geschichte', 'wahren begebenheit*', 'wahren geschichte'],
+  historique: ['historisch*', 'krieg', 'kriege', 'kriegsfilm*', 'weltkrieg*', 'mittelalter*', 'kostümfilm*'],
+  crime: ['verbrechen', 'raub*', 'überfall*', 'kriminal*', 'gangsterfilm*'],
+  'film de daron': ['papa-film', 'papafilm', 'vaterfilm', 'film für papa'],
+  western: ['wildwest*'],
+  musique: ['musik*', 'konzert*'],
+};
+const IT_WORDS = {
+  cosy: ['rilassant*', 'accogliente', 'sul divano', 'sotto la coperta', 'coccol*', 'buon umore', 'di buon umore'],
+  'drôle': ['divertent*', 'comico', 'comica', 'comici', 'commedia', 'commedie', 'ridere', 'far ridere', 'risate', 'spassos*', 'esilarant*', 'da sbellicarsi', 'demenzial*'],
+  intrigue: ['mistero', 'misteri', 'misterios*', 'giallo', 'gialli', 'enigm*', 'investigazion*', 'colpo di scena', 'colpi di scena', 'poliziesc*'],
+  frissons: ['paura', 'terrore', 'spavent*', 'inquietant*', 'brividi', 'da brividi', 'che fa paura'],
+  tension: ['tensione', 'avvincent*', 'col fiato sospeso', 'ansiogen*'],
+  action: ['azione', 'sparatori*', 'botte', 'combattiment*', 'esplosion*', 'mazzate'],
+  aventure: ['avventur*', 'viaggio', 'epico', 'epica'],
+  romance: ['romantic*', 'amore', 'storia d\'amore', 'sdolcinat*'],
+  'émotion': ['commovent*', 'piangere', 'far piangere', 'emozionant*', 'strappalacrime', 'dramma', 'drammatic*'],
+  SF: ['fantascienza', 'spazio', 'futuro', 'futuristic*', 'distopi*', 'alieni', 'viaggi nel tempo', 'viaggio nel tempo', 'astronave'],
+  fantastique: ['magia', 'magico', 'magica', 'magici', 'draghi', 'stregon*', 'maghi'],
+  famille: ['famiglia', 'famiglie', 'bambini', 'con i bambini', 'per tutta la famiglia', 'per famiglie'],
+  animation: ['animazione', 'animat*', 'cartoni', 'cartoni animati', 'cartone animato'],
+  'docu / histoire vraie': ['documentari*', 'storia vera', 'tratto da una storia vera', 'fatti reali'],
+  historique: ['storic*', 'guerra', 'in costume'],
+  crime: ['crimin*', 'rapina', 'rapine', 'colpo grosso', 'malavita'],
+  'film de daron': ['film da papà', 'film di papà', 'film per papà'],
+  western: [],
+  musique: ['musica', 'concerto', 'concerti'],
+};
+const PT_WORDS = {
+  cosy: ['tranquil*', 'aconchegant*', 'relaxant*', 'no sofá', 'debaixo da manta', 'para relaxar', 'bem-dispost*', 'sentir bem'],
+  'drôle': ['divertid*', 'engraçad*', 'comédia', 'comédias', 'rir', 'para rir', 'gargalhad*', 'hilariant*', 'cómic*', 'cômic*'],
+  intrigue: ['mistério', 'mistérios', 'misterios*', 'investigação', 'reviravolta*', 'policial', 'detetive*'],
+  frissons: ['medo', 'assustador*', 'arrepiant*', 'meta medo', 'dá medo', 'de arrepiar'],
+  tension: ['tensão', 'eletrizante', 'electrizante', 'de cortar a respiração', 'angustiante'],
+  action: ['ação', 'acção', 'porrada', 'tiroteio*', 'explosões', 'lutas', 'pancadaria'],
+  aventure: ['viagem', 'épico', 'épica'],
+  romance: ['romântic*', 'história de amor', 'lamechas', 'melos*'],
+  'émotion': ['emotiv*', 'comovente*', 'chorar', 'para chorar', 'dramátic*', 'de lágrimas'],
+  SF: ['ficção científica', 'espaço', 'futurist*', 'distópi*', 'alienígenas', 'viagem no tempo', 'nave espacial'],
+  fantastique: ['mágic*', 'dragões', 'feiticeiro*', 'bruxas'],
+  famille: ['família', 'crianças', 'miúdos', 'com os miúdos', 'para toda a família', 'putos'],
+  animation: ['animação', 'animad*', 'desenhos animados'],
+  'docu / histoire vraie': ['documentári*', 'história verídica', 'factos reais', 'fatos reais', 'baseado em factos', 'baseado em fatos'],
+  historique: ['históric*', 'de época'],
+  crime: ['assalto*', 'roubo', 'bandidos'],
+  'film de daron': ['filme de pai', 'filme de cota', 'filme do meu pai'],
+  western: ['faroeste'],
+  musique: ['música', 'concerto'],
+};
+for (const m of MOODS) for (const w of [ES_WORDS, DE_WORDS, IT_WORDS, PT_WORDS]) m.words.push(...(w[m.label] || []));
 
 // Darija marocain écrit en lettres latines (« arabizi ») : pas d'orthographe standard.
 // On replie d'abord le texte (chiffres-lettres 3, 7, 9…, lettres doublées), puis on
@@ -180,15 +283,39 @@ const DARIJA_FLAGS = {
   classic: /^(qdim|qdima|qdam)$/,
 };
 
-const SIMILAR_RE = /(?:\b(?:b7al|bhal|b7el|bhel|f7al|fhal)|similaire\s+(?:à|a)|comme|\bcomo|parecid[ao]s?\s+a|al\s+estilo\s+de|en\s+plan|del\s+estilo\s+de|\btipo|dans\s+le\s+style\s+(?:de|d')|façon|facon|du\s+genre\s+(?:de\s+)?|à\s+la|qui\s+ressemble\s+(?:à|a)|proche\s+de|similar\s+to|(?<!\b(?:would|i|we|you|they|feel|feels|feeling|'d)\s)like|in\s+the\s+(?:style|vein|spirit)\s+of|reminiscent\s+of|along\s+the\s+lines\s+of)\s+["«“]?([^,;.!?"»”]+)/i;
+const SIMILAR_RE = /(?:\b(?:b7al|bhal|b7el|bhel|f7al|fhal)|similaire\s+(?:à|a)|comme|\bcomo|parecid[ao]s?\s+(?:a|com)|ao\s+estilo\s+de|\bwie|ähnlich\s+wie|im\s+stil\s+von|(?<!\b(?:to|will|can|could|would|i|you|we|they|please)\s)\bcome(?!\s+(?:on|back|home|out|in|up|over|along|together|true|alive|with)\b)|simile\s+a|nello\s+stile\s+di|al\s+estilo\s+de|en\s+plan|del\s+estilo\s+de|\btipo|dans\s+le\s+style\s+(?:de|d')|façon|facon|du\s+genre\s+(?:de\s+)?|à\s+la|qui\s+ressemble\s+(?:à|a)|proche\s+de|similar\s+to|(?<!\b(?:would|i|we|you|they|feel|feels|feeling|'d)\s)like|in\s+the\s+(?:style|vein|spirit)\s+of|reminiscent\s+of|along\s+the\s+lines\s+of)\s+["«“]?([^,;.!?"»”]+)/i;
 
 function norm(s) {
   return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 }
 
 function hasWord(text, word) {
-  const w = norm(word).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  return new RegExp(`(^|[^a-z0-9])${w}([^a-z0-9]|$)`).test(text);
+  const stem = word.endsWith('*'); // radical : accepte n'importe quelle terminaison
+  const w = norm(stem ? word.slice(0, -1) : word).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`(^|[^a-z0-9])${w}${stem ? '' : '([^a-z0-9]|$)'}`).test(text);
+}
+
+// Titre de référence : on coupe à la première conjonction qui introduit autre chose
+// (« Dark et drôle », « Dark que j'ai adoré »), mais on garde les titres qui contiennent
+// « et / con / e » quand la suite ne décrit aucune envie (« Cena con delitto »).
+const CUT_ALWAYS = /\s+(mais|but|that|which|que|pero|aber|ma|mas|walakin|wlakin)\s/i;
+const CUT_IF_MOOD = /\s+(et|avec|and|with|w|m3a|y|con|und|mit|e|com)\s/gi;
+function describesSomething(text) {
+  const r = parseMood(text);
+  return r.moods.length > 0 || r.type !== 'all' || r.recent || r.short || r.classic;
+}
+function cleanTitle(s) {
+  let title = s.trim();
+  const always = title.match(CUT_ALWAYS);
+  if (always) title = title.slice(0, always.index);
+  // On teste chaque morceau entre deux conjonctions : « Fast and Furious and funny »
+  // garde « Fast and Furious » et coupe avant « funny ».
+  const cuts = [...title.matchAll(CUT_IF_MOOD)];
+  for (const [i, m] of cuts.entries()) {
+    const end = cuts[i + 1] ? cuts[i + 1].index : title.length;
+    if (describesSomething(title.slice(m.index + m[0].length, end))) return title.slice(0, m.index).trim();
+  }
+  return title.trim();
 }
 
 export function parseMood(input) {
@@ -200,7 +327,7 @@ export function parseMood(input) {
   };
 
   const sim = raw.match(SIMILAR_RE);
-  if (sim) res.similarTo = sim[1].trim().replace(/\s+(et|mais|avec|and|but|with|that|which|w|walakin|wlakin|m3a|y|pero|con|que)\s.*$/i, '').trim();
+  if (sim) res.similarTo = cleanTitle(sim[1]);
 
   // Retire le titre cité pour ne pas en déduire des humeurs (ex. « comme Mission Impossible »)
   // (on garde ce qui suit le titre : « comme Dark et drôle », « b7al Dark w fih d7k »)
@@ -231,16 +358,16 @@ export function parseMood(input) {
   // Un genre demandé explicitement ne doit pas être exclu par une autre humeur
   for (const g of res.movieGenres) res.exclude.delete(g);
 
-  if (/\b(serie|series|saisons?|episodes?|show|shows|tv|seasons?|binge|binger|bingewatch|binge-watch|temporadas?|capitulos?|maraton)\b/.test(moodText)) res.type = 'tv';
-  else if (/\b(film|films|long[- ]metrage|movie|movies|pelicula|peliculas|peli|pelis)\b/.test(moodText)) res.type = 'movie';
-  if (/\b(recent|recents|nouveau|nouveaute|nouveautes|sorti recemment|cette annee|qui vient de sortir|du moment|new|newer|latest|this year|recently released|brand new|reciente|recientes|nueva|nuevas|nuevo|nuevos|estreno|estrenos|este ano|de este ano)\b/.test(moodText)) res.recent = true;
-  if (/\b(court|courte|rapide|pas trop long|vite fait|pas long|short|quick|not too long|quick watch|corta|corto|cortita|no muy larga|no muy largo)\b/.test(moodText)) res.short = true;
+  if (/\b(serie|series|saisons?|episodes?|show|shows|tv|seasons?|binge|binger|bingewatch|binge-watch|temporadas?|capitulos?|maraton|serien|staffeln?|folgen|stagion[ei]|puntate|episodi|episodios)\b/.test(moodText)) res.type = 'tv';
+  else if (/\b[a-z]{3,}film(e|en)?\b/.test(moodText) || /\b(film|films|long[- ]metrage|movie|movies|pelicula|peliculas|peli|pelis|filme|spielfilm|filmes)\b/.test(moodText)) res.type = 'movie';
+  if (/\b(recent|recents|nouveau|nouveaute|nouveautes|sorti recemment|cette annee|qui vient de sortir|du moment|new|newer|latest|this year|recently released|brand new|reciente|recientes|nueva|nuevas|nuevo|nuevos|estreno|estrenos|este ano|de este ano|neu|neue|neuer|neues|aktuell|aktuelle|dieses jahr|recente|recenti|nuovo|nuova|nuovi|uscito da poco|di quest'anno|novo|novos|nova|novas|estreia|estreias|deste ano|acabado de sair)\b/.test(moodText)) res.recent = true;
+  if (/\b(court|courte|rapide|pas trop long|vite fait|pas long|short|quick|not too long|quick watch|corta|corto|cortita|no muy larga|no muy largo|kurz|kurzer|kurze|nicht zu lang|breve|brevi|non troppo lungo|curto|curta|nao muito longo)\b/.test(moodText)) res.short = true;
   if (tokens.some((w) => DARIJA_FLAGS.tv.test(w))) res.type = 'tv';
   else if (res.type === 'all' && tokens.some((w) => DARIJA_FLAGS.movie.test(w))) res.type = 'movie';
   if (tokens.some((w) => DARIJA_FLAGS.recent.test(w)) || / (ad|yalah) (khrej|khrjat|kherj) /.test(folded)) res.recent = true;
   if (tokens.some((w) => DARIJA_FLAGS.short.test(w)) || / mach(i)? t[ae]?wil/.test(folded)) res.short = true;
   if (tokens.some((w) => DARIJA_FLAGS.classic.test(w)) || / dyal (zman|zaman) /.test(folded)) res.classic = true;
-  if (/\b(classique|culte|vieux|ancien|annees \d0|classic|classics|cult|old|oldies?|\d0s|clasico|clasica|clasicos|clasicas|de culto|antigua|antiguo|de los \d0|anos \d0)\b/.test(moodText)) res.classic = true;
+  if (/\b(classique|culte|vieux|ancien|annees \d0|classic|classics|cult|old|oldies?|\d0s|clasico|clasica|clasicos|clasicas|de culto|antigua|antiguo|de los \d0|anos \d0|klassiker|kult|kultfilm|\d0er|classico|classici|vecchio|vecchi|anni \d0|classica|antigo|antigos)\b/.test(moodText)) res.classic = true;
 
   return res;
 }

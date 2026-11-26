@@ -1,4 +1,4 @@
-<p align="center"><b>English</b> · <a href="README.fr.md">Français</a> · <a href="README.es.md">Español</a> · <a href="README.drj.md">Darija</a></p>
+<p align="center"><b>English</b> · <a href="README.drj.md">Darija</a> · <a href="README.de.md">Deutsch</a> · <a href="README.es.md">Español</a> · <a href="README.fr.md">Français</a> · <a href="README.it.md">Italiano</a> · <a href="README.pt.md">Português</a></p>
 
 <p align="center">
   <img src="docs/banner.en.svg" alt="Ciné‑Envie: say what you feel like watching, the app finds the movie or series" width="100%">
@@ -28,7 +28,7 @@
 ---
 
 **Ciné‑Envie** answers the question everyone asks every evening: *"what shall we watch?"*.
-You describe what you feel like watching the way you would tell a friend, **in English, French, Spanish or Moroccan Darija**, and the app suggests matching movies and series, along with **where to stream them legally in your country** (31 European countries).
+You describe what you feel like watching the way you would tell a friend, **in English, French, Spanish, German, Italian, Portuguese or Moroccan Darija**, and the app suggests matching movies and series, along with **where to stream them legally in your country** (31 European countries).
 
 > "A cozy, funny night with some mystery, like Knives Out"
 > → moods *cozy, funny, mystery* · no horror or thriller · similar to *Knives Out*
@@ -44,7 +44,7 @@ It is an installable web app (PWA) with no server, no account and no dependencie
 | | |
 |---|---|
 | 💬 **Mood search** | Natural-language search that understands slang: moods, genres to avoid, movie or series, recent / short / classic, and a reference title ("like Dark", "comme Dark", "como Dark", "b7al Dark"). |
-| 🌍 **4 languages** | Interface and search in **English**, **French**, **Spanish** and **Moroccan Darija** (Latin script, with the digits 3, 7, 9…). The app opens in English, and you can switch in one click from the header dropdown (globe) or in the settings. |
+| 🌍 **7 languages** | Interface and search in **English**, **Darija** (Moroccan), **German**, **Spanish**, **French**, **Italian** and **Portuguese**; Darija is written in Latin script, with the digits 3, 7, 9… The app opens in English, and you can switch in one click from the header dropdown (globe) or in the settings. |
 | 📺 **Movies and series** | Search, genres, trending, ratings and recommendations cover both movies and series. On the search page, one click picks **Movies**, **Series** or **Both**. |
 | 🍿 **My streaming services** | In the settings, tick your subscriptions (Netflix, Prime Video and Disney+ by default; Canal+, Max… depending on your country). They become buttons on the search page: "All" searches across all your services, and clicking one narrows it down. Your services are also highlighted on every title page. |
 | 📍 **Your country** | Pick your country of residence among 31 European countries, right from the title page: the services shown are the ones available where you live. |
@@ -57,7 +57,7 @@ It is an installable web app (PWA) with no server, no account and no dependencie
 
 ## How it works
 
-The heart of the app is [`js/mood.js`](js/mood.js): a small natural-language parser (English, French, Spanish, Darija), with no external service, that turns a sentence into search criteria.
+The heart of the app is [`js/mood.js`](js/mood.js): a small natural-language parser (English, French, Spanish, German, Italian, Portuguese, Darija), with no external service, that turns a sentence into search criteria.
 
 ```mermaid
 flowchart LR
@@ -86,10 +86,13 @@ Real parser output:
 | bghit chi film dyal d7k | funny | movie | | |
 | msalsal jdid b7al Dark w fih d7k | funny | series · recent | | Dark |
 | soirée cosy, film dyal d7k w l7ob | cozy, funny, romance | movie | Horror, Thriller, War | |
+| ein neuer Actionfilm, der sich nicht zu ernst nimmt | action | movie · recent | | |
+| una serata rilassante, divertente e con un po' di mistero, come Cena con delitto | cozy, funny, mystery | all | Horror, Thriller, War | Cena con delitto |
+| um filme curto para rir com os miúdos | funny, family | movie · short | Horror | |
 
 Each result then gets a score: +3 per wanted genre, −6 per excluded genre, plus its rating and popularity, and a bonus if it comes from the reference title's recommendations.
 
-In **Spanish**, the parser also understands everyday slang from Spain ("peli", "partirse de risa", "da yuyu", "de tiros"…), and TMDB title pages are shown in Spanish.
+In **Spanish**, the parser also understands everyday slang from Spain ("peli", "partirse de risa", "da yuyu", "de tiros"…), and TMDB title pages are shown in Spanish. German, Italian and Portuguese work the same way, with everyday words in each ("gruselig", "zum Heulen", "giallo", "da sbellicarsi", "miúdos", "porrada"…) and German compound words such as "Actionfilm".
 
 **Darija** has no fixed spelling in Latin script: the parser first folds the letter-digits (3 → ع, 7 → ح, 9 → ق…) and doubled letters, then recognises words with flexible patterns that accept spelling variants ("d7k", "dahk", "kaydahek") and verb prefixes. The Darija interface follows the "Arabizi" spelling commonly used in Morocco; it would benefit from a review by a native speaker, and suggestions are welcome. TMDB title pages are then shown in French.
 
@@ -103,7 +106,7 @@ The **taste profile** adds to this score: each rating gives its genres an affini
 ├── js/
 │   ├── app.js             Views, hash navigation, title page
 │   ├── mood.js            Mood parsing and scoring (pure JS, tested)
-│   ├── i18n.js            EN / FR / ES / Darija strings, European countries, language and country detection
+│   ├── i18n.js            Strings in 7 languages, European countries, language and country detection
 │   ├── tmdb.js            TMDB API client (configurable language and country, in-memory cache)
 │   └── store.js           Local storage: language, country, key, lists, ratings, last visit
 ├── sw.js                  Service worker (offline interface, poster cache)

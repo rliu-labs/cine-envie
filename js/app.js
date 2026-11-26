@@ -1,7 +1,7 @@
-import { parseMood, scoreItem, genreMaps, buildProfile } from './mood.js?v=15';
-import * as api from './tmdb.js?v=15';
-import * as store from './store.js?v=15';
-import { t, getLang, setLang, LANGS, moodLabel, DEFAULT_LANG, guessCountry, countryName, countryOptions } from './i18n.js?v=15';
+import { parseMood, scoreItem, genreMaps, buildProfile } from './mood.js?v=16';
+import * as api from './tmdb.js?v=16';
+import * as store from './store.js?v=16';
+import { t, getLang, setLang, LANGS, moodLabel, DEFAULT_LANG, guessCountry, countryName, countryOptions } from './i18n.js?v=16';
 
 const $ = (s, el = document) => el.querySelector(s);
 const view = $('#view');

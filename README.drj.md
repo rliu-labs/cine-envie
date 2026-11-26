@@ -1,4 +1,4 @@
-<p align="center"><a href="README.md">English</a> · <a href="README.fr.md">Français</a> · <a href="README.es.md">Español</a> · <b>Darija</b></p>
+<p align="center"><a href="README.md">English</a> · <b>Darija</b> · <a href="README.de.md">Deutsch</a> · <a href="README.es.md">Español</a> · <a href="README.fr.md">Français</a> · <a href="README.it.md">Italiano</a> · <a href="README.pt.md">Português</a></p>
 
 <p align="center">
   <img src="docs/banner.drj.svg" alt="Ciné‑Envie : gol chno bghiti tchouf, w l'appli katl9a lik l film wla l msalsal" width="100%">
@@ -28,7 +28,7 @@
 ---
 
 **Ciné‑Envie** kayjaweb 3la so2al dyal kol lila : *« chno nchoufo ? »*.
-Katkteb chno bghiti b7al ila katgoulha l sa7bek, **b darija, b l fransawiya, b l engliziya wla b sbanyoliya**, w l'appli kat9tare7 3lik aflam w msalsalat li kayjiw m3a dou9ek, w **fin tchoufhom b l9anoun f bladek** (31 blad f Oroppa).
+Katkteb chno bghiti b7al ila katgoulha l sa7bek, **b darija, fransawiya, engliziya, sbanyoliya, almaniya, taliyaniya wla portugaliya**, w l'appli kat9tare7 3lik aflam w msalsalat li kayjiw m3a dou9ek, w **fin tchoufhom b l9anoun f bladek** (31 blad f Oroppa).
 
 > « bghit chi film dyal d7k w fih lghaz »
 > → mood *d7k, lghaz* · film
@@ -44,7 +44,7 @@ Hiya application web katinstalla (PWA), bla serveur, bla compte, bla dépendance
 | | |
 |---|---|
 | 💬 **Chno bghit** | Bi7t b lougha 3adiya, kayfhem 7tta l hadra dyal zn9a : l mood, les genres li ma bghitihomch, film wla msalsal, jdid / 9sir / dyal zman, w film li bghiti b7alo (« b7al Dark », « like Dark », « comme Dark », « como Dark »). |
-| 🌍 **4 loughat** | L'interface w l bi7t b **darija**, **fransawiya**, **engliziya** w **sbanyoliya**. Darija kattketeb b l7rouf latiniya m3a l ar9am 3, 7, 9… L'appli kat7ell b l engliziya, w katbeddel lougha b click wa7ed mn l menu li f lfou9 (globe) wla mn Réglages. |
+| 🌍 **7 loughat** | L'interface w l bi7t b **engliziya**, **darija**, **almaniya**, **sbanyoliya**, **fransawiya**, **taliyaniya** w **portugaliya**. Darija kattketeb b l7rouf latiniya m3a l ar9am 3, 7, 9… L'appli kat7ell b l engliziya, w katbeddel lougha b click wa7ed mn l menu li f lfou9 (globe) wla mn Réglages. |
 | 📺 **Aflam w msalsalat** | L bi7t, les genres, trend, n9at w recommandations kaychmlo aflam w msalsalat. F page dyal l bi7t, b click katkhtar **Aflam**, **Msalsalat** wla **Bjouj**. |
 | 🍿 **Les plateformes dyali** | F Réglages, 3lem 3la les abonnements dyalek (par défaut Netflix, Prime Video w Disney+ ; Canal+, Max… 3la 7sab bladek). Kayweliw boutons f page dyal l bi7t : « Kolhom » kay9elleb f ga3 les plateformes dyalek, w click 3la wa7da kaydi9 l bi7t. Les plateformes dyalek kaybano 7tta f kol fiche. |
 | 📍 **Bladek** | Khtar l blad li sakn fiha mn 31 blad f Oroppa, direct mn l fiche : les plateformes li kaybano homa li kaynin 3endek. |
@@ -57,7 +57,7 @@ Hiya application web katinstalla (PWA), bla serveur, bla compte, bla dépendance
 
 ## Kifach khdam
 
-Le cœur dyal l'appli howa [`js/mood.js`](js/mood.js) : analyseur sghir dyal lougha (darija, fransawiya, engliziya, sbanyoliya), bla 7tta service mn barra, kaybeddel jomla l critères dyal l bi7t.
+Le cœur dyal l'appli howa [`js/mood.js`](js/mood.js) : analyseur sghir dyal lougha (darija, fransawiya, engliziya, sbanyoliya, almaniya, taliyaniya, portugaliya), bla 7tta service mn barra, kaybeddel jomla l critères dyal l bi7t.
 
 ```mermaid
 flowchart LR
@@ -98,7 +98,7 @@ Mn ba3d, kol résultat kayakhod n9ta : +3 3la kol genre bghitih, −6 3la kol ge
 ├── js/
 │   ├── app.js             Les pages, navigation, fiche
 │   ├── mood.js            Kayfhem chno bghiti w kay3ti n9ta (JS pur, m3a tests)
-│   ├── i18n.js            Textes FR / EN / ES / darija, blad Oroppa, kay3ref lougha w l blad
+│   ├── i18n.js            Textes b 7 loughat, blad Oroppa, kay3ref lougha w l blad
 │   ├── tmdb.js            Client API TMDB (lougha w l blad kaytbeddlo, cache f mémoire)
 │   └── store.js           Stockage local : lougha, blad, clé, listes, n9at, a5er ziyara
 ├── sw.js                  Service worker (khdama bla internet, cache dyal les affiches)

@@ -179,3 +179,64 @@ test('espagnol : type, récent, court, classique et titre de référence', () =>
   assert.ok(parseMood('un clásico de los 80').classic);
   assert.equal(parseMood('un atraco al estilo de Ocean\'s Eleven').similarTo, 'Ocean\'s Eleven');
 });
+
+test('recherche en allemand (registre familier et mots composés)', () => {
+  const cas = {
+    'ein gemütlicher Abend': 'cosy', 'etwas Lustiges': 'drôle', 'ein Krimi mit Wendungen': 'intrigue',
+    'was Gruseliges': 'frissons', 'etwas zum Heulen': 'émotion', 'ein Liebesfilm': 'romance',
+    'mit den Kindern': 'famille', 'eine Doku': 'docu / histoire vraie', 'ein Raubüberfall': 'crime', 'Zeitreisen im Weltraum': 'SF',
+  };
+  for (const [q, m] of Object.entries(cas)) assert.ok(parseMood(q).moods.includes(m), `${q} -> ${m}`);
+  const r = parseMood('ein neuer Actionfilm wie John Wick und lustig');
+  assert.equal(r.type, 'movie');
+  assert.ok(r.recent);
+  assert.equal(r.similarTo, 'John Wick');
+  assert.ok(r.moods.includes('drôle'));
+  assert.equal(parseMood('eine Serie mit drei Staffeln').type, 'tv');
+  assert.ok(parseMood('ein Klassiker aus den 80ern').classic);
+});
+
+test('recherche en italien', () => {
+  const cas = {
+    'una serata rilassante': 'cosy', 'qualcosa di divertente': 'drôle', 'un giallo con colpi di scena': 'intrigue',
+    'un film che fa paura': 'frissons', 'qualcosa da far piangere': 'émotion', 'una storia d\'amore': 'romance',
+    'con i bambini': 'famille', 'cartoni animati': 'animation', 'una rapina': 'crime', 'fantascienza': 'SF',
+  };
+  for (const [q, m] of Object.entries(cas)) assert.ok(parseMood(q).moods.includes(m), `${q} -> ${m}`);
+  const r = parseMood('una serie recente come Dark e divertente');
+  assert.equal(r.type, 'tv');
+  assert.ok(r.recent);
+  assert.equal(r.similarTo, 'Dark');
+  assert.ok(r.moods.includes('drôle'));
+  assert.ok(parseMood('un film breve').short);
+  assert.ok(parseMood('un classico degli anni 80').classic);
+});
+
+test('recherche en portugais', () => {
+  const cas = {
+    'uma noite tranquila': 'cosy', 'algo engraçado': 'drôle', 'um policial com reviravoltas': 'intrigue',
+    'algo que meta medo': 'frissons', 'um filme para chorar': 'émotion', 'uma história de amor': 'romance',
+    'com os miúdos': 'famille', 'desenhos animados': 'animation', 'um assalto': 'crime', 'ficção científica': 'SF',
+  };
+  for (const [q, m] of Object.entries(cas)) assert.ok(parseMood(q).moods.includes(m), `${q} -> ${m}`);
+  const r = parseMood('uma série nova parecida com Dark e divertida');
+  assert.equal(r.type, 'tv');
+  assert.ok(r.recent);
+  assert.equal(r.similarTo, 'Dark');
+  assert.ok(r.moods.includes('drôle'));
+  assert.equal(parseMood('um filme curto').type, 'movie');
+  assert.ok(parseMood('um filme curto').short);
+  assert.ok(parseMood('um clássico dos anos 80').classic);
+});
+
+test('« come » anglais et « coup de cœur » ne sont pas mal interprétés', () => {
+  assert.equal(parseMood('something to come home to').similarTo, null);
+  assert.deepEqual(parseMood('un coup de cœur').moods, []);
+});
+
+test('titre de référence avec une conjonction dans le titre', () => {
+  assert.equal(parseMood('una serata divertente, come Cena con delitto').similarTo, 'Cena con delitto');
+  assert.equal(parseMood('like Fast and Furious and funny').similarTo, 'Fast and Furious');
+  assert.equal(parseMood('come Dark e divertente').similarTo, 'Dark');
+  assert.equal(parseMood('comme Dark que j\'ai adoré').similarTo, 'Dark');
+});

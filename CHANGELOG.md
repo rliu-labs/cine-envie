@@ -1,5 +1,10 @@
 # Journal des versions
 
+## 0.11.0 (novembre 2026)
+- Allemand, italien et portugais : interface complète, recherche par envie avec le registre familier (et les mots composés allemands comme « Actionfilm »), genres et fiches TMDB dans chaque langue.
+- Titre de référence plus fiable quand il contient « et / con / e » (« Cena con delitto », « Fast and Furious »).
+- README, bannière et capture d’accueil dans les 7 langues.
+
 ## 0.10.0 (novembre 2026)
 - L’anglais devient la langue par défaut pour un nouvel utilisateur (un choix déjà enregistré est conservé).
 - Menu de langue et réglages : English en tête, puis Darija, Español, Français par ordre alphabétique.
