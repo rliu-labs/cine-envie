@@ -56,6 +56,18 @@ Hiya application web katinstalla (PWA), bla serveur, bla compte, bla dépendance
 | 📱 **Katinstalla** | F l ordinateur (Chrome, Edge), Android w iPhone ; l'interface katb9a khdama 7tta bla internet. |
 | 🖥️ **Mode TV** | F télé connectée wla boîtier (Android TV, Google TV, Fire TV, Samsung, LG…), l'appli katdouz bouha l affichage kbir li yt9ra mn l canapé, w katkhdem b la télécommande : les flèches bach tt7rrek, OK bach t7ell, Retour bach tsedd. T9der tforcih f réglages (L3ard : Auto, Téléphone / ordinateur, TV) wla b `?tv=1` f l'adresse. |
 
+## Katkhdem f ga3 les écrans
+
+Nfs l'appli katbeddel rasha 3la 7sab l'appareil, bla ma tbeddel walou :
+
+| Appareil | L3ard w t7akkom | Navigateurs li jarrabna |
+|---|---|---|
+| 📱 **Téléphone** | Colonne wa7da, blays kbar l lmss, t9der tinstalliha f l'écran d'accueil. | Safari (iPhone), Chrome (Android) |
+| 💻 **Ordinateur** | Grille kbira dyal les affiches, souris wla clavier (Tab, Entrée, Échap). | Chrome, Edge, Firefox, Safari |
+| 🖥️ **TV** | Affichage kbir li yt9ra mn l canapé, marges bach la télé matkoupich, télécommande : les flèches, OK, Retour. Katched bouha f les télés connectées w les boîtiers. | Samsung (Tizen), LG (webOS), Android TV / Google TV, Fire TV |
+
+Les tablettes katched l'affichage dyal téléphone wla ordinateur 3la 7sab l3ard dyalhom. Bach tkhtar nta : **Réglages → L3ard** (Auto, Téléphone / ordinateur, TV), wla `?tv=1` (wla `?tv=0`) f l'adresse.
+
 ## Kifach khdam
 
 Le cœur dyal l'appli howa [`js/mood.js`](js/mood.js) : analyseur sghir dyal lougha (darija, fransawiya, engliziya, sbanyoliya, almaniya, taliyaniya, portugaliya), bla 7tta service mn barra, kaybeddel jomla l critères dyal l bi7t.

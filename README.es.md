@@ -56,6 +56,18 @@ Es una aplicación web instalable (PWA), sin servidor, sin cuenta y sin dependen
 | 📱 **Instalable** | En ordenador (Chrome, Edge), Android e iPhone; la interfaz sigue disponible sin conexión. |
 | 🖥️ **Modo TV** | En una smart TV o un dispositivo (Android TV, Google TV, Fire TV, Samsung, LG…), la app pasa sola a una vista grande que se lee desde el sofá y se maneja con el mando: flechas para moverse, OK para abrir, Atrás para cerrar. Se puede forzar en los ajustes (Pantalla: Auto, Móvil / ordenador, TV) o con `?tv=1` en la dirección. |
 
+## Compatible con todas las pantallas
+
+La misma app se adapta al dispositivo, sin configurar nada:
+
+| Dispositivo | Vista y controles | Navegadores probados |
+|---|---|---|
+| 📱 **Móvil** | Una columna, zonas táctiles grandes, se puede instalar en la pantalla de inicio. | Safari (iPhone), Chrome (Android) |
+| 💻 **Ordenador** | Cuadrícula amplia de carteles, ratón o teclado (Tab, Intro, Esc). | Chrome, Edge, Firefox, Safari |
+| 🖥️ **TV** | Vista grande que se lee desde el sofá, márgenes contra el recorte de la pantalla, mando: flechas, OK, Atrás. Se activa sola en smart TV y dispositivos de TV. | Samsung (Tizen), LG (webOS), Android TV / Google TV, Fire TV |
+
+Las tabletas usan la vista de móvil o de ordenador según su ancho. Para elegir tú mismo: **Ajustes → Pantalla** (Auto, Móvil / ordenador, TV), o `?tv=1` (o `?tv=0`) en la dirección.
+
 ## Cómo funciona
 
 El corazón de la app es [`js/mood.js`](js/mood.js): un pequeño analizador de lenguaje natural (español, inglés, francés, alemán, italiano, portugués, darija), sin servicios externos, que convierte una frase en criterios de búsqueda.
