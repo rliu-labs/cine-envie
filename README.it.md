@@ -28,7 +28,7 @@
 ---
 
 **Ciné‑Envie** risponde alla domanda di ogni sera: *«cosa guardiamo?»*.
-Scrivi cosa ti va di vedere come lo diresti a un amico, **in italiano, inglese, francese, spagnolo, tedesco, portoghese o darija marocchino**, e l'app ti propone film e serie adatti, con **dove guardarli legalmente nel tuo paese** (31 paesi europei).
+Scrivi cosa ti va di vedere come lo diresti a un amico, **in italiano, inglese, francese, spagnolo, tedesco, portoghese o darija marocchino**, e l'app ti propone film e serie adatti, con **dove guardarli legalmente nel tuo paese** (circa 140 paesi).
 
 > «Una serata rilassante, divertente e con un po' di mistero, come Cena con delitto»
 > → umore *rilassante, divertente, mistero* · niente horror né thriller · simile a *Cena con delitto*
@@ -124,18 +124,22 @@ Il **profilo dei gusti** si aggiunge a questo punteggio: ogni voto dà ai suoi g
 
 ```
 ├── index.html             Struttura dell'app
-├── style.css              Tema scuro, layout responsive
+├── style.css              Tema chiaro e scuro, layout responsive
 ├── js/
 │   ├── app.js             Viste, navigazione con hash, scheda dettagliata
 │   ├── mood.js            Analisi della voglia e punteggio (JS puro, testato)
-│   ├── i18n.js            Testi in 7 lingue, paesi europei, rilevamento del paese
+│   ├── i18n.js            Testi in 7 lingue, circa 140 paesi, rilevamento del paese
 │   ├── tmdb.js            Client API TMDB (lingua e paese configurabili, cache in memoria)
-│   └── store.js           Archiviazione locale: lingua, paese, chiave, liste, voti, ultima visita
+│   ├── store.js           Archiviazione locale: lingua, paese, chiave, liste, voti, ultima visita
+│   ├── tv.js              Modalità TV: navigazione con il telecomando
+│   ├── qr.js              Generatore di QR code (senza dipendenze)
+│   ├── pair.js            Trasferimento cifrato dal telefono alla TV
+│   └── alerts.js          Avvisi «Da vedere» (nuova piattaforma, nuova stagione)
 ├── sw.js                  Service worker (interfaccia offline, cache delle locandine)
 ├── manifest.webmanifest   Manifest PWA
 ├── icons/                 Icona dell'app, logo TMDB
 ├── scripts/captures.mjs   Genera gli screenshot e la GIF del README (Playwright)
-└── tests/                 Test node:test (analizzatore, profilo, traduzioni, client TMDB)
+└── tests/                 Test node:test (analizzatore, profilo, traduzioni, client TMDB, TV, QR, trasferimento, avvisi)
 ```
 
 **Scelte tecniche**

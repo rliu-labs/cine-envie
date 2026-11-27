@@ -28,7 +28,7 @@
 ---
 
 **Ciné‑Envie** beantwortet die Frage, die sich jeden Abend stellt: *„Was schauen wir?“*.
-Du beschreibst, worauf du Lust hast, so wie du es einem Freund sagen würdest, **auf Deutsch, Englisch, Französisch, Spanisch, Italienisch, Portugiesisch oder marokkanischem Darija**, und die App schlägt passende Filme und Serien vor, mit **den legalen Streamingangeboten in deinem Land** (31 europäische Länder).
+Du beschreibst, worauf du Lust hast, so wie du es einem Freund sagen würdest, **auf Deutsch, Englisch, Französisch, Spanisch, Italienisch, Portugiesisch oder marokkanischem Darija**, und die App schlägt passende Filme und Serien vor, mit **den legalen Streamingangeboten in deinem Land** (rund 140 Länder).
 
 > „Ein gemütlicher, lustiger Abend mit Krimi, wie Knives Out“
 > → Stimmung *gemütlich, lustig, Rätsel* · kein Horror, kein Thriller · ähnlich wie *Knives Out*
@@ -124,18 +124,22 @@ Das **Geschmacksprofil** fließt in diese Punkte ein: Jede Bewertung gibt ihren 
 
 ```
 ├── index.html             Grundgerüst der App
-├── style.css              Dunkles Design, responsives Layout
+├── style.css              Helles und dunkles Design, responsives Layout
 ├── js/
 │   ├── app.js             Ansichten, Hash-Navigation, Titelseite
 │   ├── mood.js            Analyse der Stimmung und Punktevergabe (reines JS, getestet)
-│   ├── i18n.js            Texte in 7 Sprachen, europäische Länder, Erkennung des Landes
+│   ├── i18n.js            Texte in 7 Sprachen, rund 140 Länder, Erkennung des Landes
 │   ├── tmdb.js            TMDB-API-Client (Sprache und Land einstellbar, Cache im Speicher)
-│   └── store.js           Lokaler Speicher: Sprache, Land, Schlüssel, Listen, Bewertungen, letzter Besuch
+│   ├── store.js           Lokaler Speicher: Sprache, Land, Schlüssel, Listen, Bewertungen, letzter Besuch
+│   ├── tv.js              TV-Modus: Steuerung mit der Fernbedienung
+│   ├── qr.js              QR-Code-Generator (ohne Abhängigkeit)
+│   ├── pair.js            Verschlüsselte Übertragung vom Handy zum Fernseher
+│   └── alerts.js          Merklisten-Hinweise (neuer Dienst, neue Staffel)
 ├── sw.js                  Service Worker (Offline-Oberfläche, Cache für Poster)
 ├── manifest.webmanifest   PWA-Manifest
 ├── icons/                 App-Icon, TMDB-Logo
 ├── scripts/captures.mjs   Erzeugt Screenshots und GIF für das README (Playwright)
-└── tests/                 Tests mit node:test (Parser, Profil, Übersetzungen, TMDB-Client)
+└── tests/                 Tests mit node:test (Parser, Profil, Übersetzungen, TMDB-Client, TV, QR, Übertragung, Hinweise)
 ```
 
 **Technische Entscheidungen**

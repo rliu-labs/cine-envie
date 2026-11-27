@@ -28,7 +28,7 @@
 ---
 
 **Ciné‑Envie** kayjaweb 3la so2al dyal kol lila : *« chno nchoufo ? »*.
-Katkteb chno bghiti b7al ila katgoulha l sa7bek, **b darija, fransawiya, engliziya, sbanyoliya, almaniya, taliyaniya wla portugaliya**, w l'appli kat9tare7 3lik aflam w msalsalat li kayjiw m3a dou9ek, w **fin tchoufhom b l9anoun f bladek** (31 blad f Oroppa).
+Katkteb chno bghiti b7al ila katgoulha l sa7bek, **b darija, fransawiya, engliziya, sbanyoliya, almaniya, taliyaniya wla portugaliya**, w l'appli kat9tare7 3lik aflam w msalsalat li kayjiw m3a dou9ek, w **fin tchoufhom b l9anoun f bladek** (ta9riban 140 blad).
 
 > « bghit chi film dyal d7k w fih lghaz »
 > → mood *d7k, lghaz* · film
@@ -123,18 +123,22 @@ Mn ba3d, kol résultat kayakhod n9ta : +3 3la kol genre bghitih, −6 3la kol ge
 
 ```
 ├── index.html             L'appli
-├── style.css              Thème k7el, kayt9add m3a ga3 les écrans
+├── style.css              Thème fat7 w ghame9, kayt9add m3a ga3 les écrans
 ├── js/
 │   ├── app.js             Les pages, navigation, fiche
 │   ├── mood.js            Kayfhem chno bghiti w kay3ti n9ta (JS pur, m3a tests)
-│   ├── i18n.js            Textes b 7 loughat, blad Oroppa, kay3ref lougha w l blad
+│   ├── i18n.js            Textes b 7 loughat, ta9riban 140 blad, kay3ref lougha w l blad
 │   ├── tmdb.js            Client API TMDB (lougha w l blad kaytbeddlo, cache f mémoire)
-│   └── store.js           Stockage local : lougha, blad, clé, listes, n9at, a5er ziyara
+│   ├── store.js           Stockage local : lougha, blad, clé, listes, n9at, a5er ziyara
+│   ├── tv.js              Mode TV : navigation b la télécommande
+│   ├── qr.js              Kaydir l QR code (bla dépendance)
+│   ├── pair.js            Transfert mchffer mn tilifoun l tilfaza
+│   └── alerts.js          Alertes « Nchoufo » (plateforme jdida, saison jdida)
 ├── sw.js                  Service worker (khdama bla internet, cache dyal les affiches)
 ├── manifest.webmanifest   Manifeste PWA
 ├── icons/                 Icône dyal l'appli, logo TMDB
 ├── scripts/captures.mjs   Kaydir les captures w l GIF dyal README (Playwright)
-└── tests/                 Tests node:test (analyseur, dou9, traductions, client TMDB)
+└── tests/                 Tests node:test (analyseur, dou9, traductions, client TMDB, TV, QR, transfert, alertes)
 ```
 
 **Ikhtiyarat te9niya**
