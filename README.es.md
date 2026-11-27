@@ -55,9 +55,9 @@ Es una aplicación web instalable (PWA), sin servidor, sin cuenta y sin dependen
 | 📋 **Mis listas** | «Por ver» y «Vistas», guardadas en el navegador, con exportación / importación JSON para cambiar de dispositivo. |
 | 📱 **Instalable** | En ordenador (Chrome, Edge), Android e iPhone; la interfaz sigue disponible sin conexión. |
 | 🖥️ **Modo TV** | En una smart TV o un dispositivo (Android TV, Google TV, Fire TV, Samsung, LG…), la app pasa sola a una vista grande que se lee desde el sofá y se maneja con el mando: flechas para moverse, OK para abrir, Atrás para cerrar. Se puede forzar en los ajustes (Pantalla: Auto, Móvil / ordenador, TV) o con `?tv=1` en la dirección. |
-| 🔎 **Búsqueda por título, sugerencias y voz** | Busca por ganas o por el título exacto, con sugerencias mientras escribes (ideas listas o títulos con su cartel). Donde el navegador lo permite (Chrome, Edge, Safari), un botón 🎤 te deja decir lo que quieres. Cada lista termina con un botón **Ver más**. |
-| 📲 **Del móvil a la tele en un escaneo** | La tele muestra un código QR: escanéalo con el móvil donde la app ya está configurada, confirma, y la tele recibe tu clave TMDB, tus ajustes y tus listas. Nada que escribir con el mando. |
-| 🌗 **Tema claro u oscuro** | Auto (como el dispositivo), claro u oscuro, en los ajustes. Fotos del reparto en cada ficha. |
+| 🔎 **Búsqueda por título y por voz** | Busca por ganas o por título, con sugerencias mientras escribes, un botón 🎤 para dictar y **Ver más** bajo cada lista. |
+| 📲 **Del móvil a la tele en un escaneo** | Escanea con el móvil el código QR que muestra la tele: recibe tu clave, tus ajustes y tus listas. |
+| 🌗 **Tema claro u oscuro** | Auto, claro u oscuro. Fotos del reparto en cada ficha. |
 
 ## Compatible con todas las pantallas
 
@@ -154,7 +154,7 @@ Ciné‑Envie está pensado para no saber nada de ti.
 | 🔑 **Tu clave se queda contigo** | La clave de TMDB se guarda en tu navegador y solo se envía a la API de TMDB. |
 | 🙈 **Sin rastreo** | Sin estadísticas, publicidad ni cookies. |
 | 🌐 **Lo que contacta tu navegador** | TMDB (datos e imágenes) y GitHub Pages, que aloja la app y puede registrar tu dirección IP. Los tráileres se abren en YouTube. |
-| 📲 **Transferencia por código QR** | Solo si la usas: los datos se cifran en tu navegador (AES-GCM) y pasan por el relé público ntfy.sh, que no puede leerlos (la clave se queda en el código QR) y los borra en 12 h. La búsqueda por voz envía el audio al servicio de reconocimiento del navegador (Google en Chrome, Apple en Safari). |
+| 📲 **Transferencia y voz** | La transferencia móvil → tele va cifrada por un relé público que no puede leerla; el dictado usa el servicio de voz del navegador. Detalles en la nota de privacidad de la app (pie de página). |
 | 📦 **Cero dependencias** | La página no carga ningún paquete npm ni script externo: nada que pueda comprometerse desde fuera. (Los únicos paquetes npm sirven para generar las capturas, nunca los usa la app.) |
 | 🛡️ **Content Security Policy** | El navegador bloquea cualquier script ajeno y cualquier conexión fuera de TMDB y del relé ntfy.sh. |
 | 🧹 **Datos escapados** | Todo lo que viene de TMDB o de una importación se neutraliza antes de mostrarse. |

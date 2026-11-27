@@ -55,9 +55,9 @@ Es ist eine installierbare Web-App (PWA) ohne Server, ohne Konto und ohne Abhän
 | 📋 **Meine Listen** | „Merkliste“ und „Gesehen“, im Browser gespeichert, mit JSON-Export / -Import für den Gerätewechsel. |
 | 📱 **Installierbar** | Auf dem Computer (Chrome, Edge), Android und iPhone; die Oberfläche funktioniert auch offline. |
 | 🖥️ **TV-Modus** | Auf einem Smart-TV oder einer TV-Box (Android TV, Google TV, Fire TV, Samsung, LG…) wechselt die App von selbst in eine große Ansicht, die vom Sofa aus lesbar ist, und wird mit der Fernbedienung gesteuert: Pfeile zum Bewegen, OK zum Öffnen, Zurück zum Schließen. Erzwingen lässt er sich in den Einstellungen (Anzeige: Auto, Handy / Computer, TV) oder mit `?tv=1` in der Adresse. |
-| 🔎 **Titelsuche, Vorschläge und Sprache** | Suche nach Stimmung oder nach dem genauen Titel, mit Vorschlägen beim Tippen (fertige Ideen oder Titel mit Poster). Wo der Browser es kann (Chrome, Edge, Safari), lässt ein 🎤-Knopf dich sagen, was du willst. Jede Liste endet mit **Mehr anzeigen**. |
-| 📲 **Vom Handy auf den Fernseher mit einem Scan** | Der Fernseher zeigt einen QR-Code: scanne ihn mit dem Handy, auf dem die App schon eingerichtet ist, bestätige, und der Fernseher erhält TMDB-Schlüssel, Einstellungen und Listen. Nichts mit der Fernbedienung tippen. |
-| 🌗 **Helles oder dunkles Design** | Auto (wie das Gerät), hell oder dunkel, in den Einstellungen. Fotos der Besetzung auf jeder Titelseite. |
+| 🔎 **Titelsuche und Sprache** | Suche nach Stimmung oder Titel, mit Vorschlägen beim Tippen, einem 🎤-Knopf zum Diktieren und **Mehr anzeigen** unter jeder Liste. |
+| 📲 **Vom Handy auf den Fernseher mit einem Scan** | Scanne mit dem Handy den QR-Code auf dem Fernseher: Er erhält Schlüssel, Einstellungen und Listen. |
+| 🌗 **Helles oder dunkles Design** | Auto, hell oder dunkel. Fotos der Besetzung auf jeder Titelseite. |
 
 ## Läuft auf jedem Bildschirm
 
@@ -152,7 +152,7 @@ Ciné‑Envie ist so gebaut, dass es nichts über dich weiß.
 | 🔑 **Dein Schlüssel bleibt bei dir** | Der TMDB-Schlüssel wird in deinem Browser gespeichert und nur an die TMDB-API gesendet. |
 | 🙈 **Kein Tracking** | Keine Statistiken, keine Werbung, keine Cookies. |
 | 🌐 **Was dein Browser kontaktiert** | TMDB (Daten und Bilder) und GitHub Pages, das die App hostet und deine IP-Adresse protokollieren kann. Trailer öffnen sich auf YouTube. |
-| 📲 **Übertragung per QR-Code** | Nur wenn du sie nutzt: Die Daten werden in deinem Browser verschlüsselt (AES-GCM) und laufen über das öffentliche Relais ntfy.sh, das sie nicht lesen kann (der Schlüssel bleibt im QR-Code) und nach 12 Stunden löscht. Die Sprachsuche sendet den Ton an den Erkennungsdienst des Browsers (Google bei Chrome, Apple bei Safari). |
+| 📲 **Übertragung und Sprache** | Die Übertragung Handy → Fernseher ist verschlüsselt und läuft über ein öffentliches Relais, das sie nicht lesen kann; die Sprachsuche nutzt den Sprachdienst des Browsers. Details im Datenschutzhinweis der App (Fußzeile). |
 | 📦 **Keine Abhängigkeiten** | Die Seite lädt kein npm-Paket und kein externes Skript: nichts, was über Dritte kompromittiert werden könnte. (Die einzigen npm-Pakete dienen den Screenshots, nie der App.) |
 | 🛡️ **Content Security Policy** | Der Browser blockiert fremde Skripte und jede Verbindung außerhalb von TMDB und dem Relais ntfy.sh. |
 | 🧹 **Maskierte Daten** | Alles, was von TMDB oder aus einem Import kommt, wird vor der Anzeige unschädlich gemacht. |
