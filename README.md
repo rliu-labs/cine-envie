@@ -55,9 +55,9 @@ It is an installable web app (PWA) with no server, no account and no dependencie
 | 📋 **My lists** | "To watch" and "Seen", stored in the browser, with JSON export / import to move to another device. |
 | 📱 **Installable** | On desktop (Chrome, Edge), Android and iPhone; the interface stays available offline. |
 | 🖥️ **TV mode** | On a smart TV or a TV box (Android TV, Google TV, Fire TV, Samsung, LG…) the app switches by itself to a large display that reads from the sofa, driven with the remote: arrows to move, OK to open, Back to close. You can force it in the settings (Display: Auto, Phone / computer, TV) or with `?tv=1` in the address. |
-| 🔎 **Title search, suggestions and voice** | Search by mood or by the exact title, with suggestions as you type (ready-made ideas or matching titles with their poster). Where the browser supports it (Chrome, Edge, Safari), a 🎤 button lets you say what you want. Every list ends with a **Show more** button. |
-| 📲 **From phone to TV in one scan** | The TV shows a QR code; scan it with the phone where the app is already set up, confirm, and the TV gets your TMDB key, settings and lists. Nothing to type with the remote. |
-| 🌗 **Light or dark theme** | Auto (follows the device), light or dark, in the settings. Cast photos on every title page. |
+| 🔎 **Title search and voice** | Search by mood or by title, with suggestions as you type, a 🎤 button to speak your search, and **Show more** under every list. |
+| 📲 **From phone to TV in one scan** | Scan the QR code shown on the TV with your phone: the TV gets your key, settings and lists. |
+| 🌗 **Light or dark theme** | Auto, light or dark. Cast photos on every title page. |
 
 ## Works on every screen
 
@@ -159,7 +159,7 @@ Ciné‑Envie is designed to know nothing about you.
 | 🔑 **Your key stays with you** | The TMDB key is stored in your browser and sent only to the TMDB API. |
 | 🙈 **No tracking** | No analytics, ads or cookies. |
 | 🌐 **What your browser contacts** | TMDB (data and images) and GitHub Pages, which hosts the app and may log your IP address. Trailers open on YouTube. |
-| 📲 **QR code transfer** | Only when you use it: the data is encrypted in your browser (AES-GCM) and passes through the public ntfy.sh relay, which cannot read it (the key stays in the QR code) and deletes it within 12 hours. Voice search sends the audio to the browser's speech service (Google for Chrome, Apple for Safari). |
+| 📲 **Transfer and voice** | The phone-to-TV transfer is encrypted and goes through a public relay that cannot read it; voice search uses the browser's speech service. Details in the app's privacy note (footer). |
 | 📦 **Zero dependencies** | The page loads no npm package or external script: nothing that can be compromised upstream. (The only npm packages are used to generate screenshots, never by the app.) |
 | 🛡️ **Content Security Policy** | The browser blocks any foreign script and any connection outside TMDB and the ntfy.sh relay. |
 | 🧹 **Escaped data** | Everything that comes from TMDB or from an import is neutralised before it is displayed. |
