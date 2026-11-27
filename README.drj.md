@@ -54,6 +54,7 @@ Hiya application web katinstalla (PWA), bla serveur, bla compte, bla dépendance
 | ⭐ **Dou9ek** | 3ti n9ta mn 1 l 5 njoum l dakchi li cheftih : l'appli kat3ref chno kat7ebb w chno la, katrteb l bi7t 3la 7sab dou9ek w kat9tare7 3lik « Mkhtarin lik ». |
 | 📋 **Les listes dyali** | « Nchoufo » w « Chefthom », m7foudin f navigateur, m3a export / import JSON bach tbeddel l appareil. |
 | 📱 **Katinstalla** | F l ordinateur (Chrome, Edge), Android w iPhone ; l'interface katb9a khdama 7tta bla internet. |
+| 🖥️ **Mode TV** | F télé connectée wla boîtier (Android TV, Google TV, Fire TV, Samsung, LG…), l'appli katdouz bouha l affichage kbir li yt9ra mn l canapé, w katkhdem b la télécommande : les flèches bach tt7rrek, OK bach t7ell, Retour bach tsedd. T9der tforcih f réglages (L3ard : Auto, Téléphone / ordinateur, TV) wla b `?tv=1` f l'adresse. |
 
 ## Kifach khdam
 

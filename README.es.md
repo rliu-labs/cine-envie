@@ -54,6 +54,7 @@ Es una aplicación web instalable (PWA), sin servidor, sin cuenta y sin dependen
 | ⭐ **Perfil de gustos** | Puntúa de 1 a 5 estrellas lo que has visto: la app deduce los géneros que te gustan o evitas, ajusta el orden de cada búsqueda y propone una selección «Recomendado para ti». |
 | 📋 **Mis listas** | «Por ver» y «Vistas», guardadas en el navegador, con exportación / importación JSON para cambiar de dispositivo. |
 | 📱 **Instalable** | En ordenador (Chrome, Edge), Android e iPhone; la interfaz sigue disponible sin conexión. |
+| 🖥️ **Modo TV** | En una smart TV o un dispositivo (Android TV, Google TV, Fire TV, Samsung, LG…), la app pasa sola a una vista grande que se lee desde el sofá y se maneja con el mando: flechas para moverse, OK para abrir, Atrás para cerrar. Se puede forzar en los ajustes (Pantalla: Auto, Móvil / ordenador, TV) o con `?tv=1` en la dirección. |
 
 ## Cómo funciona
 

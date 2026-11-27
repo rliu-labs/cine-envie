@@ -54,6 +54,7 @@ Es ist eine installierbare Web-App (PWA) ohne Server, ohne Konto und ohne Abhän
 | ⭐ **Geschmacksprofil** | Bewerte Gesehenes mit 1 bis 5 Sternen: Die App erkennt, welche Genres du magst oder meidest, passt die Reihenfolge jeder Suche an und schlägt eine Auswahl „Für dich empfohlen“ vor. |
 | 📋 **Meine Listen** | „Merkliste“ und „Gesehen“, im Browser gespeichert, mit JSON-Export / -Import für den Gerätewechsel. |
 | 📱 **Installierbar** | Auf dem Computer (Chrome, Edge), Android und iPhone; die Oberfläche funktioniert auch offline. |
+| 🖥️ **TV-Modus** | Auf einem Smart-TV oder einer TV-Box (Android TV, Google TV, Fire TV, Samsung, LG…) wechselt die App von selbst in eine große Ansicht, die vom Sofa aus lesbar ist, und wird mit der Fernbedienung gesteuert: Pfeile zum Bewegen, OK zum Öffnen, Zurück zum Schließen. Erzwingen lässt er sich in den Einstellungen (Anzeige: Auto, Handy / Computer, TV) oder mit `?tv=1` in der Adresse. |
 
 ## So funktioniert's
 

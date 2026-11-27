@@ -136,3 +136,64 @@ small.mine { color: var(--new); letter-spacing: .05em; }
   .langmenu { order: 2; margin-left: 0; }
   nav { order: 3; width: 100%; }
 }
+
+/* ---------- Mode TV (grand écran lu de loin, télécommande) ----------
+   Activé par la classe .tv sur <html> (détection auto, réglages ou ?tv=1).
+   Les tailles suivent la largeur de l'écran : même rendu en 1080p et en 4K. */
+html.tv { font-size: clamp(20px, 1.45vw, 56px); }
+html.tv body { font-size: 1rem; line-height: 1.4; }
+/* Marge de sécurité : les téléviseurs rognent souvent les bords de l'image (overscan). */
+html.tv header { padding: 1.2rem 5vw; gap: .75rem 2.5rem; }
+html.tv header h1 { font-size: 1.6rem; }
+html.tv nav { gap: .5rem; overflow: visible; }
+html.tv nav a { padding: .5rem 1.2rem; font-size: 1.1rem; }
+html.tv main { max-width: none; padding: 1.5rem 5vw 2rem; }
+html.tv footer#credits { max-width: none; padding: 1.5rem 5vw 3rem; font-size: .75rem; }
+html.tv h2 { font-size: 1.7rem; }
+html.tv h3 { font-size: 1.05rem; }
+html.tv .hero h2 { font-size: 2.1rem; }
+html.tv .hint, html.tv .pill-line { font-size: .95rem; }
+
+/* Focus très visible : contour épais + léger zoom, sans animation brusque. */
+html.tv :focus-visible, html.tv :focus { outline: .22rem solid #fff; outline-offset: .2rem; box-shadow: 0 0 0 .5rem rgba(138, 180, 255, .45); }
+html.tv input:focus, html.tv select:focus { outline-offset: 0; }
+html.tv button, html.tv .btn { padding: .65rem 1.25rem; }
+html.tv button:not(.card):not(.star):focus, html.tv .btn:focus, html.tv nav a:focus, html.tv .chip:focus, html.tv .tchip:focus, html.tv .pchip:focus { background: var(--fg); color: var(--bg); filter: none; }
+html.tv button.primary:focus { background: #fff; color: var(--acc); }
+html.tv .chip { padding: .45rem 1rem; font-size: .95rem; }
+html.tv .tchip, html.tv .pchip { padding: .5rem 1.1rem; font-size: 1rem; }
+html.tv .pchip img { width: 1.4rem; height: 1.4rem; }
+html.tv .flabel { font-size: .85rem; min-width: 9rem; }
+html.tv input, html.tv select { padding: .7rem 1rem; }
+
+/* Grille : de grandes affiches, 6 par ligne en 16:9. */
+html.tv .grid { grid-template-columns: repeat(auto-fill, minmax(max(13vw, 180px), 1fr)); gap: 2.2rem 1.6rem; }
+html.tv .card { transition: transform .18s ease-out; }
+html.tv .card:focus, html.tv .card:focus-visible { outline: none; box-shadow: none; transform: scale(1.08); z-index: 1; }
+html.tv .card:focus .poster { outline: .3rem solid #fff; outline-offset: .2rem; box-shadow: 0 .8rem 2.5rem rgba(0, 0, 0, .7); }
+html.tv .card:hover:not(:focus) { transform: none; }
+html.tv .meta strong { font-size: 1rem; }
+html.tv .meta small { font-size: .8rem; }
+html.tv .badge { font-size: .7rem; padding: .15rem .55rem; }
+html.tv .note { font-size: .8rem; padding: .15rem .45rem; }
+
+/* Fiche détaillée : presque plein écran. */
+html.tv dialog { width: min(1600px, 86vw); max-height: 90vh; border-radius: 1.2rem; }
+html.tv .backdrop { aspect-ratio: 21/8; }
+html.tv .body { padding: 1rem 2.5rem 2.5rem; }
+html.tv .body h2 { font-size: 2rem; }
+html.tv .close { top: 1rem; right: 1rem; width: 3rem; height: 3rem; padding: 0; }
+html.tv .rating .star { font-size: 2rem; padding: .1rem .4rem; }
+html.tv .rating .star:focus { background: none; color: var(--new); }
+html.tv .prov span { width: 8rem; font-size: .85rem; }
+html.tv .prov img { width: 3rem; height: 3rem; border-radius: .6rem; }
+html.tv .provs { grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: .6rem; }
+html.tv .prov-pick { font-size: .9rem; padding: .5rem .8rem; }
+html.tv .prov-pick img { width: 2.2rem; height: 2.2rem; }
+html.tv .panel { max-width: 60rem; }
+
+/* Menu de langue */
+html.tv .lm-btn { font-size: .95rem; padding: .45rem .95rem; }
+html.tv .lm-btn svg { width: 1.2rem; height: 1.2rem; }
+html.tv .lm-list button { padding: .75rem 1.25rem; }
+html.tv .lm-list button:focus { background: var(--fg); color: var(--bg); }

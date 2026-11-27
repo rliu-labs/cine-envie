@@ -1,7 +1,8 @@
-import { parseMood, scoreItem, genreMaps, buildProfile } from './mood.js?v=17';
-import * as api from './tmdb.js?v=17';
-import * as store from './store.js?v=17';
-import { t, getLang, setLang, LANGS, moodLabel, DEFAULT_LANG, guessCountry, countryName, countryOptions } from './i18n.js?v=17';
+import { parseMood, scoreItem, genreMaps, buildProfile } from './mood.js?v=18';
+import * as api from './tmdb.js?v=18';
+import * as store from './store.js?v=18';
+import { resolveTv, setTv, isTv } from './tv.js?v=18';
+import { t, getLang, setLang, LANGS, moodLabel, DEFAULT_LANG, guessCountry, countryName, countryOptions } from './i18n.js?v=18';
 
 const $ = (s, el = document) => el.querySelector(s);
 const view = $('#view');
@@ -56,6 +57,7 @@ function renderLangMenu() {
   };
   btn.addEventListener('click', () => (list.hidden ? open() : closeLangMenu(true)));
   btn.addEventListener('keydown', (e) => {
+    if (isTv()) return; // à la télécommande, les flèches servent à se déplacer ; OK ouvre le menu
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); open(e.key === 'ArrowUp' ? items.length - 1 : 0); }
   });
   list.addEventListener('keydown', (e) => {
@@ -120,7 +122,7 @@ function setCountry(c) { store.setRegion(c); providerNames = new Map(); applyLoc
 // ---------- Rendu commun ----------
 function card(it, extra = {}) {
   const entry = store.getEntry(it);
-  const poster = it.poster_path ? `${api.IMG}w342${it.poster_path}` : '';
+  const poster = it.poster_path ? `${api.IMG}${isTv() ? 'w500' : 'w342'}${it.poster_path}` : '';
   const badges = [
     extra.isNew ? `<span class="badge new">${t('isNew')}</span>` : '',
     entry?.status === 'seen' ? `<span class="badge seen">${t('seen')}</span>` : '',
@@ -434,6 +436,9 @@ function viewReglages() {
     <section class="panel">
       <h2>${t('settings')}</h2>
       <h3>${t('lang')}</h3>${langSwitch()}
+      <h3>${t('display')}</h3>
+      <p class="hint">${t('displayHint')}</p>
+      <div class="seg" id="dispSeg">${[['auto', t('dispAuto')], ['screen', t('dispScreen')], ['tv', `📺 ${t('dispTv')}`]].map(([v, l]) => `<button type="button" data-d="${v}" class="${v === store.getDisplay() ? 'on' : ''}" aria-pressed="${v === store.getDisplay()}">${l}</button>`).join('')}</div>
       <h3>${t('country')}</h3>
       <p class="hint">${t('countryHint')}</p>
       ${countrySelect('countrySel')}
@@ -451,6 +456,9 @@ function viewReglages() {
   bindKeyForm();
   bindLangSwitch(viewReglages);
   $('#countrySel').addEventListener('change', (e) => { setCountry(e.target.value); viewReglages(); });
+  view.querySelectorAll('#dispSeg button').forEach((b) => b.addEventListener('click', () => {
+    store.setDisplay(b.dataset.d); setTv(resolveTv(b.dataset.d, location.search)); viewReglages(); $(`#dispSeg [data-d="${b.dataset.d}"]`)?.focus();
+  }));
   renderProviderPicker();
   $('#exp').addEventListener('click', () => {
     const blob = new Blob([store.exportData()], { type: 'application/json' });
@@ -508,7 +516,7 @@ async function openDetail(type, id) {
       const offers = provRow(t('flatrate'), prov.flatrate) + provRow(t('free'), [...(prov.free || []), ...(prov.ads || [])]) + provRow(t('rent'), prov.rent) + provRow(t('buy'), prov.buy);
       dlg.innerHTML = `
         <div class="sheet">
-          ${d.backdrop_path ? `<img class="backdrop" src="${esc(`${api.IMG}w780${d.backdrop_path}`)}" alt="">` : ''}
+          ${d.backdrop_path ? `<img class="backdrop" src="${esc(`${api.IMG}${isTv() ? 'w1280' : 'w780'}${d.backdrop_path}`)}" alt="">` : ''}
           <button class="close" aria-label="${esc(t('close'))}">✕</button>
           <div class="body">
             <h2>${esc(titleOf(d))} <small>${esc(year(d))}</small></h2>
@@ -567,6 +575,7 @@ view.addEventListener('click', (e) => {
 $('#detail').addEventListener('click', (e) => { if (e.target.id === 'detail') e.target.close(); });
 window.addEventListener('hashchange', route);
 
+setTv(resolveTv(store.getDisplay(), location.search));
 applyLocale();
 api.setCredential(store.getKey());
 route();

@@ -1,5 +1,5 @@
 // Stockage local (navigateur) : langue, pays, clé TMDB, listes « à voir » / « vus », veille des tendances.
-const K = { active: 'cine.activeProviders', providers: 'cine.providers', mediaType: 'cine.mediaType', lang: 'cine.lang', region: 'cine.region', key: 'cine.tmdbKey', list: 'cine.list', trend: 'cine.trendSeen', trendAt: 'cine.trendAt' };
+const K = { active: 'cine.activeProviders', providers: 'cine.providers', mediaType: 'cine.mediaType', lang: 'cine.lang', region: 'cine.region', key: 'cine.tmdbKey', list: 'cine.list', trend: 'cine.trendSeen', trendAt: 'cine.trendAt', display: 'cine.display' };
 
 const read = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
 const write = (k, v) => localStorage.setItem(k, JSON.stringify(v));
@@ -9,6 +9,9 @@ export const setKey = (v) => localStorage.setItem(K.key, v.trim());
 
 export const getLang = () => localStorage.getItem(K.lang) || '';
 export const setLang = (v) => localStorage.setItem(K.lang, v);
+// Affichage : 'auto' (détection), 'screen' (téléphone / ordinateur) ou 'tv'.
+export const getDisplay = () => (['auto', 'screen', 'tv'].includes(localStorage.getItem(K.display)) ? localStorage.getItem(K.display) : 'auto');
+export const setDisplay = (v) => localStorage.setItem(K.display, v);
 export const getRegion = () => localStorage.getItem(K.region) || '';
 export const setRegion = (v) => localStorage.setItem(K.region, v);
 

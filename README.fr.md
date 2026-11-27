@@ -54,6 +54,7 @@ C'est une application web installable (PWA), sans serveur, sans compte, sans dé
 | ⭐ **Profil de goûts** | Note les titres vus de 1 à 5 étoiles : l'appli en déduit les genres que tu aimes ou évites, ajuste le classement de chaque recherche et propose une sélection « Recommandé pour toi ». |
 | 📋 **Mes listes** | « À voir » et « Vus », stockés dans le navigateur, avec export / import JSON pour changer d'appareil. |
 | 📱 **Installable** | Sur ordinateur (Chrome, Edge), Android et iPhone ; l'interface reste disponible hors ligne. |
+| 🖥️ **Mode TV** | Sur une télé connectée ou un boîtier (Android TV, Google TV, Fire TV, Samsung, LG…), l'appli passe toute seule en grand affichage lisible depuis le canapé, et se pilote à la télécommande : flèches pour se déplacer, OK pour ouvrir, Retour pour fermer. On peut le forcer dans les réglages (Affichage : Auto, Téléphone / ordinateur, TV) ou avec `?tv=1` dans l'adresse. |
 
 ## Comment ça marche
 
