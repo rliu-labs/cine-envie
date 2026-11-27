@@ -55,6 +55,21 @@ Scrivi cosa ti va di vedere come lo diresti a un amico, **in italiano, inglese, 
 | 📋 **Le mie liste** | «Da vedere» e «Visti», salvati nel browser, con esportazione / importazione JSON per cambiare dispositivo. |
 | 📱 **Installabile** | Su computer (Chrome, Edge), Android e iPhone; l'interfaccia resta disponibile offline. |
 | 🖥️ **Modalità TV** | Su una smart TV o un box (Android TV, Google TV, Fire TV, Samsung, LG…) l'app passa da sola a una vista grande leggibile dal divano e si usa con il telecomando: frecce per spostarsi, OK per aprire, Indietro per chiudere. Si può forzare nelle impostazioni (Visualizzazione: Auto, Telefono / computer, TV) o con `?tv=1` nell'indirizzo. |
+| 🔎 **Ricerca per titolo, suggerimenti e voce** | Cerca per voglia o per titolo esatto, con suggerimenti mentre scrivi (idee pronte o titoli con la locandina). Dove il browser lo permette (Chrome, Edge, Safari), un pulsante 🎤 ti fa dire cosa vuoi. Ogni lista finisce con **Mostra altri**. |
+| 📲 **Dal telefono alla TV con una scansione** | La TV mostra un codice QR: inquadralo con il telefono dove l'app è già configurata, conferma, e la TV riceve chiave TMDB, impostazioni e liste. Niente da digitare col telecomando. |
+| 🌗 **Tema chiaro o scuro** | Auto (come il dispositivo), chiaro o scuro, nelle impostazioni. Foto del cast in ogni scheda. |
+
+## Compatibile con ogni schermo
+
+La stessa app si adatta al dispositivo, senza impostare nulla:
+
+| Dispositivo | Vista e comandi | Browser provati |
+|---|---|---|
+| 📱 **Telefono** | Una colonna, grandi aree da toccare, installabile nella schermata Home. | Safari (iPhone), Chrome (Android) |
+| 💻 **Computer** | Ampia griglia di locandine, mouse o tastiera (Tab, Invio, Esc). | Chrome, Edge, Firefox, Safari |
+| 🖥️ **TV** | Vista grande leggibile dal divano, margini contro il ritaglio dello schermo, telecomando: frecce, OK, Indietro. Si attiva da sola su smart TV e box TV. | Samsung (Tizen), LG (webOS), Android TV / Google TV, Fire TV |
+
+I tablet usano la vista telefono o computer secondo la larghezza. Per scegliere tu: **Impostazioni → Visualizzazione** (Auto, Telefono / computer, TV), oppure `?tv=1` (o `?tv=0`) nell'indirizzo.
 
 ## Compatibile con ogni schermo
 
@@ -137,8 +152,9 @@ Ciné‑Envie è pensata per non sapere niente di te.
 | 🔑 **La tua chiave resta tua** | La chiave TMDB è salvata nel tuo browser e inviata solo all'API di TMDB. |
 | 🙈 **Nessun tracciamento** | Niente statistiche, pubblicità o cookie. |
 | 🌐 **Cosa contatta il tuo browser** | TMDB (dati e immagini) e GitHub Pages, che ospita l'app e può registrare il tuo indirizzo IP. I trailer si aprono su YouTube. |
+| 📲 **Trasferimento con codice QR** | Solo se lo usi: i dati sono cifrati nel browser (AES-GCM) e passano dal relè pubblico ntfy.sh, che non può leggerli (la chiave resta nel codice QR) e li cancella entro 12 ore. La ricerca vocale invia l'audio al servizio di riconoscimento del browser (Google per Chrome, Apple per Safari). |
 | 📦 **Zero dipendenze** | La pagina non carica pacchetti npm né script esterni: niente che possa essere compromesso a monte. (Gli unici pacchetti npm servono a generare gli screenshot, mai all'app.) |
-| 🛡️ **Content Security Policy** | Il browser blocca qualsiasi script estraneo e qualsiasi connessione fuori da TMDB. |
+| 🛡️ **Content Security Policy** | Il browser blocca qualsiasi script estraneo e qualsiasi connessione fuori da TMDB e dal relè ntfy.sh. |
 | 🧹 **Dati neutralizzati** | Tutto ciò che arriva da TMDB o da un'importazione viene neutralizzato prima di essere mostrato. |
 
 Hai trovato una vulnerabilità? Leggi [SECURITY.md](SECURITY.md) per segnalarla in privato.

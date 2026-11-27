@@ -55,6 +55,21 @@ Hiya application web katinstalla (PWA), bla serveur, bla compte, bla dépendance
 | 📋 **Les listes dyali** | « Nchoufo » w « Chefthom », m7foudin f navigateur, m3a export / import JSON bach tbeddel l appareil. |
 | 📱 **Katinstalla** | F l ordinateur (Chrome, Edge), Android w iPhone ; l'interface katb9a khdama 7tta bla internet. |
 | 🖥️ **Mode TV** | F télé connectée wla boîtier (Android TV, Google TV, Fire TV, Samsung, LG…), l'appli katdouz bouha l affichage kbir li yt9ra mn l canapé, w katkhdem b la télécommande : les flèches bach tt7rrek, OK bach t7ell, Retour bach tsedd. T9der tforcih f réglages (L3ard : Auto, Téléphone / ordinateur, TV) wla b `?tv=1` f l'adresse. |
+| 🔎 **9lab b smiya, i9tira7at w sot** | 9elleb b l5atr wla b smiya dyal film, m3a i9tira7at mlli katkteb (afkar wajdin wla titres b l'affiche dyalhom). Fin navigateur kaysm7 (Chrome, Edge, Safari), bouton 🎤 kaykhallik tgol chno bghiti. Kol liste katsala b bouton **Chouf ktar**. |
+| 📲 **Mn téléphone l la télé f scan wa7ed** | La télé katbayen QR code : scannih b téléphone li fih l'appli mreglia, akked, w la télé katched la clé TMDB, réglages w listes dyalek. Walou matkteb b la télécommande. |
+| 🌗 **Thème fat7 wla ghame9** | Auto (b7al l'appareil), fat7 wla ghame9, f réglages. Tsawer dyal les acteurs f kol fiche. |
+
+## Katkhdem f ga3 les écrans
+
+Nfs l'appli katbeddel rasha 3la 7sab l'appareil, bla ma tbeddel walou :
+
+| Appareil | L3ard w t7akkom | Navigateurs li jarrabna |
+|---|---|---|
+| 📱 **Téléphone** | Colonne wa7da, blays kbar l lmss, t9der tinstalliha f l'écran d'accueil. | Safari (iPhone), Chrome (Android) |
+| 💻 **Ordinateur** | Grille kbira dyal les affiches, souris wla clavier (Tab, Entrée, Échap). | Chrome, Edge, Firefox, Safari |
+| 🖥️ **TV** | Affichage kbir li yt9ra mn l canapé, marges bach la télé matkoupich, télécommande : les flèches, OK, Retour. Katched bouha f les télés connectées w les boîtiers. | Samsung (Tizen), LG (webOS), Android TV / Google TV, Fire TV |
+
+Les tablettes katched l'affichage dyal téléphone wla ordinateur 3la 7sab l3ard dyalhom. Bach tkhtar nta : **Réglages → L3ard** (Auto, Téléphone / ordinateur, TV), wla `?tv=1` (wla `?tv=0`) f l'adresse.
 
 ## Katkhdem f ga3 les écrans
 
@@ -136,8 +151,9 @@ Ciné‑Envie mdayra bach ma t3ref 7tta 7aja 3lik.
 | 🔑 **L clé dyalek katb9a 3endek** | Clé TMDB m7fouda f navigateur dyalek w katsifet ghir l API dyal TMDB. |
 | 🙈 **Bla tracking** | Bla statistiques, bla publicité, bla cookies. |
 | 🌐 **Chno kaytwasel m3ah navigateur dyalek** | TMDB (data w tsawer) w GitHub Pages, li fih l appli w ymken ysjjel l adresse IP dyalek. Les bandes-annonces kayt7lo f YouTube. |
+| 📲 **Transfert b QR code** | Ghir ila khdemti bih : les données katchiffra f navigateur dyalek (AES-GCM) w katdouz mn l relais public ntfy.sh, li ma ye9derch y9rahom (la clé katb9a f QR code) w kaymse7hom f 12 sa3a. Recherche b sot katsifet sot l service dyal navigateur (Google f Chrome, Apple f Safari). |
 | 📦 **0 dépendance** | L page ma katchargi 7tta package npm wla script mn barra : walo li y9der yt5errb mn l'extérieur. (Les packages npm kaynin ghir bach ndiro les captures, l'appli ma kat5demch bihom.) |
-| 🛡️ **Content Security Policy** | L navigateur kaybloqui ay script gharib w ay connexion barra TMDB. |
+| 🛡️ **Content Security Policy** | L navigateur kaybloqui ay script gharib w ay connexion barra TMDB w l relais ntfy.sh. |
 | 🧹 **Data m9adda** | Kolchi li jay mn TMDB wla mn import kayt9adda 9bel ma yban. |
 
 L9iti chi faille ? Chouf [SECURITY.md](SECURITY.md) bach tgoulha b sir.

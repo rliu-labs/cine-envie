@@ -1,5 +1,14 @@
 # Journal des versions
 
+## 0.13.0 (novembre 2026)
+- Du téléphone à la télé en un scan : la télé affiche un QR code, le téléphone envoie la clé TMDB, les réglages et (au choix) les listes, chiffrés de bout en bout via le relais public ntfy.sh. Aussi dans Réglages → « Passer sur un autre appareil ».
+- Recherche par titre (en plus de la recherche par envie), avec suggestions pendant la frappe : idées toutes faites ou titres avec leur affiche.
+- Recherche vocale (bouton 🎤) là où le navigateur la propose.
+- Bouton « Voir plus » sous chaque liste de résultats (envie, titre, tendances, thématiques).
+- Thème clair ou sombre au choix (Auto suit l'appareil).
+- Photos des acteurs dans la fiche.
+- Mode TV : les suggestions toutes faites passent avant le champ de saisie, pour ne rien avoir à taper.
+
 ## 0.12.0 (novembre 2026)
 - Mode TV : grand affichage lisible de loin (marges anti-rognage, affiches et textes agrandis, fiche presque plein écran) et navigation à la télécommande ou au clavier (flèches, OK, Retour), avec un focus bien visible.
 - Activé tout seul sur les télés connectées et boîtiers (Samsung Tizen, LG webOS, Android TV / Google TV, Fire TV…), réglable dans Réglages → Affichage (Auto, Téléphone / ordinateur, TV) ou avec `?tv=1` / `?tv=0` dans l'adresse. Rien ne change sur téléphone et ordinateur.

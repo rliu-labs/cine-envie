@@ -1,8 +1,10 @@
-import { parseMood, scoreItem, genreMaps, buildProfile } from './mood.js?v=18';
-import * as api from './tmdb.js?v=18';
-import * as store from './store.js?v=18';
-import { resolveTv, setTv, isTv } from './tv.js?v=18';
-import { t, getLang, setLang, LANGS, moodLabel, DEFAULT_LANG, guessCountry, countryName, countryOptions } from './i18n.js?v=18';
+import { parseMood, scoreItem, genreMaps, buildProfile } from './mood.js?v=19';
+import * as api from './tmdb.js?v=19';
+import * as store from './store.js?v=19';
+import { resolveTv, setTv, isTv } from './tv.js?v=19';
+import { qrSvg } from './qr.js?v=19';
+import * as pair from './pair.js?v=19';
+import { t, getLang, setLang, LANGS, moodLabel, DEFAULT_LANG, guessCountry, countryName, countryOptions } from './i18n.js?v=19';
 
 const $ = (s, el = document) => el.querySelector(s);
 const view = $('#view');
@@ -26,6 +28,17 @@ function applyLocale() {
   renderFooter();
   renderLangMenu();
 }
+// Thème clair / sombre : attribut data-theme sur <html> (absent = celui du système).
+const darkQuery = typeof matchMedia === 'function' ? matchMedia('(prefers-color-scheme: dark)') : null;
+function applyTheme() {
+  const th = store.getTheme();
+  if (th === 'auto') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.dataset.theme = th;
+  const dark = th === 'dark' || (th === 'auto' && (darkQuery ? darkQuery.matches : true));
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#14141c' : '#f4f4f8');
+}
+darkQuery?.addEventListener?.('change', applyTheme);
+
 const tasteProfile = () => buildProfile(Object.values(store.getList()));
 
 // Menu de langue dans l'en-tête (style Material : bouton globe + menu déroulant)
@@ -94,6 +107,7 @@ function renderFooter() {
     <p>${t('justwatch')} <a href="https://www.justwatch.com" target="_blank" rel="noopener">JustWatch</a>.</p>
     <details class="about"><summary>${t('about')}</summary>
       <p>${t('privacyNote')}</p>
+      <p>${t('privacyPair')}</p>
       <p>${t('trademarks')}</p>
       <p>${t('legalNotice')}</p>
     </details>`;
@@ -149,6 +163,36 @@ function grid(items, extraFn = () => ({})) {
   return `<div class="grid">${items.map((it) => card(it, extraFn(it))).join('')}</div>`;
 }
 
+// Grille avec bouton « Voir plus » : next(k) charge le k-ième lot suivant (k = 1, 2…) ; les doublons sont ignorés.
+function pagedGrid(out, first, next, extra = () => ({}), header = '') {
+  if (!out) return; // on a changé de page entre-temps
+  const shown = new Set(first.map(store.itemKey));
+  out.innerHTML = header + grid(first, extra) + (first.length ? `<div class="more-row"><button type="button" class="more-btn">${t('more')}</button></div>` : '');
+  const btn = $('.more-btn', out);
+  if (!btn) return;
+  let k = 0;
+  btn.addEventListener('click', async () => {
+    const hadFocus = document.activeElement === btn;
+    btn.disabled = true; btn.textContent = t('loading');
+    try {
+      let fresh = [];
+      for (let tries = 0; tries < 3 && !fresh.length; tries++) {
+        k++;
+        const items = await next(k);
+        if (!items.length) break;
+        fresh = items.filter((it) => !shown.has(store.itemKey(it)));
+      }
+      fresh.forEach((it) => shown.add(store.itemKey(it)));
+      const g = $('.grid', out);
+      g.insertAdjacentHTML('beforeend', fresh.map((it) => card(it, extra(it))).join(''));
+      if (!fresh.length) btn.closest('.more-row').innerHTML = `<p class="hint">${t('noMore')}</p>`;
+      else { btn.disabled = false; btn.textContent = t('more'); }
+      // À la télécommande : on enchaîne sur la première nouvelle affiche.
+      if (hadFocus && fresh.length) g.querySelector(`.card[data-type="${fresh[0].media_type}"][data-id="${fresh[0].id}"]`)?.focus();
+    } catch (e) { btn.disabled = false; btn.textContent = t('more'); btn.insertAdjacentHTML('afterend', errorBox(e)); }
+  });
+}
+
 function loading(msg = t('loading')) { return `<p class="loading">${msg}</p>`; }
 function errorBox(e) { return `<p class="error">${esc(e.message || e)}</p>`; }
 
@@ -165,10 +209,73 @@ function needKey() {
       <div class="row spread"><h2>${t('welcome')}</h2>${langSwitch()}</div>
       <p>${t('welcomeText')}</p>
       <ol><li>${t('step1')}</li><li>${t('step2')}</li><li>${t('step3')}</li></ol>
+      ${isTv() ? receivePanel() : ''}
       ${keyForm()}
+      ${isTv() ? '' : receivePanel()}
     </section>`;
   bindKeyForm();
   bindLangSwitch(needKey);
+  startReceive();
+}
+
+// ---------- Transfert par QR code (voir pair.js) ----------
+let stopListen = null;
+function receivePanel() {
+  return `<div class="pairbox" id="pairBox">
+      <div class="qr" id="pairQr"></div>
+      <div>
+        <h3>${t('pairTitle')}</h3>
+        <ol>${t('pairSteps').map((s) => `<li>${s}</li>`).join('')}</ol>
+        <p class="hint" id="pairMsg" role="status"></p>
+      </div>
+    </div>`;
+}
+function startReceive() {
+  const box = $('#pairBox');
+  if (!box) return;
+  stopListen?.();
+  const s = pair.newSession();
+  const link = pair.pairLink(location.origin + location.pathname, s);
+  $('#pairQr').innerHTML = qrSvg(link, { label: t('pairTitle') });
+  const msg = $('#pairMsg');
+  msg.textContent = t('pairWaiting');
+  stopListen = pair.listen(s, (data) => {
+    stopListen = null;
+    const n = store.importTransfer(data);
+    applyTheme(); applyLocale(); api.setCredential(store.getKey()); providerNames = new Map();
+    if ($('#pairMsg')) $('#pairMsg').textContent = t('pairGot')(n);
+    setTimeout(() => { location.hash = '#envie'; route(); }, 1500);
+  }, () => { if ($('#pairMsg')) $('#pairMsg').textContent = t('pairRetry'); });
+}
+
+// Page ouverte en scannant le QR code : on envoie la clé, les réglages et (au choix) les listes.
+function viewPair(s) {
+  document.querySelectorAll('nav a').forEach((a) => a.classList.remove('on'));
+  const n = Object.keys(store.getList()).length;
+  if (!store.getKey()) {
+    view.innerHTML = `<section class="panel"><h2>${t('sendTitle')}</h2><p>${t('sendNoKey')}</p><a class="btn" href="#envie">${t('close')}</a></section>`;
+    return;
+  }
+  view.innerHTML = `
+    <section class="panel">
+      <h2>${t('sendTitle')}</h2>
+      <p>${t('sendIntro')}</p>
+      <label class="check"><input type="checkbox" id="sendLists" ${n ? 'checked' : ''}> ${esc(t('sendLists')(n))}</label>
+      <div class="row"><button type="button" class="primary" id="sendGo">${t('sendBtn')}</button><a class="btn" href="#envie">${t('cancel')}</a></div>
+      <p class="hint" id="sendMsg" role="status"></p>
+    </section>`;
+  const btn = $('#sendGo');
+  btn.addEventListener('click', async () => {
+    btn.disabled = true;
+    $('#sendMsg').textContent = t('sending');
+    try {
+      await pair.send(s, store.exportTransfer($('#sendLists').checked));
+      $('#sendMsg').textContent = t('sendDone');
+      btn.remove();
+      // Le lien d'appairage ne doit pas resservir : on l'efface de l'historique.
+      history.replaceState(null, '', `${location.pathname}#envie`);
+    } catch (e) { btn.disabled = false; $('#sendMsg').textContent = `${t('pairErr')} (${e.message})`; }
+  });
 }
 
 function keyForm() {
@@ -240,32 +347,146 @@ function bindFilterBar(onChange) {
   }));
 }
 
+// Recherche : « par envie » (phrase libre) ou « par titre » (nom d'un film ou d'une série).
+let searchMode = 'mood';
+let lastTitle = '';
+const SR = typeof window !== 'undefined' ? (window.SpeechRecognition || window.webkitSpeechRecognition) : null;
+const SPEECH_LANG = { en: 'en-US', fr: 'fr-FR', es: 'es-ES', de: 'de-DE', it: 'it-IT', pt: 'pt-PT', ary: 'fr-FR' };
+const norm = (x) => String(x || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+
 async function viewEnvie() {
   const presets = t('presets');
+  const isTitle = searchMode === 'title';
   view.innerHTML = `
     <section class="hero">
       <h2>${t('ask')}</h2>
       <div id="filterBox"></div>
-      <form id="moodForm" class="row">
-        <input id="moodInput" placeholder="${esc(t('askPh'))}" value="${esc(lastQuery)}">
+      <div class="seg modes" id="modeSeg" role="group" aria-label="${esc(t('find'))}">${[['mood', `✨ ${t('byMood')}`], ['title', `🔎 ${t('byTitle')}`]].map(([v, l]) => `<button type="button" data-m="${v}" class="${v === searchMode ? 'on' : ''}" aria-pressed="${v === searchMode}">${l}</button>`).join('')}</div>
+      <form id="moodForm" class="row searchrow" autocomplete="off">
+        <div class="field">
+          <input id="moodInput" type="search" enterkeyhint="search" placeholder="${esc(isTitle ? t('titlePh') : t('askPh'))}" value="${esc(isTitle ? lastTitle : lastQuery)}" aria-autocomplete="list" aria-controls="sugg">
+          <ul id="sugg" class="sugg" role="listbox" aria-label="${esc(t('suggestions'))}" hidden></ul>
+        </div>
+        ${SR ? `<button type="button" id="micBtn" class="mic" aria-label="${esc(t('voice'))}" title="${esc(t('voice'))}">🎤</button>` : ''}
         <button class="primary">${t('find')}</button>
       </form>
-      <div class="chips">${presets.map((p) => `<button class="chip" data-q="${esc(p)}">${esc(p)}</button>`).join('')}</div>
+      <p class="hint" id="voiceMsg" role="status" hidden></p>
+      <div class="chips" id="presets" ${isTitle ? 'hidden' : ''}>${presets.map((p) => `<button type="button" class="chip" data-q="${esc(p)}">${esc(p)}</button>`).join('')}</div>
     </section>
     <div id="moodOut"></div>`;
-  const rerun = () => { if (lastQuery) runMood(lastQuery); };
+  const input = $('#moodInput');
+  const rerun = () => { if (searchMode === 'mood' && lastQuery) runMood(lastQuery); if (searchMode === 'title' && lastTitle) runTitle(lastTitle); };
   bindFilterBar(rerun);
-  $('#moodForm').addEventListener('submit', (e) => { e.preventDefault(); runMood($('#moodInput').value); });
-  view.querySelectorAll('.hero .chip').forEach((c) => c.addEventListener('click', () => { $('#moodInput').value = c.dataset.q; runMood(c.dataset.q); }));
-  if (lastQuery) runMood(lastQuery);
+  const go = (q) => { hideSugg(); if (searchMode === 'title') runTitle(q); else runMood(q); };
+  $('#moodForm').addEventListener('submit', (e) => { e.preventDefault(); go(input.value); });
+  view.querySelectorAll('#presets .chip').forEach((c) => c.addEventListener('click', () => { input.value = c.dataset.q; go(c.dataset.q); }));
+  view.querySelectorAll('#modeSeg button').forEach((b) => b.addEventListener('click', () => {
+    if (searchMode === b.dataset.m) return;
+    searchMode = b.dataset.m; viewEnvie(); $(`#modeSeg [data-m="${searchMode}"]`)?.focus();
+  }));
+  bindSuggestions(input, go);
+  if (SR) $('#micBtn').addEventListener('click', () => startVoice(input, go));
+  rerun();
   // Charge logos et noms des plateformes du pays, puis redessine la barre
   if ((!providerNames.size || store.getProviders(api.getRegion()).some((id) => !providerNames.has(id))) && api.hasCredential()) { await loadProviderNames(); if ($('#filterBox')) bindFilterBar(rerun); }
+}
+
+// ---------- Suggestions pendant la saisie ----------
+let suggTimer = 0;
+let suggSeq = 0;
+function hideSugg() { const l = $('#sugg'); if (l) { l.hidden = true; l.innerHTML = ''; } }
+function bindSuggestions(input, go) {
+  const list = $('#sugg');
+  const show = (html) => { list.innerHTML = html; list.hidden = !html; };
+  input.addEventListener('input', () => {
+    clearTimeout(suggTimer);
+    const q = input.value.trim();
+    const seq = ++suggSeq;
+    if (q.length < 2) { hideSugg(); return; }
+    if (searchMode === 'mood') {
+      // Phrases toutes faites qui contiennent ce qui est tapé (sans tenir compte des accents)
+      const words = norm(q).split(/\s+/).filter((w) => w.length > 1);
+      const hits = t('presets').filter((p) => words.every((w) => norm(p).includes(w))).slice(0, 5);
+      show(hits.map((p) => `<li role="none"><button type="button" role="option" class="sg" data-q="${esc(p)}">✨ ${esc(p)}</button></li>`).join(''));
+      return;
+    }
+    // Par titre : les 6 premiers résultats TMDB, une fois la frappe arrêtée
+    suggTimer = setTimeout(async () => {
+      try {
+        const items = (await api.searchTitle(q)).slice(0, 6);
+        if (seq !== suggSeq) return;
+        show(items.map((it) => `<li role="none"><button type="button" role="option" class="sg title" data-type="${esc(it.media_type)}" data-id="${esc(it.id)}">
+          ${it.poster_path ? `<img src="${esc(`${api.IMG}w92${it.poster_path}`)}" alt="">` : '<span class="noimg-s" aria-hidden="true">🎬</span>'}
+          <span><strong>${esc(titleOf(it))}</strong><small>${it.media_type === 'tv' ? t('tv') : t('movie')} · ${esc(year(it)) || '—'}</small></span></button></li>`).join(''));
+      } catch { hideSugg(); }
+    }, 250);
+  });
+  list.addEventListener('click', (e) => {
+    const b = e.target.closest('.sg');
+    if (!b) return;
+    if (b.dataset.id) { hideSugg(); openDetail(b.dataset.type, b.dataset.id); return; }
+    input.value = b.dataset.q; go(b.dataset.q);
+  });
+  // Clavier (téléphone / ordinateur) : flèche bas pour entrer dans la liste, Échap pour la fermer.
+  const items = () => [...list.querySelectorAll('.sg')];
+  input.addEventListener('keydown', (e) => {
+    if (isTv()) return;
+    if (e.key === 'ArrowDown' && !list.hidden && items().length) { e.preventDefault(); items()[0].focus(); }
+    if (e.key === 'Escape') hideSugg();
+  });
+  list.addEventListener('keydown', (e) => {
+    if (isTv()) return;
+    const all = items(); const i = all.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown') { e.preventDefault(); all[Math.min(i + 1, all.length - 1)].focus(); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); if (i <= 0) input.focus(); else all[i - 1].focus(); }
+    if (e.key === 'Escape') { hideSugg(); input.focus(); }
+  });
+}
+if (typeof document !== 'undefined') document.addEventListener('click', (e) => { if (!e.target.closest?.('.field')) hideSugg(); });
+
+// ---------- Recherche vocale (si le navigateur la propose) ----------
+let recog = null;
+function startVoice(input, go) {
+  const mic = $('#micBtn');
+  const msg = $('#voiceMsg');
+  if (recog) { recog.stop(); return; }
+  recog = new SR();
+  recog.lang = SPEECH_LANG[getLang()] || 'en-US';
+  recog.interimResults = true;
+  recog.maxAlternatives = 1;
+  let finalText = '';
+  mic.classList.add('on'); mic.setAttribute('aria-pressed', 'true');
+  msg.hidden = false; msg.textContent = t('listening');
+  recog.onresult = (e) => {
+    const txt = [...e.results].map((r) => r[0].transcript).join('');
+    input.value = txt;
+    if (e.results[e.results.length - 1].isFinal) finalText = txt;
+  };
+  recog.onerror = (e) => { msg.textContent = e.error === 'not-allowed' || e.error === 'service-not-allowed' ? t('voiceDenied') : t('voiceErr'); };
+  recog.onend = () => {
+    recog = null;
+    mic.classList.remove('on'); mic.setAttribute('aria-pressed', 'false');
+    if (finalText.trim()) { msg.hidden = true; go(finalText); }
+  };
+  try { recog.start(); } catch { recog = null; msg.textContent = t('voiceErr'); }
+}
+
+// ---------- Recherche par titre ----------
+async function runTitle(q) {
+  lastTitle = q.trim();
+  const out = $('#moodOut');
+  if (!lastTitle || !out) return;
+  out.innerHTML = loading(t('searching'));
+  try {
+    const first = await api.searchTitle(lastTitle);
+    pagedGrid(out, first, (k) => api.searchTitle(lastTitle, k + 1), () => ({}), `<p class="hint">${esc(t('titleResults')(lastTitle))}</p>`);
+  } catch (e) { out.innerHTML = errorBox(e); }
 }
 
 async function runMood(q) {
   lastQuery = q.trim();
   const out = $('#moodOut');
-  if (!lastQuery) return;
+  if (!lastQuery || !out) return;
   const mood = parseMood(lastQuery);
   // Si la phrase ne précise pas film ou série, on suit le choix Films / Séries / Les deux.
   if (mood.type === 'all') mood.type = store.getMediaType();
@@ -301,11 +522,11 @@ async function runMood(q) {
     const types = mood.type === 'all' ? ['movie', 'tv'] : [mood.type];
     const today = new Date();
     const recentFrom = `${today.getFullYear() - 3}-01-01`;
-    const jobs = types.map((type) => {
+    const paramsFor = (type) => {
       const genres = [...(type === 'tv' ? mood.tvGenres : mood.movieGenres)];
-      if (!genres.length && !mood.recent && ref) return Promise.resolve([]);
+      if (!genres.length && !mood.recent && ref) return null;
       const dateKey = type === 'tv' ? 'first_air_date' : 'primary_release_date';
-      const params = {
+      return {
         with_genres: genres.join('|'),
         without_genres: [...mood.exclude].join(','),
         sort_by: mood.classic ? 'vote_average.desc' : 'popularity.desc',
@@ -314,18 +535,31 @@ async function runMood(q) {
         [`${dateKey}.lte`]: mood.classic ? '2005-12-31' : undefined,
         'with_runtime.lte': mood.short && type === 'movie' ? 105 : undefined,
       };
-      return Promise.all([api.discover(type, params), api.discover(type, { ...params, page: 2 })]).then((a) => a.flat());
-    });
-    const found = await Promise.all(jobs);
-    found.forEach((list) => add(list, moods.length ? t('fits')(moods.join(', ')) : t('popular')));
+    };
+    const why = moods.length ? t('fits')(moods.join(', ')) : t('popular');
+    // Pages p1 et p2 de la recherche TMDB pour chaque type (films / séries)
+    const fetchPages = async (p1, p2) => {
+      const lists = await Promise.all(types.map((type) => {
+        const params = paramsFor(type);
+        if (!params) return Promise.resolve([]);
+        return Promise.all([api.discover(type, { ...params, page: p1 }), api.discover(type, { ...params, page: p2 })]).then((a) => a.flat());
+      }));
+      lists.forEach((list) => add(list, why));
+    };
+    await fetchPages(1, 2);
 
-    let items = [...pool.values()];
-    if (recKeys) items.forEach((it) => { if (recKeys.has(store.itemKey(it))) { it._fromSimilar = true; it._why = refWhy; } });
-    if (mood.type !== 'all') items = items.filter((it) => it.media_type === mood.type);
-    if (ref) items = items.filter((it) => !(it.id === ref.id && it.media_type === ref.media_type));
     const profile = tasteProfile();
-    items.sort((a, b) => scoreItem(b, mood, profile) - scoreItem(a, mood, profile));
-    items = items.slice(0, 30);
+    const used = new Set();
+    // Classe tout ce qui a été trouvé et pas encore montré
+    const ranked = () => {
+      let items = [...pool.values()].filter((it) => !used.has(store.itemKey(it)));
+      if (recKeys) items.forEach((it) => { if (recKeys.has(store.itemKey(it))) { it._fromSimilar = true; it._why = refWhy; } });
+      if (mood.type !== 'all') items = items.filter((it) => it.media_type === mood.type);
+      if (ref) items = items.filter((it) => !(it.id === ref.id && it.media_type === ref.media_type));
+      return items.sort((a, b) => scoreItem(b, mood, profile) - scoreItem(a, mood, profile));
+    };
+    const take = (items) => { const sel = items.slice(0, 30); sel.forEach((it) => used.add(store.itemKey(it))); return sel; };
+    const first = take(ranked());
 
     const summary = [
       moods.length ? `${t('mood')} <b>${esc(moods.join(', '))}</b>` : '',
@@ -335,7 +569,12 @@ async function runMood(q) {
       api.getProviders().length ? `${t('onWhere').toLowerCase()} <b>${esc(api.getProviders().map((id) => provName(id) || id).join(', '))}</b>` : '',
       mood.recent ? `<b>${t('recent')}</b>` : '', mood.classic ? `<b>${t('classic')}</b>` : '', mood.short ? `<b>${t('short')}</b>` : '',
     ].filter(Boolean).join(' · ');
-    out.innerHTML = `<p class="hint">${t('understood')} ${summary || t('nothing')}.</p>${grid(items, (it) => ({ why: it._why }))}`;
+    // « Voir plus » : d'abord le reste de ce qui a déjà été trouvé, puis les pages TMDB suivantes.
+    const next = async (k) => {
+      if (ranked().length < 30) await fetchPages(2 * k + 1, 2 * k + 2);
+      return take(ranked());
+    };
+    pagedGrid(out, first, next, (it) => ({ why: it._why }), `<p class="hint">${t('understood')} ${summary || t('nothing')}.</p>`);
   } catch (e) { out.innerHTML = errorBox(e); }
 }
 
@@ -349,11 +588,14 @@ async function viewTendances() {
     </section><div id="trendOut">${loading()}</div>`;
   view.querySelectorAll('.seg button').forEach((b) => b.addEventListener('click', () => { trendType = b.dataset.v; viewTendances(); }));
   try {
-    const [p1, p2] = await Promise.all([api.trending(trendType, 'week', 1), api.trending(trendType, 'week', 2)]);
+    const type = trendType;
+    const [p1, p2] = await Promise.all([api.trending(type, 'week', 1), api.trending(type, 'week', 2)]);
     const items = [...p1, ...p2];
     const isNew = store.diffTrending(items);
     const nb = items.filter(isNew).length;
-    $('#trendOut').innerHTML = (api.getProviders().length ? `<p class="hint">${t('trendsAllPlatforms')}</p>` : '') + (nb ? `<p class="hint">${t('newSince')(nb)}</p>` : '') + grid(items, (it) => ({ isNew: isNew(it) }));
+    const header = (api.getProviders().length ? `<p class="hint">${t('trendsAllPlatforms')}</p>` : '') + (nb ? `<p class="hint">${t('newSince')(nb)}</p>` : '');
+    const next = (k) => Promise.all([api.trending(type, 'week', 2 * k + 1), api.trending(type, 'week', 2 * k + 2)]).then((a) => a.flat());
+    pagedGrid($('#trendOut'), items, next, (it) => ({ isNew: isNew(it) }), header);
   } catch (e) { $('#trendOut').innerHTML = errorBox(e); }
 }
 
@@ -377,8 +619,10 @@ async function viewGenres() {
   refreshPill();
   try {
     const params = { with_genres: genreState.genre, sort_by: genreState.sort, 'vote_count.gte': genreState.sort.startsWith('vote') ? 1000 : 150 };
-    const [a, b] = await Promise.all([api.discover(genreState.type, params), api.discover(genreState.type, { ...params, page: 2 })]);
-    $('#genreOut').innerHTML = grid([...a, ...b]);
+    const type = genreState.type;
+    const [a, b] = await Promise.all([api.discover(type, params), api.discover(type, { ...params, page: 2 })]);
+    const next = (k) => Promise.all([api.discover(type, { ...params, page: 2 * k + 1 }), api.discover(type, { ...params, page: 2 * k + 2 })]).then((r) => r.flat());
+    pagedGrid($('#genreOut'), [...a, ...b], next);
   } catch (e) { $('#genreOut').innerHTML = errorBox(e); }
 }
 
@@ -436,6 +680,8 @@ function viewReglages() {
     <section class="panel">
       <h2>${t('settings')}</h2>
       <h3>${t('lang')}</h3>${langSwitch()}
+      <h3>${t('theme')}</h3>
+      <div class="seg" id="themeSeg">${[['auto', t('themeAuto')], ['light', `☀️ ${t('themeLight')}`], ['dark', `🌙 ${t('themeDark')}`]].map(([v, l]) => `<button type="button" data-t="${v}" class="${v === store.getTheme() ? 'on' : ''}" aria-pressed="${v === store.getTheme()}">${l}</button>`).join('')}</div>
       <h3>${t('display')}</h3>
       <p class="hint">${t('displayHint')}</p>
       <div class="seg" id="dispSeg">${[['auto', t('dispAuto')], ['screen', t('dispScreen')], ['tv', `📺 ${t('dispTv')}`]].map(([v, l]) => `<button type="button" data-d="${v}" class="${v === store.getDisplay() ? 'on' : ''}" aria-pressed="${v === store.getDisplay()}">${l}</button>`).join('')}</div>
@@ -446,6 +692,9 @@ function viewReglages() {
       <p class="hint">${t('platformsHint')}</p>
       <div id="provPick">${api.hasCredential() ? loading() : ''}</div>
       <h3>${t('tmdbKey')}</h3>${keyForm()}
+      <h3>${t('transfer')}</h3>
+      <p class="hint">${t('transferHint')}</p>
+      <div id="recvSlot"><button type="button" id="recvBtn">📲 ${t('receiveBtn')}</button></div>
       <h3>${t('backup')}</h3>
       <p class="hint">${t('backupHint')}</p>
       <div class="row"><button id="exp">${t('exp')}</button><label class="btn">${t('imp')}<input id="imp" type="file" accept="application/json" hidden></label></div>
@@ -456,6 +705,14 @@ function viewReglages() {
   bindKeyForm();
   bindLangSwitch(viewReglages);
   $('#countrySel').addEventListener('change', (e) => { setCountry(e.target.value); viewReglages(); });
+  view.querySelectorAll('#themeSeg button').forEach((b) => b.addEventListener('click', () => {
+    store.setTheme(b.dataset.t); applyTheme(); viewReglages(); $(`#themeSeg [data-t="${b.dataset.t}"]`)?.focus();
+  }));
+  $('#recvBtn').addEventListener('click', () => {
+    $('#recvSlot').innerHTML = receivePanel();
+    startReceive();
+    $('#pairBox').scrollIntoView({ block: 'center' });
+  });
   view.querySelectorAll('#dispSeg button').forEach((b) => b.addEventListener('click', () => {
     store.setDisplay(b.dataset.d); setTv(resolveTv(b.dataset.d, location.search)); viewReglages(); $(`#dispSeg [data-d="${b.dataset.d}"]`)?.focus();
   }));
@@ -505,7 +762,11 @@ async function openDetail(type, id) {
     const provRow = (label, list) => list?.length ? `<div class="prov"><span>${label}</span>${list.map((p) => `<img class="${store.getProviders(api.getRegion()).includes(p.provider_id) ? 'mine' : ''}" title="${esc(p.provider_name)}" alt="${esc(p.provider_name)}" src="${esc(`${api.IMG}w92${p.logo_path}`)}">`).join('')}</div>` : '';
     const trailer = (d.videos?.results || []).find((v) => v.site === 'YouTube' && v.type === 'Trailer') || (d.videos?.results || []).find((v) => v.site === 'YouTube');
     const runtime = d.runtime ? `${Math.floor(d.runtime / 60)}h${String(d.runtime % 60).padStart(2, '0')}` : (d.number_of_seasons ? t('seasons')(d.number_of_seasons) : '');
-    const cast = (d.credits?.cast || []).slice(0, 5).map((c) => c.name).join(', ');
+    const cast = (d.credits?.cast || []).slice(0, 12);
+    const initials = (n) => n.split(/\s+/).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
+    const castBlock = cast.length ? `<h3>${t('cast')}</h3><ul class="cast">${cast.map((c) => `
+      <li>${c.profile_path ? `<img loading="lazy" src="${esc(`${api.IMG}w185${c.profile_path}`)}" alt="">` : `<span class="noface" aria-hidden="true">${esc(initials(c.name || '?'))}</span>`}
+        <strong>${esc(c.name)}</strong>${c.character ? `<small>${esc(c.character)}</small>` : ''}</li>`).join('')}</ul>` : '';
     const director = (d.credits?.crew || []).find((c) => c.job === 'Director')?.name || (d.created_by || []).map((c) => c.name).join(', ');
     const render = () => {
       const entry = store.getEntry(it);
@@ -523,7 +784,7 @@ async function openDetail(type, id) {
             <p class="hint">${type === 'tv' ? t('tv') : t('movie')}${runtime ? ` · ${runtime}` : ''} · ${esc(d.genres.map((g) => g.name).join(', '))}${d.vote_average ? ` · ★ ${Number(d.vote_average).toFixed(1)}` : ''}</p>
             ${d.tagline ? `<p class="tagline">${esc(d.tagline)}</p>` : ''}
             <p>${esc(d.overview || t('noOverview'))}</p>
-            ${director ? `<p class="hint">${t('by')} ${esc(director)}${cast ? ` · ${t('with')} ${esc(cast)}` : ''}</p>` : ''}
+            ${director ? `<p class="hint">${t('by')} ${esc(director)}</p>` : ''}
             <div class="row actions">
               <button data-s="towatch" class="${st === 'towatch' ? 'primary' : ''}">${st === 'towatch' ? t('inList') : t('addList')}</button>
               <button data-s="seen" class="${st === 'seen' ? 'primary' : ''}">${st === 'seen' ? t('isSeen') : t('markSeen')}</button>
@@ -535,6 +796,7 @@ async function openDetail(type, id) {
               ${[1, 2, 3, 4, 5].map((n) => `<button class="star ${n <= myRating ? 'on' : ''}" data-r="${n}" aria-label="${esc(t('stars')(n))}">★</button>`).join('')}
               ${myRating ? `<button class="link" data-r="0">${t('clearRate')}</button>` : ''}
             </div>
+            ${castBlock}
             <div class="row where"><h3>${t('whereIn')}</h3>${countrySelect('detailCountry')}</div>
             ${offers || `<p class="hint">${t('noOffer')}</p>`}
             ${prov.link ? `<p class="hint"><a href="${esc(prov.link)}" target="_blank" rel="noopener">${t('allOffers')}</a></p>` : ''}
@@ -561,6 +823,9 @@ function refreshBadges() { if ((location.hash || '#envie') === '#listes') viewLi
 // ---------- Navigation ----------
 const ROUTES = { '#envie': viewEnvie, '#tendances': viewTendances, '#genres': viewGenres, '#listes': viewListes, '#reglages': viewReglages };
 function route() {
+  stopListen?.(); stopListen = null;
+  const p = pair.parsePair(location.hash);
+  if (p) { viewPair(p); window.scrollTo(0, 0); return; }
   const h = ROUTES[location.hash] ? location.hash : '#envie';
   document.querySelectorAll('nav a').forEach((a) => a.classList.toggle('on', a.getAttribute('href') === h));
   if (!api.hasCredential() && h !== '#listes') return needKey();
@@ -575,6 +840,7 @@ view.addEventListener('click', (e) => {
 $('#detail').addEventListener('click', (e) => { if (e.target.id === 'detail') e.target.close(); });
 window.addEventListener('hashchange', route);
 
+applyTheme();
 setTv(resolveTv(store.getDisplay(), location.search));
 applyLocale();
 api.setCredential(store.getKey());
