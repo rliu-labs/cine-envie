@@ -50,14 +50,14 @@ Scrivi cosa ti va di vedere come lo diresti a un amico, **in italiano, inglese, 
 | 📍 **Il tuo paese** | Scegli il paese di residenza tra 31 paesi europei, direttamente dalla scheda: le piattaforme mostrate sono quelle disponibili da te. |
 | 🔥 **Tendenze** | Film e serie di tendenza della settimana, con un badge **Nuovo** su ciò che è apparso dalla tua ultima visita. |
 | 🎭 **Generi** | Esplora per genere, popolarità o voto. |
-| 🎬 **Scheda** | Trama, regia, cast, trailer e offerte legali del paese scelto (abbonamento, gratis, noleggio, acquisto). |
+| 🎬 **Scheda** | Trama, regia, cast con foto, trailer nella scheda e offerte legali del paese scelto (abbonamento, gratis, noleggio, acquisto). Tocca un attore per vedere i suoi altri film e serie. |
 | ⭐ **Profilo dei gusti** | Vota da 1 a 5 stelle ciò che hai visto: l'app capisce quali generi ami o eviti, adatta l'ordine di ogni ricerca e propone una selezione «Consigliati per te». |
 | 📋 **Le mie liste** | «Da vedere» e «Visti», salvati nel browser, con esportazione / importazione JSON per cambiare dispositivo. |
 | 📱 **Installabile** | Su computer (Chrome, Edge), Android e iPhone; l'interfaccia resta disponibile offline. |
 | 🖥️ **Modalità TV** | Su una smart TV o un box (Android TV, Google TV, Fire TV, Samsung, LG…) l'app passa da sola a una vista grande leggibile dal divano e si usa con il telecomando: frecce per spostarsi, OK per aprire, Indietro per chiudere. Si può forzare nelle impostazioni (Visualizzazione: Auto, Telefono / computer, TV) o con `?tv=1` nell'indirizzo. |
 | 🔎 **Ricerca per titolo e a voce** | Cerca per voglia o per titolo, con suggerimenti mentre scrivi, un pulsante 🎤 per dettare e **Mostra altri** sotto ogni lista. |
 | 📲 **Dal telefono alla TV con una scansione** | Inquadra col telefono il codice QR mostrato dalla TV: riceve chiave, impostazioni e liste. |
-| 🌗 **Tema chiaro o scuro** | Auto, chiaro o scuro. Foto del cast in ogni scheda (toccane una per vedere gli altri film), trailer nella scheda. |
+| 🌗 **Tema chiaro o scuro** | Auto, chiaro o scuro. |
 
 ## Compatibile con ogni schermo
 

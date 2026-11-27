@@ -50,14 +50,14 @@ It is an installable web app (PWA) with no server, no account and no dependencie
 | 📍 **Your country** | Pick your country of residence among 31 European countries, right from the title page: the services shown are the ones available where you live. |
 | 🔥 **Trending** | This week's trending movies and series, with a **New** badge on what appeared since your last visit. |
 | 🎭 **Genres** | Browse by genre, popularity or rating. |
-| 🎬 **Title page** | Overview, director, cast, trailer and the legal streaming offers in the chosen country (subscription, free, rent, buy). |
+| 🎬 **Title page** | Overview, director, cast with photos, trailer played right in the page, and the legal streaming offers in the chosen country (subscription, free, rent, buy). Tap an actor to see their other movies and series. |
 | ⭐ **Taste profile** | Rate the titles you have seen from 1 to 5 stars: the app works out which genres you like or avoid, adjusts the ranking of every search and offers a "Recommended for you" selection. |
 | 📋 **My lists** | "To watch" and "Seen", stored in the browser, with JSON export / import to move to another device. |
 | 📱 **Installable** | On desktop (Chrome, Edge), Android and iPhone; the interface stays available offline. |
 | 🖥️ **TV mode** | On a smart TV or a TV box (Android TV, Google TV, Fire TV, Samsung, LG…) the app switches by itself to a large display that reads from the sofa, driven with the remote: arrows to move, OK to open, Back to close. You can force it in the settings (Display: Auto, Phone / computer, TV) or with `?tv=1` in the address. |
 | 🔎 **Title search and voice** | Search by mood or by title, with suggestions as you type, a 🎤 button to speak your search, and **Show more** under every list. |
 | 📲 **From phone to TV in one scan** | Scan the QR code shown on the TV with your phone: the TV gets your key, settings and lists. |
-| 🌗 **Light or dark theme** | Auto, light or dark. Cast photos on every title page (tap one to see their other movies), trailer played right in the page. |
+| 🌗 **Light or dark theme** | Auto, light or dark. |
 
 ## Works on every screen
 
