@@ -50,14 +50,14 @@ Es una aplicación web instalable (PWA), sin servidor, sin cuenta y sin dependen
 | 📍 **Tu país** | Elige tu país de residencia entre 31 países europeos, desde la propia ficha: las plataformas que se muestran son las disponibles donde vives. |
 | 🔥 **Tendencias** | Películas y series en tendencia esta semana, con una etiqueta **Nuevo** en lo que ha aparecido desde tu última visita. |
 | 🎭 **Géneros** | Explora por género, popularidad o nota. |
-| 🎬 **Ficha** | Sinopsis, dirección, reparto, tráiler y ofertas legales del país elegido (suscripción, gratis, alquiler, compra). |
+| 🎬 **Ficha** | Sinopsis, dirección, reparto con fotos, tráiler dentro de la ficha y ofertas legales del país elegido (suscripción, gratis, alquiler, compra). Toca un actor para ver sus otras películas y series. |
 | ⭐ **Perfil de gustos** | Puntúa de 1 a 5 estrellas lo que has visto: la app deduce los géneros que te gustan o evitas, ajusta el orden de cada búsqueda y propone una selección «Recomendado para ti». |
 | 📋 **Mis listas** | «Por ver» y «Vistas», guardadas en el navegador, con exportación / importación JSON para cambiar de dispositivo. |
 | 📱 **Instalable** | En ordenador (Chrome, Edge), Android e iPhone; la interfaz sigue disponible sin conexión. |
 | 🖥️ **Modo TV** | En una smart TV o un dispositivo (Android TV, Google TV, Fire TV, Samsung, LG…), la app pasa sola a una vista grande que se lee desde el sofá y se maneja con el mando: flechas para moverse, OK para abrir, Atrás para cerrar. Se puede forzar en los ajustes (Pantalla: Auto, Móvil / ordenador, TV) o con `?tv=1` en la dirección. |
 | 🔎 **Búsqueda por título y por voz** | Busca por ganas o por título, con sugerencias mientras escribes, un botón 🎤 para dictar y **Ver más** bajo cada lista. |
 | 📲 **Del móvil a la tele en un escaneo** | Escanea con el móvil el código QR que muestra la tele: recibe tu clave, tus ajustes y tus listas. |
-| 🌗 **Tema claro u oscuro** | Auto, claro u oscuro. Fotos del reparto en cada ficha. |
+| 🌗 **Tema claro u oscuro** | Auto, claro u oscuro. |
 
 ## Compatible con todas las pantallas
 

@@ -50,14 +50,14 @@ Es ist eine installierbare Web-App (PWA) ohne Server, ohne Konto und ohne Abhän
 | 📍 **Dein Land** | Wähle dein Wohnland aus 31 europäischen Ländern, direkt auf der Titelseite: Angezeigt werden die Dienste, die es bei dir gibt. |
 | 🔥 **Trends** | Die Filme und Serien der Woche, mit einem **Neu**-Abzeichen für alles, was seit deinem letzten Besuch dazugekommen ist. |
 | 🎭 **Genres** | Stöbern nach Genre, Beliebtheit oder Bewertung. |
-| 🎬 **Titelseite** | Inhalt, Regie, Besetzung, Trailer und die legalen Angebote im gewählten Land (Abo, kostenlos, leihen, kaufen). |
+| 🎬 **Titelseite** | Inhalt, Regie, Besetzung mit Fotos, Trailer direkt auf der Seite und die legalen Angebote im gewählten Land (Abo, kostenlos, leihen, kaufen). Tippe auf eine Person, um ihre anderen Filme und Serien zu sehen. |
 | ⭐ **Geschmacksprofil** | Bewerte Gesehenes mit 1 bis 5 Sternen: Die App erkennt, welche Genres du magst oder meidest, passt die Reihenfolge jeder Suche an und schlägt eine Auswahl „Für dich empfohlen“ vor. |
 | 📋 **Meine Listen** | „Merkliste“ und „Gesehen“, im Browser gespeichert, mit JSON-Export / -Import für den Gerätewechsel. |
 | 📱 **Installierbar** | Auf dem Computer (Chrome, Edge), Android und iPhone; die Oberfläche funktioniert auch offline. |
 | 🖥️ **TV-Modus** | Auf einem Smart-TV oder einer TV-Box (Android TV, Google TV, Fire TV, Samsung, LG…) wechselt die App von selbst in eine große Ansicht, die vom Sofa aus lesbar ist, und wird mit der Fernbedienung gesteuert: Pfeile zum Bewegen, OK zum Öffnen, Zurück zum Schließen. Erzwingen lässt er sich in den Einstellungen (Anzeige: Auto, Handy / Computer, TV) oder mit `?tv=1` in der Adresse. |
 | 🔎 **Titelsuche und Sprache** | Suche nach Stimmung oder Titel, mit Vorschlägen beim Tippen, einem 🎤-Knopf zum Diktieren und **Mehr anzeigen** unter jeder Liste. |
 | 📲 **Vom Handy auf den Fernseher mit einem Scan** | Scanne mit dem Handy den QR-Code auf dem Fernseher: Er erhält Schlüssel, Einstellungen und Listen. |
-| 🌗 **Helles oder dunkles Design** | Auto, hell oder dunkel. Fotos der Besetzung auf jeder Titelseite. |
+| 🌗 **Helles oder dunkles Design** | Auto, hell oder dunkel. |
 
 ## Läuft auf jedem Bildschirm
 

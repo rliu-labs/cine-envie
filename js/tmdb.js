@@ -94,3 +94,7 @@ export async function recommendations(type, id) {
 export async function details(type, id) {
   return tmdb(`/${type}/${id}`, { append_to_response: 'videos,watch/providers,credits', include_video_language: `${language.slice(0, 2)},en,null` });
 }
+
+export async function person(id) {
+  return tmdb(`/person/${id}`, { append_to_response: 'combined_credits' });
+}

@@ -50,14 +50,14 @@ Escreves o que te apetece ver como dirias a um amigo, **em português, inglês, 
 | 📍 **O teu país** | Escolhe o país de residência entre 31 países europeus, diretamente na ficha: as plataformas mostradas são as disponíveis onde vives. |
 | 🔥 **Tendências** | Filmes e séries em tendência esta semana, com um selo **Novo** no que apareceu desde a tua última visita. |
 | 🎭 **Géneros** | Explora por género, popularidade ou nota. |
-| 🎬 **Ficha** | Sinopse, realização, elenco, trailer e as ofertas legais do país escolhido (subscrição, grátis, aluguer, compra). |
+| 🎬 **Ficha** | Sinopse, realização, elenco com fotos, trailer dentro da ficha e as ofertas legais do país escolhido (subscrição, grátis, aluguer, compra). Toca num ator para ver os outros filmes e séries. |
 | ⭐ **Perfil de gostos** | Dá de 1 a 5 estrelas ao que viste: a app percebe de que géneros gostas ou foges, ajusta a ordem de cada pesquisa e sugere uma seleção «Recomendado para ti». |
 | 📋 **As minhas listas** | «Para ver» e «Vistos», guardados no navegador, com exportação / importação JSON para mudar de dispositivo. |
 | 📱 **Instalável** | No computador (Chrome, Edge), Android e iPhone; a interface continua disponível offline. |
 | 🖥️ **Modo TV** | Numa smart TV ou numa box (Android TV, Google TV, Fire TV, Samsung, LG…), a app passa sozinha para uma vista grande que se lê do sofá e usa-se com o comando: setas para mover, OK para abrir, Voltar para fechar. Pode ser forçado nas definições (Ecrã: Auto, Telemóvel / computador, TV) ou com `?tv=1` no endereço. |
 | 🔎 **Pesquisa por título e por voz** | Pesquisa por vontade ou por título, com sugestões enquanto escreves, um botão 🎤 para ditar e **Ver mais** sob cada lista. |
 | 📲 **Do telemóvel para a TV num scan** | Lê com o telemóvel o código QR mostrado na TV: recebe a chave, as definições e as listas. |
-| 🌗 **Tema claro ou escuro** | Auto, claro ou escuro. Fotos do elenco em cada ficha. |
+| 🌗 **Tema claro ou escuro** | Auto, claro ou escuro. |
 
 ## Compatível com todos os ecrãs
 

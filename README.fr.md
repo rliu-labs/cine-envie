@@ -50,14 +50,14 @@ C'est une application web installable (PWA), sans serveur, sans compte, sans dé
 | 📍 **Ton pays** | Choix du pays de résidence parmi 31 pays européens, directement depuis la fiche : les plateformes affichées sont celles disponibles chez toi. |
 | 🔥 **Tendances** | Films et séries tendance de la semaine, avec un badge **Nouveau** sur ce qui est apparu depuis ta dernière visite. |
 | 🎭 **Thématiques** | Parcours par genre, par popularité ou par note. |
-| 🎬 **Fiche** | Résumé, réalisateur, casting, bande‑annonce et plateformes légales du pays choisi (abonnement, gratuit, location, achat). |
+| 🎬 **Fiche** | Résumé, réalisateur, acteurs en photo, bande‑annonce lue dans la fiche et plateformes légales du pays choisi (abonnement, gratuit, location, achat). Touche un acteur pour voir ses autres films et séries. |
 | ⭐ **Profil de goûts** | Note les titres vus de 1 à 5 étoiles : l'appli en déduit les genres que tu aimes ou évites, ajuste le classement de chaque recherche et propose une sélection « Recommandé pour toi ». |
 | 📋 **Mes listes** | « À voir » et « Vus », stockés dans le navigateur, avec export / import JSON pour changer d'appareil. |
 | 📱 **Installable** | Sur ordinateur (Chrome, Edge), Android et iPhone ; l'interface reste disponible hors ligne. |
 | 🖥️ **Mode TV** | Sur une télé connectée ou un boîtier (Android TV, Google TV, Fire TV, Samsung, LG…), l'appli passe toute seule en grand affichage lisible depuis le canapé, et se pilote à la télécommande : flèches pour se déplacer, OK pour ouvrir, Retour pour fermer. On peut le forcer dans les réglages (Affichage : Auto, Téléphone / ordinateur, TV) ou avec `?tv=1` dans l'adresse. |
 | 🔎 **Recherche par titre et à la voix** | Recherche par envie ou par titre, avec des suggestions pendant la frappe, un bouton 🎤 pour dicter et **Voir plus** sous chaque liste. |
 | 📲 **Du téléphone à la télé en un scan** | Scanne avec ton téléphone le QR code affiché sur la télé : elle reçoit ta clé, tes réglages et tes listes. |
-| 🌗 **Thème clair ou sombre** | Auto, clair ou sombre. Photos des acteurs sur chaque fiche. |
+| 🌗 **Thème clair ou sombre** | Auto, clair ou sombre. |
 
 ## Compatible avec tous les écrans
 

@@ -50,14 +50,14 @@ Hiya application web katinstalla (PWA), bla serveur, bla compte, bla dépendance
 | 📍 **Bladek** | Khtar l blad li sakn fiha mn 31 blad f Oroppa, direct mn l fiche : les plateformes li kaybano homa li kaynin 3endek. |
 | 🔥 **Trend** | Aflam w msalsalat li machi l7al had simana, m3a badge **Jdid** 3la dakchi li ban mn a5er merra jiti. |
 | 🎭 **Anwa3** | T9elleb b genre, b chno machi l7al wla b a7san n9at. |
-| 🎬 **Fiche** | Résumé, réalisateur, casting, bande‑annonce w les offres l9anouniya f l blad li khtarti (abonnement, batel, kra, chra). |
+| 🎬 **Fiche** | Résumé, réalisateur, les acteurs b tsawerhom, bande‑annonce f la fiche w les offres l9anouniya f l blad li khtarti (abonnement, batel, kra, chra). Wrek 3la acteur bach tchouf aflamou w msalsalatou lokhrin. |
 | ⭐ **Dou9ek** | 3ti n9ta mn 1 l 5 njoum l dakchi li cheftih : l'appli kat3ref chno kat7ebb w chno la, katrteb l bi7t 3la 7sab dou9ek w kat9tare7 3lik « Mkhtarin lik ». |
 | 📋 **Les listes dyali** | « Nchoufo » w « Chefthom », m7foudin f navigateur, m3a export / import JSON bach tbeddel l appareil. |
 | 📱 **Katinstalla** | F l ordinateur (Chrome, Edge), Android w iPhone ; l'interface katb9a khdama 7tta bla internet. |
 | 🖥️ **Mode TV** | F télé connectée wla boîtier (Android TV, Google TV, Fire TV, Samsung, LG…), l'appli katdouz bouha l affichage kbir li yt9ra mn l canapé, w katkhdem b la télécommande : les flèches bach tt7rrek, OK bach t7ell, Retour bach tsedd. T9der tforcih f réglages (L3ard : Auto, Téléphone / ordinateur, TV) wla b `?tv=1` f l'adresse. |
 | 🔎 **9lab b smiya w b sot** | 9elleb b l5atr wla b smiya, m3a i9tira7at mlli katkteb, bouton 🎤 bach tgol, w **Chouf ktar** t7t kol liste. |
 | 📲 **Mn téléphone l la télé f scan wa7ed** | Scanni b téléphone l QR code li f la télé : katched la clé, réglages w listes dyalek. |
-| 🌗 **Thème fat7 wla ghame9** | Auto, fat7 wla ghame9. Tsawer dyal les acteurs f kol fiche. |
+| 🌗 **Thème fat7 wla ghame9** | Auto, fat7 wla ghame9. |
 
 ## Katkhdem f ga3 les écrans
 
