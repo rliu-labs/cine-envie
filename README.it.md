@@ -54,6 +54,7 @@ Scrivi cosa ti va di vedere come lo diresti a un amico, **in italiano, inglese, 
 | ⭐ **Profilo dei gusti** | Vota da 1 a 5 stelle ciò che hai visto: l'app capisce quali generi ami o eviti, adatta l'ordine di ogni ricerca e propone una selezione «Consigliati per te». |
 | 📋 **Le mie liste** | «Da vedere» e «Visti», salvati nel browser, con esportazione / importazione JSON per cambiare dispositivo. |
 | 📱 **Installabile** | Su computer (Chrome, Edge), Android e iPhone; l'interfaccia resta disponibile offline. |
+| 🖥️ **Modalità TV** | Su una smart TV o un box (Android TV, Google TV, Fire TV, Samsung, LG…) l'app passa da sola a una vista grande leggibile dal divano e si usa con il telecomando: frecce per spostarsi, OK per aprire, Indietro per chiudere. Si può forzare nelle impostazioni (Visualizzazione: Auto, Telefono / computer, TV) o con `?tv=1` nell'indirizzo. |
 
 ## Come funziona
 

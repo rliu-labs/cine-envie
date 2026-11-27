@@ -1,5 +1,9 @@
 # Journal des versions
 
+## 0.12.0 (novembre 2026)
+- Mode TV : grand affichage lisible de loin (marges anti-rognage, affiches et textes agrandis, fiche presque plein écran) et navigation à la télécommande ou au clavier (flèches, OK, Retour), avec un focus bien visible.
+- Activé tout seul sur les télés connectées et boîtiers (Samsung Tizen, LG webOS, Android TV / Google TV, Fire TV…), réglable dans Réglages → Affichage (Auto, Téléphone / ordinateur, TV) ou avec `?tv=1` / `?tv=0` dans l'adresse. Rien ne change sur téléphone et ordinateur.
+
 ## 0.11.1 (novembre 2026)
 - Pied de page : section repliable « À propos et mentions légales » dans les 7 langues, visible même sans clé TMDB (confidentialité, marques des plateformes, éditeur et hébergeur).
 - README : note de confidentialité plus exacte (le navigateur contacte TMDB, GitHub Pages et YouTube pour les bandes-annonces), avertissement sur les marques et mentions légales dans les 7 langues.

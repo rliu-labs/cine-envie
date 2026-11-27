@@ -54,6 +54,7 @@ Escreves o que te apetece ver como dirias a um amigo, **em português, inglês, 
 | ⭐ **Perfil de gostos** | Dá de 1 a 5 estrelas ao que viste: a app percebe de que géneros gostas ou foges, ajusta a ordem de cada pesquisa e sugere uma seleção «Recomendado para ti». |
 | 📋 **As minhas listas** | «Para ver» e «Vistos», guardados no navegador, com exportação / importação JSON para mudar de dispositivo. |
 | 📱 **Instalável** | No computador (Chrome, Edge), Android e iPhone; a interface continua disponível offline. |
+| 🖥️ **Modo TV** | Numa smart TV ou numa box (Android TV, Google TV, Fire TV, Samsung, LG…), a app passa sozinha para uma vista grande que se lê do sofá e usa-se com o comando: setas para mover, OK para abrir, Voltar para fechar. Pode ser forçado nas definições (Ecrã: Auto, Telemóvel / computador, TV) ou com `?tv=1` no endereço. |
 
 ## Como funciona
 

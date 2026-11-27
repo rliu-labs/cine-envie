@@ -54,6 +54,7 @@ It is an installable web app (PWA) with no server, no account and no dependencie
 | ⭐ **Taste profile** | Rate the titles you have seen from 1 to 5 stars: the app works out which genres you like or avoid, adjusts the ranking of every search and offers a "Recommended for you" selection. |
 | 📋 **My lists** | "To watch" and "Seen", stored in the browser, with JSON export / import to move to another device. |
 | 📱 **Installable** | On desktop (Chrome, Edge), Android and iPhone; the interface stays available offline. |
+| 🖥️ **TV mode** | On a smart TV or a TV box (Android TV, Google TV, Fire TV, Samsung, LG…) the app switches by itself to a large display that reads from the sofa, driven with the remote: arrows to move, OK to open, Back to close. You can force it in the settings (Display: Auto, Phone / computer, TV) or with `?tv=1` in the address. |
 
 ## How it works
 
