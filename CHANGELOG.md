@@ -1,5 +1,9 @@
 # Journal des versions
 
+## 0.15.0 (novembre 2026)
+- Environ 140 pays au choix (Europe, Amériques, Afrique, Moyen-Orient, Asie, Océanie), dont le Canada, les États-Unis et le Maroc.
+- Alertes « À voir » : un bandeau en haut des pages Envie et Mes listes prévient quand un titre de la liste arrive sur une de mes plateformes ou a une nouvelle saison. Chaque titre est vérifié au plus une fois par jour ; on peut ouvrir la fiche ou masquer l'alerte.
+
 ## 0.14.0 (novembre 2026)
 - Chargement animé : des affiches grises qui « respirent » remplacent le texte « Chargement… » (fiches comprises), sans animation si le système demande moins de mouvement.
 - Bande-annonce lue directement dans la fiche (YouTube en mode sans cookies), avec un lien pour l'ouvrir sur YouTube ; elle s'arrête quand on ferme la fiche.

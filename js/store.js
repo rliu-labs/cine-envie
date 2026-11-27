@@ -1,5 +1,5 @@
 // Stockage local (navigateur) : langue, pays, clé TMDB, listes « à voir » / « vus », veille des tendances.
-const K = { active: 'cine.activeProviders', providers: 'cine.providers', mediaType: 'cine.mediaType', lang: 'cine.lang', region: 'cine.region', key: 'cine.tmdbKey', list: 'cine.list', trend: 'cine.trendSeen', trendAt: 'cine.trendAt', display: 'cine.display', theme: 'cine.theme' };
+const K = { active: 'cine.activeProviders', providers: 'cine.providers', mediaType: 'cine.mediaType', lang: 'cine.lang', region: 'cine.region', key: 'cine.tmdbKey', list: 'cine.list', trend: 'cine.trendSeen', trendAt: 'cine.trendAt', display: 'cine.display', theme: 'cine.theme', snaps: 'cine.watchSnaps', alerts: 'cine.alerts' };
 
 const read = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
 const write = (k, v) => localStorage.setItem(k, JSON.stringify(v));
@@ -81,6 +81,29 @@ export function setStatus(it, status) {
   }
   write(K.list, list);
 }
+
+// Alertes « À voir » : instantanés par titre ({ 'tv:1399': { region, prov, names, seasons, at } }) et alertes en attente.
+export const getSnaps = () => read(K.snaps, {});
+export function setSnap(key, snap) {
+  const all = getSnaps();
+  all[key] = { ...snap, at: Date.now() };
+  // On oublie les titres sortis de la liste « À voir ».
+  const list = getList();
+  for (const k of Object.keys(all)) if (list[k]?.status !== 'towatch') delete all[k];
+  write(K.snaps, all);
+}
+// Alertes encore valables (le titre est toujours dans « À voir »).
+export function getAlerts() {
+  const list = getList();
+  return read(K.alerts, []).filter((a) => list[a.key]?.status === 'towatch');
+}
+export function addAlerts(items) {
+  if (!items.length) return;
+  const keep = getAlerts().filter((a) => !items.some((b) => b.key === a.key && b.kind === a.kind));
+  write(K.alerts, [...items.map((a) => ({ ...a, at: Date.now() })), ...keep].slice(0, 30));
+}
+export const dismissAlert = (key) => write(K.alerts, getAlerts().filter((a) => a.key !== key));
+export const clearAlerts = () => write(K.alerts, []);
 
 // Veille : renvoie l'ensemble des ids de tendances déjà vus avant cette visite, puis mémorise les actuels.
 export function diffTrending(items) {

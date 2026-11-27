@@ -1,10 +1,11 @@
-import { parseMood, scoreItem, genreMaps, buildProfile } from './mood.js?v=20';
-import * as api from './tmdb.js?v=20';
-import * as store from './store.js?v=20';
-import { resolveTv, setTv, isTv } from './tv.js?v=20';
-import { qrSvg } from './qr.js?v=20';
-import * as pair from './pair.js?v=20';
-import { intlLang, t, getLang, setLang, LANGS, moodLabel, DEFAULT_LANG, guessCountry, countryName, countryOptions } from './i18n.js?v=20';
+import { parseMood, scoreItem, genreMaps, buildProfile } from './mood.js?v=21';
+import * as api from './tmdb.js?v=21';
+import * as store from './store.js?v=21';
+import { resolveTv, setTv, isTv } from './tv.js?v=21';
+import { qrSvg } from './qr.js?v=21';
+import * as pair from './pair.js?v=21';
+import * as alerts from './alerts.js?v=21';
+import { intlLang, t, getLang, setLang, LANGS, moodLabel, DEFAULT_LANG, guessCountry, countryName, countryOptions } from './i18n.js?v=21';
 
 const $ = (s, el = document) => el.querySelector(s);
 const view = $('#view');
@@ -817,7 +818,10 @@ async function openDetail(type, id) {
       }));
       $('#detailCountry', dlg).addEventListener('change', (e) => { setCountry(e.target.value); render(); });
       dlg.querySelectorAll('[data-s]').forEach((b) => b.addEventListener('click', () => {
-        store.setStatus(it, st === b.dataset.s ? null : b.dataset.s); render(); refreshBadges();
+        store.setStatus(it, st === b.dataset.s ? null : b.dataset.s);
+        // Ajout à « À voir » : on mémorise tout de suite où il est diffusé, pour les alertes à venir.
+        if (store.getEntry(it)?.status === 'towatch') store.setSnap(store.itemKey(it), alerts.snapshot(d, api.getRegion()));
+        render(); refreshBadges();
       }));
       $('[data-trailer]', dlg)?.addEventListener('click', () => {
         playing = !playing; render();
@@ -878,13 +882,67 @@ async function viewPerson(id) {
   } catch (e) { view.innerHTML = errorBox(e); }
 }
 
-function refreshBadges() { if ((location.hash || '#envie') === '#listes') viewListes(); }
+function refreshBadges() { if ((location.hash || '#envie') === '#listes') viewListes(); renderAlerts(); }
+
+// ---------- Alertes « À voir » ----------
+// Bandeau en haut des pages Envie et Mes listes.
+function renderAlerts() {
+  const box = $('#alerts');
+  if (!box) return;
+  const here = ['', '#envie', '#listes'].includes(location.hash);
+  const list = here && api.hasCredential() ? store.getAlerts() : [];
+  box.hidden = !list.length;
+  if (!list.length) { box.innerHTML = ''; return; }
+  const text = (a) => (a.kind === 'season' ? t('alertSeason')(a.title, a.n) : t('alertPlatform')(a.title, a.names.join(', ')));
+  box.innerHTML = `
+    <div class="alerts-head"><h2>${t('alertsTitle')}</h2><button type="button" class="linkish" data-clear>${t('alertsClear')}</button></div>
+    <ul>${list.map((a) => `
+      <li><button type="button" class="alert-open" data-type="${esc(a.media_type)}" data-id="${esc(a.id)}" data-key="${esc(a.key)}">
+        ${a.poster_path ? `<img src="${esc(`${api.IMG}w92${a.poster_path}`)}" alt="">` : ''}<span>${esc(text(a))}</span></button>
+        <button type="button" class="alert-x" data-key="${esc(a.key)}" aria-label="${esc(t('alertHide')(a.title))}">✕</button></li>`).join('')}</ul>`;
+}
+$('#alerts')?.addEventListener('click', (e) => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  if (b.matches('[data-clear]')) store.clearAlerts();
+  else if (b.matches('.alert-x')) store.dismissAlert(b.dataset.key);
+  else if (b.matches('.alert-open')) { store.dismissAlert(b.dataset.key); openDetail(b.dataset.type, b.dataset.id); }
+  renderAlerts();
+});
+
+// Vérifie (au plus une fois par jour et par titre, 4 à la fois) les titres « À voir ».
+let checking = false;
+async function checkAlerts() {
+  if (checking || !api.hasCredential()) return;
+  checking = true;
+  try {
+    const region = api.getRegion();
+    const mine = store.getProviders(region);
+    const snaps = store.getSnaps();
+    const list = store.getList();
+    const keys = alerts.due(list, snaps);
+    const found = [];
+    for (let i = 0; i < keys.length; i += 4) {
+      await Promise.all(keys.slice(i, i + 4).map(async (k) => {
+        const [type, id] = k.split(':');
+        try {
+          const cur = alerts.snapshot(await api.details(type, id), region);
+          alerts.compare(snaps[k], cur, mine).forEach((a) => found.push({ ...a, key: k, id: Number(id), media_type: type, title: list[k].title, poster_path: list[k].poster_path }));
+          store.setSnap(k, cur);
+        } catch { /* hors ligne ou titre retiré : on réessaiera */ }
+      }));
+    }
+    store.addAlerts(found);
+  } finally { checking = false; }
+  renderAlerts();
+}
 
 // ---------- Navigation ----------
 const ROUTES = { '#envie': viewEnvie, '#tendances': viewTendances, '#genres': viewGenres, '#listes': viewListes, '#reglages': viewReglages };
 function route() {
   stopListen?.(); stopListen = null;
   const p = pair.parsePair(location.hash);
+  renderAlerts();
   if (p) { viewPair(p); window.scrollTo(0, 0); return; }
   const person = /^#personne\/(\d+)$/.exec(location.hash);
   if (person && api.hasCredential()) { viewPerson(person[1]); window.scrollTo(0, 0); return; }
@@ -907,6 +965,9 @@ setTv(resolveTv(store.getDisplay(), location.search));
 applyLocale();
 api.setCredential(store.getKey());
 route();
+// Alertes : au lancement, puis quand on revient sur l'appli (les titres déjà vérifiés du jour sont sautés).
+setTimeout(checkAlerts, 1500);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') checkAlerts(); });
 
 if ('serviceWorker' in navigator) {
   // Quand une nouvelle version de l'appli est publiée, on recharge une fois pour l'afficher tout de suite.

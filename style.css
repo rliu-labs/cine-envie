@@ -160,6 +160,23 @@ small.mine { color: var(--new); letter-spacing: .05em; }
 /* ---------- Mode TV (grand écran lu de loin, télécommande) ----------
    Activé par la classe .tv sur <html> (détection auto, réglages ou ?tv=1).
    Les tailles suivent la largeur de l'écran : même rendu en 1080p et en 4K. */
+/* Alertes « À voir » */
+.alerts { max-width: 1400px; margin: 1rem auto 0; padding: 0 1rem; box-sizing: border-box; }
+.alerts[hidden] { display: none; }
+.alerts-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.alerts-head .linkish { flex: none; }
+.alerts-head h2 { font-size: 1.05rem; margin: 0; }
+.linkish { background: none; color: var(--mut); padding: .3rem .5rem; text-decoration: underline; }
+.alerts ul { list-style: none; margin: .5rem 0 0; padding: 0; display: grid; gap: .5rem; }
+.alerts li { display: flex; align-items: stretch; gap: .25rem; background: var(--bg2); border: 1px solid var(--bg3); border-left: 4px solid var(--new); border-radius: var(--r); }
+.alert-open { flex: 1; display: flex; align-items: center; gap: .75rem; background: none; text-align: left; padding: .45rem .75rem; min-width: 0; }
+.alert-open img { width: 34px; height: 51px; object-fit: cover; border-radius: 4px; flex: none; }
+.alert-x { background: none; color: var(--mut); padding: .45rem .9rem; }
+.alert-x:hover, .linkish:hover { color: var(--fg); }
+html.tv .alerts { max-width: none; padding: 0 5vw; margin-top: 1.5rem; }
+html.tv .alerts-head h2 { font-size: 1.3rem; }
+html.tv .alert-open img { width: 48px; height: 72px; }
+
 html.tv { font-size: clamp(20px, 1.45vw, 56px); }
 html.tv body { font-size: 1rem; line-height: 1.4; }
 /* Marge de sécurité : les téléviseurs rognent souvent les bords de l'image (overscan). */

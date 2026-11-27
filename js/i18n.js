@@ -1,8 +1,24 @@
 // Langue de l'interface (en, fr, es, de, it, pt et darija marocain en lettres latines) et pays de résidence pour les plateformes de streaming.
 
-// Pays européens proposés (codes ISO 3166-1 utilisés par TMDB / JustWatch).
-export const COUNTRIES = ['AT', 'BE', 'BG', 'CH', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GB', 'GR', 'HR', 'HU',
-  'IE', 'IS', 'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'NO', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'];
+// Pays proposés : ceux où TMDB / JustWatch publient les offres de streaming (codes ISO 3166-1).
+// Europe, Amériques, Afrique, Moyen-Orient, Asie et Océanie.
+export const COUNTRIES = [
+  // Europe
+  'AD', 'AL', 'AT', 'BA', 'BE', 'BG', 'BY', 'CH', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GB', 'GG', 'GI', 'GR', 'HR', 'HU',
+  'IE', 'IS', 'IT', 'LI', 'LT', 'LU', 'LV', 'MC', 'MD', 'ME', 'MK', 'MT', 'NL', 'NO', 'PL', 'PT', 'RO', 'RS', 'SE', 'SI', 'SK', 'SM',
+  'UA', 'VA', 'XK',
+  // Amériques
+  'AG', 'AR', 'BB', 'BM', 'BO', 'BR', 'BS', 'BZ', 'CA', 'CL', 'CO', 'CR', 'CU', 'DO', 'EC', 'GF', 'GT', 'GY', 'HN', 'JM', 'LC',
+  'MX', 'NI', 'PA', 'PE', 'PY', 'SV', 'TC', 'TT', 'US', 'UY', 'VE',
+  // Afrique
+  'AO', 'BF', 'CD', 'CI', 'CM', 'CV', 'DZ', 'EG', 'GH', 'GQ', 'KE', 'LY', 'MA', 'MG', 'ML', 'MU', 'MW', 'MZ', 'NE', 'NG', 'SC',
+  'SN', 'TD', 'TN', 'TZ', 'UG', 'ZA', 'ZM', 'ZW',
+  // Moyen-Orient et Asie
+  'AE', 'AZ', 'BH', 'HK', 'ID', 'IL', 'IN', 'IQ', 'JO', 'JP', 'KR', 'KW', 'LB', 'MY', 'OM', 'PH', 'PK', 'PS', 'QA', 'SA', 'SG',
+  'TH', 'TR', 'TW', 'YE',
+  // Océanie
+  'AU', 'FJ', 'NZ', 'PF', 'PG',
+];
 
 const STR = {
   fr: {
@@ -46,6 +62,7 @@ const STR = {
     theme: 'Thème', themeAuto: 'Auto (comme l\'appareil)', themeLight: 'Clair', themeDark: 'Sombre',
     cast: 'Distribution',
     closeTrailer: '✕ Fermer la bande-annonce', onYoutube: 'Ouvrir sur YouTube', seePerson: (n) => `Voir la fiche de ${n}`, back: 'Retour', readMore: 'Lire la suite',
+    alertsTitle: '🔔 Du nouveau dans ta liste À voir', alertPlatform: (n, p) => `« ${n} » est maintenant sur ${p}`, alertSeason: (n, k) => `« ${n} » : la saison ${k} est sortie`, alertHide: (n) => `Masquer l'alerte « ${n} »`, alertsClear: 'Tout masquer',
     filmography: (n) => `Films et séries (${n})`, as: (r) => `Rôle : ${r}`,
     born: (d, a, p) => `Né(e) le ${d}${a != null ? ` (${a} ans)` : ''}${p ? ` à ${p}` : ''}`, died: (d, a) => `mort(e) le ${d}${a != null ? ` à ${a} ans` : ''}`,
     transfer: 'Passer sur un autre appareil', transferHint: 'Pour retrouver ta clé TMDB, tes réglages et tes listes sur la télé (ou un autre appareil) sans rien retaper : sur l\'appareil à remplir, choisis « Recevoir », puis scanne le QR code avec ton téléphone.',
@@ -125,6 +142,7 @@ const STR = {
     theme: 'Theme', themeAuto: 'Auto (like the device)', themeLight: 'Light', themeDark: 'Dark',
     cast: 'Cast',
     closeTrailer: '✕ Close trailer', onYoutube: 'Open on YouTube', seePerson: (n) => `See ${n}'s page`, back: 'Back', readMore: 'Read more',
+    alertsTitle: '🔔 News from your watchlist', alertPlatform: (n, p) => `“${n}” is now on ${p}`, alertSeason: (n, k) => `“${n}”: season ${k} is out`, alertHide: (n) => `Hide the “${n}” alert`, alertsClear: 'Hide all',
     filmography: (n) => `Movies and series (${n})`, as: (r) => `As ${r}`,
     born: (d, a, p) => `Born ${d}${a != null ? ` (age ${a})` : ''}${p ? ` in ${p}` : ''}`, died: (d, a) => `died ${d}${a != null ? ` aged ${a}` : ''}`,
     transfer: 'Move to another device', transferHint: 'To get your TMDB key, settings and lists on the TV (or another device) without typing anything: on the device to fill, choose “Receive”, then scan the QR code with your phone.',
@@ -209,6 +227,7 @@ const STR = {
     theme: 'Tema', themeAuto: 'Auto (como el dispositivo)', themeLight: 'Claro', themeDark: 'Oscuro',
     cast: 'Reparto',
     closeTrailer: '✕ Cerrar el tráiler', onYoutube: 'Abrir en YouTube', seePerson: (n) => `Ver la ficha de ${n}`, back: 'Volver', readMore: 'Leer más',
+    alertsTitle: '🔔 Novedades en tu lista Por ver', alertPlatform: (n, p) => `«${n}» ya está en ${p}`, alertSeason: (n, k) => `«${n}»: ya salió la temporada ${k}`, alertHide: (n) => `Ocultar el aviso de «${n}»`, alertsClear: 'Ocultar todo',
     filmography: (n) => `Películas y series (${n})`, as: (r) => `Papel: ${r}`,
     born: (d, a, p) => `Nació el ${d}${a != null ? ` (${a} años)` : ''}${p ? ` en ${p}` : ''}`, died: (d, a) => `murió el ${d}${a != null ? ` a los ${a} años` : ''}`,
     transfer: 'Pasar a otro dispositivo', transferHint: 'Para tener tu clave TMDB, tus ajustes y tus listas en la tele (u otro dispositivo) sin escribir nada: en el dispositivo que quieres llenar, elige «Recibir» y escanea el código QR con tu móvil.',
@@ -293,6 +312,7 @@ const STR = {
     theme: 'Design', themeAuto: 'Auto (wie das Gerät)', themeLight: 'Hell', themeDark: 'Dunkel',
     cast: 'Besetzung',
     closeTrailer: '✕ Trailer schließen', onYoutube: 'Auf YouTube öffnen', seePerson: (n) => `Seite von ${n} ansehen`, back: 'Zurück', readMore: 'Weiterlesen',
+    alertsTitle: '🔔 Neues auf deiner Merkliste', alertPlatform: (n, p) => `„${n}“ ist jetzt bei ${p}`, alertSeason: (n, k) => `„${n}“: Staffel ${k} ist da`, alertHide: (n) => `Hinweis zu „${n}“ ausblenden`, alertsClear: 'Alle ausblenden',
     filmography: (n) => `Filme und Serien (${n})`, as: (r) => `Rolle: ${r}`,
     born: (d, a, p) => `Geboren am ${d}${a != null ? ` (${a} Jahre)` : ''}${p ? ` in ${p}` : ''}`, died: (d, a) => `gestorben am ${d}${a != null ? ` mit ${a} Jahren` : ''}`,
     transfer: 'Auf ein anderes Gerät übertragen', transferHint: 'So landen dein TMDB-Schlüssel, deine Einstellungen und Listen auf dem Fernseher (oder einem anderen Gerät), ohne etwas zu tippen: Wähle auf dem Zielgerät „Empfangen“ und scanne den QR-Code mit deinem Handy.',
@@ -377,6 +397,7 @@ const STR = {
     theme: 'Tema', themeAuto: 'Auto (come il dispositivo)', themeLight: 'Chiaro', themeDark: 'Scuro',
     cast: 'Cast',
     closeTrailer: '✕ Chiudi il trailer', onYoutube: 'Apri su YouTube', seePerson: (n) => `Vedi la scheda di ${n}`, back: 'Indietro', readMore: 'Leggi tutto',
+    alertsTitle: '🔔 Novità nella tua lista Da vedere', alertPlatform: (n, p) => `«${n}» ora è su ${p}`, alertSeason: (n, k) => `«${n}»: è uscita la stagione ${k}`, alertHide: (n) => `Nascondi l'avviso «${n}»`, alertsClear: 'Nascondi tutto',
     filmography: (n) => `Film e serie (${n})`, as: (r) => `Ruolo: ${r}`,
     born: (d, a, p) => `Nato/a il ${d}${a != null ? ` (${a} anni)` : ''}${p ? ` a ${p}` : ''}`, died: (d, a) => `morto/a il ${d}${a != null ? ` a ${a} anni` : ''}`,
     transfer: 'Passare a un altro dispositivo', transferHint: 'Per avere chiave TMDB, impostazioni e liste sulla TV (o un altro dispositivo) senza digitare nulla: sul dispositivo da riempire scegli «Ricevi», poi inquadra il codice QR con il telefono.',
@@ -461,6 +482,7 @@ const STR = {
     theme: 'Tema', themeAuto: 'Auto (como o aparelho)', themeLight: 'Claro', themeDark: 'Escuro',
     cast: 'Elenco',
     closeTrailer: '✕ Fechar o trailer', onYoutube: 'Abrir no YouTube', seePerson: (n) => `Ver a ficha de ${n}`, back: 'Voltar', readMore: 'Ler mais',
+    alertsTitle: '🔔 Novidades na tua lista Para ver', alertPlatform: (n, p) => `«${n}» já está na ${p}`, alertSeason: (n, k) => `«${n}»: saiu a temporada ${k}`, alertHide: (n) => `Esconder o aviso «${n}»`, alertsClear: 'Esconder tudo',
     filmography: (n) => `Filmes e séries (${n})`, as: (r) => `Papel: ${r}`,
     born: (d, a, p) => `Nasceu a ${d}${a != null ? ` (${a} anos)` : ''}${p ? ` em ${p}` : ''}`, died: (d, a) => `morreu a ${d}${a != null ? ` aos ${a} anos` : ''}`,
     transfer: 'Passar para outro aparelho', transferHint: 'Para ter a chave TMDB, as definições e as listas na TV (ou noutro aparelho) sem escrever nada: no aparelho a preencher, escolhe «Receber» e lê o código QR com o telemóvel.',
@@ -545,6 +567,7 @@ const STR = {
     theme: 'Thème', themeAuto: 'Auto (b7al l\'appareil)', themeLight: 'Fat7', themeDark: 'Ghame9',
     cast: 'Les acteurs',
     closeTrailer: '✕ Sedd la bande-annonce', onYoutube: '7ell f YouTube', seePerson: (n) => `Chouf la fiche dyal ${n}`, back: 'Rje3', readMore: 'Kmmel l9raya',
+    alertsTitle: '🔔 Jdid f la liste Nchoufo', alertPlatform: (n, p) => `« ${n} » walla kayn f ${p}`, alertSeason: (n, k) => `« ${n} » : l saison ${k} kharja`, alertHide: (n) => `Khbbi l alerte « ${n} »`, alertsClear: 'Khbbi kolchi',
     filmography: (n) => `Aflam w msalsalat (${n})`, as: (r) => `Dor : ${r}`,
     born: (d, a, p) => `Tzad f ${d}${a != null ? ` (${a} 3am)` : ''}${p ? ` f ${p}` : ''}`, died: (d, a) => `mat f ${d}${a != null ? ` f ${a} 3am` : ''}`,
     transfer: 'Douz l appareil akhor', transferHint: 'Bach tl9a la clé TMDB, réglages w listes dyalek f la télé (wla appareil akhor) bla matkteb walou : f l\'appareil li bghiti t3emmer, khtar « Stqbel », w scanni l QR code b téléphone dyalek.',

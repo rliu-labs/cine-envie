@@ -47,7 +47,7 @@ Hiya application web katinstalla (PWA), bla serveur, bla compte, bla dépendance
 | 🌍 **7 loughat** | L'interface w l bi7t b **engliziya**, **darija**, **almaniya**, **sbanyoliya**, **fransawiya**, **taliyaniya** w **portugaliya**. Darija kattketeb b l7rouf latiniya m3a l ar9am 3, 7, 9… L'appli kat7ell b l engliziya, w katbeddel lougha b click wa7ed mn l menu li f lfou9 (globe) wla mn Réglages. |
 | 📺 **Aflam w msalsalat** | L bi7t, les genres, trend, n9at w recommandations kaychmlo aflam w msalsalat. F page dyal l bi7t, b click katkhtar **Aflam**, **Msalsalat** wla **Bjouj**. |
 | 🍿 **Les plateformes dyali** | F Réglages, 3lem 3la les abonnements dyalek (par défaut Netflix, Prime Video w Disney+ ; Canal+, Max… 3la 7sab bladek). Kayweliw boutons f page dyal l bi7t : « Kolhom » kay9elleb f ga3 les plateformes dyalek, w click 3la wa7da kaydi9 l bi7t. Les plateformes dyalek kaybano 7tta f kol fiche. |
-| 📍 **Bladek** | Khtar l blad li sakn fiha mn 31 blad f Oroppa, direct mn l fiche : les plateformes li kaybano homa li kaynin 3endek. |
+| 📍 **Bladek** | Khtar l blad li sakn fiha mn ta9riban 140 blad (Oroppa, Amérique, Afri9ya, Charq l Awsat, Asia, Océanie), direct mn l fiche : les plateformes li kaybano homa li kaynin 3endek. |
 | 🔥 **Trend** | Aflam w msalsalat li machi l7al had simana, m3a badge **Jdid** 3la dakchi li ban mn a5er merra jiti. |
 | 🎭 **Anwa3** | T9elleb b genre, b chno machi l7al wla b a7san n9at. |
 | 🎬 **Fiche** | Résumé, réalisateur, les acteurs b tsawerhom, bande‑annonce f la fiche w les offres l9anouniya f l blad li khtarti (abonnement, batel, kra, chra). Wrek 3la acteur bach tchouf aflamou w msalsalatou lokhrin. |
@@ -58,6 +58,7 @@ Hiya application web katinstalla (PWA), bla serveur, bla compte, bla dépendance
 | 🔎 **9lab b smiya w b sot** | 9elleb b l5atr wla b smiya, m3a i9tira7at mlli katkteb, bouton 🎤 bach tgol, w **Chouf ktar** t7t kol liste. |
 | 📲 **Mn téléphone l la télé f scan wa7ed** | Scanni b téléphone l QR code li f la télé : katched la clé, réglages w listes dyalek. |
 | 🌗 **Thème fat7 wla ghame9** | Auto, fat7 wla ghame9. |
+| 🔔 **Alertes Nchoufo** | Bandeau kay9ol lik mlli chi titre mn la liste « Nchoufo » kayji l chi plateforme dyalek wla tkharjat lih saison jdida. |
 
 ## Katkhdem f ga3 les écrans
 

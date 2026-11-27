@@ -47,7 +47,7 @@ Es ist eine installierbare Web-App (PWA) ohne Server, ohne Konto und ohne Abhän
 | 🌍 **7 Sprachen** | Oberfläche und Suche auf **Englisch**, **Darija** (marokkanisch, in lateinischer Schrift mit den Ziffern 3, 7, 9…), **Deutsch**, **Spanisch**, **Französisch**, **Italienisch** und **Portugiesisch**. Die App startet auf Englisch; die Sprache wechselst du mit einem Klick im Menü oben (Globus) oder in den Einstellungen. |
 | 📺 **Filme und Serien** | Suche, Genres, Trends, Bewertungen und Empfehlungen umfassen Filme und Serien. Auf der Suchseite wählst du mit einem Klick **Filme**, **Serien** oder **Beides**. |
 | 🍿 **Meine Streamingdienste** | Hake in den Einstellungen deine Abos an (standardmäßig Netflix, Prime Video und Disney+; je nach Land auch WOW, RTL+…). Sie werden zu Buttons auf der Suchseite: „Alle“ sucht bei allen deinen Diensten, ein Klick auf einen Dienst grenzt die Suche ein. Deine Dienste werden auch auf jeder Titelseite hervorgehoben. |
-| 📍 **Dein Land** | Wähle dein Wohnland aus 31 europäischen Ländern, direkt auf der Titelseite: Angezeigt werden die Dienste, die es bei dir gibt. |
+| 📍 **Dein Land** | Wähle dein Wohnland aus rund 140 Ländern (Europa, Amerika, Afrika, Naher Osten, Asien, Ozeanien), direkt auf der Titelseite: Angezeigt werden die Dienste, die es bei dir gibt. |
 | 🔥 **Trends** | Die Filme und Serien der Woche, mit einem **Neu**-Abzeichen für alles, was seit deinem letzten Besuch dazugekommen ist. |
 | 🎭 **Genres** | Stöbern nach Genre, Beliebtheit oder Bewertung. |
 | 🎬 **Titelseite** | Inhalt, Regie, Besetzung mit Fotos, Trailer direkt auf der Seite und die legalen Angebote im gewählten Land (Abo, kostenlos, leihen, kaufen). Tippe auf eine Person, um ihre anderen Filme und Serien zu sehen. |
@@ -58,6 +58,7 @@ Es ist eine installierbare Web-App (PWA) ohne Server, ohne Konto und ohne Abhän
 | 🔎 **Titelsuche und Sprache** | Suche nach Stimmung oder Titel, mit Vorschlägen beim Tippen, einem 🎤-Knopf zum Diktieren und **Mehr anzeigen** unter jeder Liste. |
 | 📲 **Vom Handy auf den Fernseher mit einem Scan** | Scanne mit dem Handy den QR-Code auf dem Fernseher: Er erhält Schlüssel, Einstellungen und Listen. |
 | 🌗 **Helles oder dunkles Design** | Auto, hell oder dunkel. |
+| 🔔 **Merklisten-Hinweise** | Ein Banner meldet, wenn ein Titel deiner Merkliste bei einem deiner Dienste erscheint oder eine neue Staffel bekommt. |
 
 ## Läuft auf jedem Bildschirm
 
