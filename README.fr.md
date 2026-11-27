@@ -71,6 +71,18 @@ La même appli s'adapte à l'appareil, sans rien régler :
 
 Les tablettes prennent l'affichage téléphone ou ordinateur selon leur largeur. Pour choisir soi-même : **Réglages → Affichage** (Auto, Téléphone / ordinateur, TV), ou `?tv=1` (ou `?tv=0`) dans l'adresse.
 
+## Compatible avec tous les écrans
+
+La même appli s'adapte à l'appareil, sans rien régler :
+
+| Appareil | Affichage et commandes | Navigateurs testés |
+|---|---|---|
+| 📱 **Téléphone** | Une colonne, grandes zones à toucher, installable sur l'écran d'accueil. | Safari (iPhone), Chrome (Android) |
+| 💻 **Ordinateur** | Grande grille d'affiches, souris ou clavier (Tab, Entrée, Échap). | Chrome, Edge, Firefox, Safari |
+| 🖥️ **TV** | Grand affichage lisible depuis le canapé, marges contre le rognage de l'écran, télécommande : flèches, OK, Retour. S'active tout seul sur les télés connectées et les boîtiers. | Samsung (Tizen), LG (webOS), Android TV / Google TV, Fire TV |
+
+Les tablettes prennent l'affichage téléphone ou ordinateur selon leur largeur. Pour choisir soi-même : **Réglages → Affichage** (Auto, Téléphone / ordinateur, TV), ou `?tv=1` (ou `?tv=0`) dans l'adresse.
+
 ## Comment ça marche
 
 Le cœur de l'appli est [`js/mood.js`](js/mood.js) : un petit analyseur de langage naturel (français, anglais, espagnol, allemand, italien, portugais, darija), sans service externe, qui transforme une phrase en critères de recherche.

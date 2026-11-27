@@ -71,6 +71,18 @@ La stessa app si adatta al dispositivo, senza impostare nulla:
 
 I tablet usano la vista telefono o computer secondo la larghezza. Per scegliere tu: **Impostazioni → Visualizzazione** (Auto, Telefono / computer, TV), oppure `?tv=1` (o `?tv=0`) nell'indirizzo.
 
+## Compatibile con ogni schermo
+
+La stessa app si adatta al dispositivo, senza impostare nulla:
+
+| Dispositivo | Vista e comandi | Browser provati |
+|---|---|---|
+| 📱 **Telefono** | Una colonna, grandi aree da toccare, installabile nella schermata Home. | Safari (iPhone), Chrome (Android) |
+| 💻 **Computer** | Ampia griglia di locandine, mouse o tastiera (Tab, Invio, Esc). | Chrome, Edge, Firefox, Safari |
+| 🖥️ **TV** | Vista grande leggibile dal divano, margini contro il ritaglio dello schermo, telecomando: frecce, OK, Indietro. Si attiva da sola su smart TV e box TV. | Samsung (Tizen), LG (webOS), Android TV / Google TV, Fire TV |
+
+I tablet usano la vista telefono o computer secondo la larghezza. Per scegliere tu: **Impostazioni → Visualizzazione** (Auto, Telefono / computer, TV), oppure `?tv=1` (o `?tv=0`) nell'indirizzo.
+
 ## Come funziona
 
 Il cuore dell'app è [`js/mood.js`](js/mood.js): un piccolo analizzatore di linguaggio naturale (inglese, italiano, francese, spagnolo, tedesco, portoghese, darija), senza servizi esterni, che trasforma una frase in criteri di ricerca.

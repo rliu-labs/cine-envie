@@ -71,6 +71,18 @@ Nfs l'appli katbeddel rasha 3la 7sab l'appareil, bla ma tbeddel walou :
 
 Les tablettes katched l'affichage dyal téléphone wla ordinateur 3la 7sab l3ard dyalhom. Bach tkhtar nta : **Réglages → L3ard** (Auto, Téléphone / ordinateur, TV), wla `?tv=1` (wla `?tv=0`) f l'adresse.
 
+## Katkhdem f ga3 les écrans
+
+Nfs l'appli katbeddel rasha 3la 7sab l'appareil, bla ma tbeddel walou :
+
+| Appareil | L3ard w t7akkom | Navigateurs li jarrabna |
+|---|---|---|
+| 📱 **Téléphone** | Colonne wa7da, blays kbar l lmss, t9der tinstalliha f l'écran d'accueil. | Safari (iPhone), Chrome (Android) |
+| 💻 **Ordinateur** | Grille kbira dyal les affiches, souris wla clavier (Tab, Entrée, Échap). | Chrome, Edge, Firefox, Safari |
+| 🖥️ **TV** | Affichage kbir li yt9ra mn l canapé, marges bach la télé matkoupich, télécommande : les flèches, OK, Retour. Katched bouha f les télés connectées w les boîtiers. | Samsung (Tizen), LG (webOS), Android TV / Google TV, Fire TV |
+
+Les tablettes katched l'affichage dyal téléphone wla ordinateur 3la 7sab l3ard dyalhom. Bach tkhtar nta : **Réglages → L3ard** (Auto, Téléphone / ordinateur, TV), wla `?tv=1` (wla `?tv=0`) f l'adresse.
+
 ## Kifach khdam
 
 Le cœur dyal l'appli howa [`js/mood.js`](js/mood.js) : analyseur sghir dyal lougha (darija, fransawiya, engliziya, sbanyoliya, almaniya, taliyaniya, portugaliya), bla 7tta service mn barra, kaybeddel jomla l critères dyal l bi7t.
