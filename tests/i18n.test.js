@@ -6,7 +6,10 @@ import { genreMaps } from '../js/mood.js';
 test('pays par défaut déduit de la langue du navigateur', () => {
   assert.equal(guessCountry(['fr-BE', 'fr']), 'BE');
   assert.equal(guessCountry(['de-CH']), 'CH');
-  assert.equal(guessCountry(['en-US', 'en']), 'FR');
+  assert.equal(guessCountry(['en-US', 'en']), 'US');
+  assert.equal(guessCountry(['ar-MA']), 'MA');
+  assert.equal(guessCountry(['fr-CA']), 'CA');
+  assert.equal(guessCountry(['en']), 'FR'); // pas de pays dans la langue
   assert.equal(guessCountry([]), 'FR');
 });
 
@@ -16,10 +19,12 @@ test('langue par défaut', () => {
   assert.equal(getLang(), 'en');
 });
 
-test('liste des pays européens complète et triée', () => {
+test('liste des pays complète, sans doublon et triée', () => {
   const opts = countryOptions('fr');
   assert.equal(opts.length, COUNTRIES.length);
-  assert.ok(COUNTRIES.includes('FR') && COUNTRIES.includes('GB') && COUNTRIES.includes('CH'));
+  assert.ok(['FR', 'GB', 'CH', 'US', 'CA', 'MA', 'BR', 'JP', 'AU', 'SN'].every((c) => COUNTRIES.includes(c)));
+  assert.equal(new Set(COUNTRIES).size, COUNTRIES.length);
+  assert.ok(COUNTRIES.every((c) => /^[A-Z]{2}$/.test(c)));
   const names = opts.map((o) => o[1]);
   assert.deepEqual(names, [...names].sort((a, b) => a.localeCompare(b, 'fr')));
 });
