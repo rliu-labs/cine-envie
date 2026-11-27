@@ -47,7 +47,7 @@ Es una aplicación web instalable (PWA), sin servidor, sin cuenta y sin dependen
 | 🌍 **7 idiomas** | Interfaz y búsqueda en **inglés**, **darija marroquí** (alfabeto latino, con los números 3, 7, 9…), **alemán**, **español**, **francés**, **italiano** y **portugués**. La app se abre en inglés y el idioma se cambia con un clic desde el menú desplegable de la cabecera (globo) o en los ajustes. |
 | 📺 **Películas y series** | La búsqueda, los géneros, las tendencias, las notas y las recomendaciones cubren películas y series. En la página de búsqueda, un clic elige **Películas**, **Series** o **Ambas**. |
 | 🍿 **Mis plataformas** | En los ajustes, marca tus suscripciones (por defecto Netflix, Prime Video y Disney+; Movistar Plus+, Max… según tu país). Se convierten en botones en la página de búsqueda: «Todas» busca en todas tus plataformas y un clic en una de ellas afina. Tus plataformas también se destacan en cada ficha. |
-| 📍 **Tu país** | Elige tu país de residencia entre 31 países europeos, desde la propia ficha: las plataformas que se muestran son las disponibles donde vives. |
+| 📍 **Tu país** | Elige tu país de residencia entre unos 140 países (Europa, América, África, Oriente Medio, Asia, Oceanía), desde la propia ficha: las plataformas que se muestran son las disponibles donde vives. |
 | 🔥 **Tendencias** | Películas y series en tendencia esta semana, con una etiqueta **Nuevo** en lo que ha aparecido desde tu última visita. |
 | 🎭 **Géneros** | Explora por género, popularidad o nota. |
 | 🎬 **Ficha** | Sinopsis, dirección, reparto con fotos, tráiler dentro de la ficha y ofertas legales del país elegido (suscripción, gratis, alquiler, compra). Toca un actor para ver sus otras películas y series. |
@@ -58,6 +58,7 @@ Es una aplicación web instalable (PWA), sin servidor, sin cuenta y sin dependen
 | 🔎 **Búsqueda por título y por voz** | Busca por ganas o por título, con sugerencias mientras escribes, un botón 🎤 para dictar y **Ver más** bajo cada lista. |
 | 📲 **Del móvil a la tele en un escaneo** | Escanea con el móvil el código QR que muestra la tele: recibe tu clave, tus ajustes y tus listas. |
 | 🌗 **Tema claro u oscuro** | Auto, claro u oscuro. |
+| 🔔 **Avisos de Por ver** | Un aviso te dice cuándo un título de tu lista «Por ver» llega a una de tus plataformas o estrena temporada. |
 
 ## Compatible con todas las pantallas
 

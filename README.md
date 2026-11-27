@@ -47,7 +47,7 @@ It is an installable web app (PWA) with no server, no account and no dependencie
 | 🌍 **7 languages** | Interface and search in **English**, **Darija** (Moroccan), **German**, **Spanish**, **French**, **Italian** and **Portuguese**; Darija is written in Latin script, with the digits 3, 7, 9… The app opens in English, and you can switch in one click from the header dropdown (globe) or in the settings. |
 | 📺 **Movies and series** | Search, genres, trending, ratings and recommendations cover both movies and series. On the search page, one click picks **Movies**, **Series** or **Both**. |
 | 🍿 **My streaming services** | In the settings, tick your subscriptions (Netflix, Prime Video and Disney+ by default; Canal+, Max… depending on your country). They become buttons on the search page: "All" searches across all your services, and clicking one narrows it down. Your services are also highlighted on every title page. |
-| 📍 **Your country** | Pick your country of residence among 31 European countries, right from the title page: the services shown are the ones available where you live. |
+| 📍 **Your country** | Pick your country of residence among about 140 countries (Europe, Americas, Africa, Middle East, Asia, Oceania), right from the title page: the services shown are the ones available where you live. |
 | 🔥 **Trending** | This week's trending movies and series, with a **New** badge on what appeared since your last visit. |
 | 🎭 **Genres** | Browse by genre, popularity or rating. |
 | 🎬 **Title page** | Overview, director, cast with photos, trailer played right in the page, and the legal streaming offers in the chosen country (subscription, free, rent, buy). Tap an actor to see their other movies and series. |
@@ -58,6 +58,7 @@ It is an installable web app (PWA) with no server, no account and no dependencie
 | 🔎 **Title search and voice** | Search by mood or by title, with suggestions as you type, a 🎤 button to speak your search, and **Show more** under every list. |
 | 📲 **From phone to TV in one scan** | Scan the QR code shown on the TV with your phone: the TV gets your key, settings and lists. |
 | 🌗 **Light or dark theme** | Auto, light or dark. |
+| 🔔 **Watchlist alerts** | A banner tells you when a title from your "To watch" list arrives on one of your services or gets a new season. |
 
 ## Works on every screen
 

@@ -47,7 +47,7 @@ Escreves o que te apetece ver como dirias a um amigo, **em português, inglês, 
 | 🌍 **7 idiomas** | Interface e pesquisa em **inglês**, **darija** (marroquino, em alfabeto latino com os algarismos 3, 7, 9…), **alemão**, **espanhol**, **francês**, **italiano** e **português**. A app abre em inglês e o idioma muda-se com um clique no menu do topo (globo) ou nas definições. |
 | 📺 **Filmes e séries** | A pesquisa, os géneros, as tendências, as notas e as recomendações abrangem filmes e séries. Na página de pesquisa, um clique escolhe **Filmes**, **Séries** ou **Ambos**. |
 | 🍿 **As minhas plataformas** | Nas definições, marca as tuas subscrições (por defeito Netflix, Prime Video e Disney+; HBO Max, SkyShowtime… conforme o país). Tornam-se botões na página de pesquisa: «Todas» pesquisa em todas as tuas plataformas e um clique numa delas afina a pesquisa. As tuas plataformas também aparecem em destaque em cada ficha. |
-| 📍 **O teu país** | Escolhe o país de residência entre 31 países europeus, diretamente na ficha: as plataformas mostradas são as disponíveis onde vives. |
+| 📍 **O teu país** | Escolhe o país de residência entre cerca de 140 países (Europa, Américas, África, Médio Oriente, Ásia, Oceânia), diretamente na ficha: as plataformas mostradas são as disponíveis onde vives. |
 | 🔥 **Tendências** | Filmes e séries em tendência esta semana, com um selo **Novo** no que apareceu desde a tua última visita. |
 | 🎭 **Géneros** | Explora por género, popularidade ou nota. |
 | 🎬 **Ficha** | Sinopse, realização, elenco com fotos, trailer dentro da ficha e as ofertas legais do país escolhido (subscrição, grátis, aluguer, compra). Toca num ator para ver os outros filmes e séries. |
@@ -58,6 +58,7 @@ Escreves o que te apetece ver como dirias a um amigo, **em português, inglês, 
 | 🔎 **Pesquisa por título e por voz** | Pesquisa por vontade ou por título, com sugestões enquanto escreves, um botão 🎤 para ditar e **Ver mais** sob cada lista. |
 | 📲 **Do telemóvel para a TV num scan** | Lê com o telemóvel o código QR mostrado na TV: recebe a chave, as definições e as listas. |
 | 🌗 **Tema claro ou escuro** | Auto, claro ou escuro. |
+| 🔔 **Avisos Para ver** | Um aviso diz-te quando um título da lista «Para ver» chega a uma das tuas plataformas ou tem nova temporada. |
 
 ## Compatível com todos os ecrãs
 

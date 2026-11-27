@@ -47,7 +47,7 @@ Scrivi cosa ti va di vedere come lo diresti a un amico, **in italiano, inglese, 
 | 🌍 **7 lingue** | Interfaccia e ricerca in **inglese**, **darija** (marocchino, in alfabeto latino con le cifre 3, 7, 9…), **tedesco**, **spagnolo**, **francese**, **italiano** e **portoghese**. L'app si apre in inglese e la lingua si cambia con un clic dal menu in alto (globo) o nelle impostazioni. |
 | 📺 **Film e serie** | Ricerca, generi, tendenze, voti e consigli coprono film e serie. Nella pagina di ricerca un clic sceglie **Film**, **Serie** o **Entrambi**. |
 | 🍿 **Le mie piattaforme** | Nelle impostazioni spunta i tuoi abbonamenti (di default Netflix, Prime Video e Disney+; NOW, Infinity… a seconda del paese). Diventano pulsanti nella pagina di ricerca: «Tutte» cerca su tutte le tue piattaforme, un clic su una di esse restringe la ricerca. Le tue piattaforme sono evidenziate anche in ogni scheda. |
-| 📍 **Il tuo paese** | Scegli il paese di residenza tra 31 paesi europei, direttamente dalla scheda: le piattaforme mostrate sono quelle disponibili da te. |
+| 📍 **Il tuo paese** | Scegli il paese di residenza tra circa 140 paesi (Europa, Americhe, Africa, Medio Oriente, Asia, Oceania), direttamente dalla scheda: le piattaforme mostrate sono quelle disponibili da te. |
 | 🔥 **Tendenze** | Film e serie di tendenza della settimana, con un badge **Nuovo** su ciò che è apparso dalla tua ultima visita. |
 | 🎭 **Generi** | Esplora per genere, popolarità o voto. |
 | 🎬 **Scheda** | Trama, regia, cast con foto, trailer nella scheda e offerte legali del paese scelto (abbonamento, gratis, noleggio, acquisto). Tocca un attore per vedere i suoi altri film e serie. |
@@ -58,6 +58,7 @@ Scrivi cosa ti va di vedere come lo diresti a un amico, **in italiano, inglese, 
 | 🔎 **Ricerca per titolo e a voce** | Cerca per voglia o per titolo, con suggerimenti mentre scrivi, un pulsante 🎤 per dettare e **Mostra altri** sotto ogni lista. |
 | 📲 **Dal telefono alla TV con una scansione** | Inquadra col telefono il codice QR mostrato dalla TV: riceve chiave, impostazioni e liste. |
 | 🌗 **Tema chiaro o scuro** | Auto, chiaro o scuro. |
+| 🔔 **Avvisi Da vedere** | Un avviso ti dice quando un titolo della lista «Da vedere» arriva su una delle tue piattaforme o ha una nuova stagione. |
 
 ## Compatibile con ogni schermo
 

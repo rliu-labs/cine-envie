@@ -47,7 +47,7 @@ C'est une application web installable (PWA), sans serveur, sans compte, sans dé
 | 🌍 **7 langues** | Interface et recherche en **anglais**, **darija marocain** (lettres latines, avec les chiffres 3, 7, 9…), **allemand**, **espagnol**, **français**, **italien** et **portugais**. L’appli s’ouvre en anglais, et la langue se change en un clic depuis le menu déroulant de l’en-tête (globe) ou dans les réglages. |
 | 📺 **Films et séries** | Recherche, thématiques, tendances, notes et recommandations couvrent films et séries. Sur la page de recherche, un clic choisit **Films**, **Séries** ou **Les deux**. |
 | 🍿 **Mes plateformes** | Dans les réglages, coche tes abonnements (par défaut Netflix, Prime Video et Disney+ ; Canal+, Max… selon ton pays). Ils deviennent des boutons sur la page de recherche : « Toutes » cherche sur l'ensemble de tes plateformes, un clic sur l'une d'elles affine. Tes plateformes sont aussi mises en avant dans chaque fiche. |
-| 📍 **Ton pays** | Choix du pays de résidence parmi 31 pays européens, directement depuis la fiche : les plateformes affichées sont celles disponibles chez toi. |
+| 📍 **Ton pays** | Choix du pays de résidence parmi environ 140 pays (Europe, Amériques, Afrique, Moyen-Orient, Asie, Océanie), directement depuis la fiche : les plateformes affichées sont celles disponibles chez toi. |
 | 🔥 **Tendances** | Films et séries tendance de la semaine, avec un badge **Nouveau** sur ce qui est apparu depuis ta dernière visite. |
 | 🎭 **Thématiques** | Parcours par genre, par popularité ou par note. |
 | 🎬 **Fiche** | Résumé, réalisateur, acteurs en photo, bande‑annonce lue dans la fiche et plateformes légales du pays choisi (abonnement, gratuit, location, achat). Touche un acteur pour voir ses autres films et séries. |
@@ -58,6 +58,7 @@ C'est une application web installable (PWA), sans serveur, sans compte, sans dé
 | 🔎 **Recherche par titre et à la voix** | Recherche par envie ou par titre, avec des suggestions pendant la frappe, un bouton 🎤 pour dicter et **Voir plus** sous chaque liste. |
 | 📲 **Du téléphone à la télé en un scan** | Scanne avec ton téléphone le QR code affiché sur la télé : elle reçoit ta clé, tes réglages et tes listes. |
 | 🌗 **Thème clair ou sombre** | Auto, clair ou sombre. |
+| 🔔 **Alertes À voir** | Un bandeau prévient quand un titre de ta liste « À voir » arrive sur une de tes plateformes ou a une nouvelle saison. |
 
 ## Compatible avec tous les écrans
 
