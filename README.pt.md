@@ -28,7 +28,7 @@
 ---
 
 **Ciné‑Envie** responde à pergunta de todas as noites: *«o que é que vamos ver?»*.
-Escreves o que te apetece ver como dirias a um amigo, **em português, inglês, francês, espanhol, alemão, italiano ou darija marroquino**, e a app propõe filmes e séries à medida, com **onde os ver legalmente no teu país** (31 países europeus).
+Escreves o que te apetece ver como dirias a um amigo, **em português, inglês, francês, espanhol, alemão, italiano ou darija marroquino**, e a app propõe filmes e séries à medida, com **onde os ver legalmente no teu país** (cerca de 140 países).
 
 > «Uma noite tranquila, divertida e com mistério, como Knives Out»
 > → ambiente *tranquilo, divertido, mistério* · sem terror nem thriller · parecido com *Knives Out*
@@ -124,18 +124,22 @@ O **perfil de gostos** soma-se a esta pontuação: cada nota dá aos seus géner
 
 ```
 ├── index.html             Estrutura da app
-├── style.css              Tema escuro, layout adaptável
+├── style.css              Tema claro e escuro, layout adaptável
 ├── js/
 │   ├── app.js             Vistas, navegação por hash, ficha detalhada
 │   ├── mood.js            Análise da vontade e pontuação (JS puro, testado)
-│   ├── i18n.js            Textos em 7 idiomas, países europeus, deteção do país
+│   ├── i18n.js            Textos em 7 idiomas, cerca de 140 países, deteção do país
 │   ├── tmdb.js            Cliente da API do TMDB (idioma e país configuráveis, cache em memória)
-│   └── store.js           Armazenamento local: idioma, país, chave, listas, notas, última visita
+│   ├── store.js           Armazenamento local: idioma, país, chave, listas, notas, última visita
+│   ├── tv.js              Modo TV: navegação com o comando
+│   ├── qr.js              Gerador de códigos QR (sem dependências)
+│   ├── pair.js            Transferência cifrada do telemóvel para a TV
+│   └── alerts.js          Avisos «Para ver» (nova plataforma, nova temporada)
 ├── sw.js                  Service worker (interface offline, cache dos cartazes)
 ├── manifest.webmanifest   Manifesto PWA
 ├── icons/                 Ícone da app, logótipo do TMDB
 ├── scripts/captures.mjs   Gera as capturas de ecrã e o GIF do README (Playwright)
-└── tests/                 Testes node:test (analisador, perfil, traduções, cliente TMDB)
+└── tests/                 Testes node:test (analisador, perfil, traduções, cliente TMDB, TV, QR, transferência, avisos)
 ```
 
 **Escolhas técnicas**

@@ -28,7 +28,7 @@
 ---
 
 **Ciné‑Envie** answers the question everyone asks every evening: *"what shall we watch?"*.
-You describe what you feel like watching the way you would tell a friend, **in English, French, Spanish, German, Italian, Portuguese or Moroccan Darija**, and the app suggests matching movies and series, along with **where to stream them legally in your country** (31 European countries).
+You describe what you feel like watching the way you would tell a friend, **in English, French, Spanish, German, Italian, Portuguese or Moroccan Darija**, and the app suggests matching movies and series, along with **where to stream them legally in your country** (about 140 countries).
 
 > "A cozy, funny night with some mystery, like Knives Out"
 > → moods *cozy, funny, mystery* · no horror or thriller · similar to *Knives Out*
@@ -131,18 +131,22 @@ The **taste profile** adds to this score: each rating gives its genres an affini
 
 ```
 ├── index.html             App shell
-├── style.css              Dark theme, responsive layout
+├── style.css              Light and dark themes, responsive layout
 ├── js/
 │   ├── app.js             Views, hash navigation, title page
 │   ├── mood.js            Mood parsing and scoring (pure JS, tested)
-│   ├── i18n.js            Strings in 7 languages, European countries, language and country detection
+│   ├── i18n.js            Strings in 7 languages, about 140 countries, language and country detection
 │   ├── tmdb.js            TMDB API client (configurable language and country, in-memory cache)
-│   └── store.js           Local storage: language, country, key, lists, ratings, last visit
+│   ├── store.js           Local storage: language, country, key, lists, ratings, last visit
+│   ├── tv.js              TV mode: remote-control navigation
+│   ├── qr.js              QR code generator (no dependency)
+│   ├── pair.js            Encrypted phone → TV transfer
+│   └── alerts.js          "To watch" alerts (new service, new season)
 ├── sw.js                  Service worker (offline interface, poster cache)
 ├── manifest.webmanifest   PWA manifest
 ├── icons/                 App icon, TMDB logo
 ├── scripts/captures.mjs   Generates the README screenshots and GIF (Playwright)
-└── tests/                 node:test tests (parser, profile, translations, TMDB client)
+└── tests/                 node:test tests (parser, profile, translations, TMDB client, TV, QR, transfer, alerts)
 ```
 
 **Technical choices**

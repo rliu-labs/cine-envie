@@ -28,7 +28,7 @@
 ---
 
 **Ciné‑Envie** responde a la pregunta de todas las noches: *«¿qué vemos?»*.
-Escribes lo que te apetece como se lo dirías a un amigo, **en español, inglés, francés, alemán, italiano, portugués o darija marroquí**, y la app te propone películas y series que encajan, con **dónde verlas legalmente en tu país** (31 países europeos).
+Escribes lo que te apetece como se lo dirías a un amigo, **en español, inglés, francés, alemán, italiano, portugués o darija marroquí**, y la app te propone películas y series que encajan, con **dónde verlas legalmente en tu país** (unos 140 países).
 
 > «Una noche tranquila, divertida y con misterio, como Puñales por la espalda»
 > → ambiente *tranquila, divertida, misterio* · sin terror ni thriller · parecida a *Puñales por la espalda*
@@ -126,18 +126,22 @@ El **perfil de gustos** se suma a esta puntuación: cada nota da a sus géneros 
 
 ```
 ├── index.html             Estructura de la app
-├── style.css              Tema oscuro, diseño adaptable
+├── style.css              Tema claro y oscuro, diseño adaptable
 ├── js/
 │   ├── app.js             Vistas, navegación por hash, ficha detallada
 │   ├── mood.js            Análisis del antojo y puntuación (JS puro, con tests)
-│   ├── i18n.js            Textos en los 7 idiomas, países europeos, detección de idioma y país
+│   ├── i18n.js            Textos en los 7 idiomas, unos 140 países, detección de idioma y país
 │   ├── tmdb.js            Cliente de la API de TMDB (idioma y país configurables, caché en memoria)
-│   └── store.js           Almacenamiento local: idioma, país, clave, listas, notas, última visita
+│   ├── store.js           Almacenamiento local: idioma, país, clave, listas, notas, última visita
+│   ├── tv.js              Modo TV: navegación con el mando
+│   ├── qr.js              Generador de códigos QR (sin dependencias)
+│   ├── pair.js            Transferencia cifrada del móvil a la tele
+│   └── alerts.js          Avisos de «Por ver» (nueva plataforma, nueva temporada)
 ├── sw.js                  Service worker (interfaz sin conexión, caché de carteles)
 ├── manifest.webmanifest   Manifiesto PWA
 ├── icons/                 Icono de la app, logo de TMDB
 ├── scripts/captures.mjs   Genera las capturas y el GIF del README (Playwright)
-└── tests/                 Tests node:test (analizador, perfil, traducciones, cliente TMDB)
+└── tests/                 Tests node:test (analizador, perfil, traducciones, cliente TMDB, TV, QR, transferencia, avisos)
 ```
 
 **Decisiones técnicas**

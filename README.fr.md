@@ -28,7 +28,7 @@
 ---
 
 **Ciné‑Envie** répond à la question de tous les soirs : *« on regarde quoi ? »*.
-Tu écris ton envie comme tu la dirais à un ami, **en français, anglais, espagnol, allemand, italien, portugais ou darija marocain**, et l'appli propose des films et séries qui collent, avec **où les regarder légalement dans ton pays** (31 pays européens).
+Tu écris ton envie comme tu la dirais à un ami, **en français, anglais, espagnol, allemand, italien, portugais ou darija marocain**, et l'appli propose des films et séries qui collent, avec **où les regarder légalement dans ton pays** (environ 140 pays).
 
 > « soirée cosy, drôle avec de l'intrigue comme À couteaux tirés »
 > → humeurs *cosy, drôle, intrigue* · pas d'horreur ni de thriller · proche de *À couteaux tirés*
@@ -135,18 +135,22 @@ Le **profil de goûts** s'ajoute à ce score : chaque note donne à ses genres u
 
 ```
 ├── index.html             Coquille de l'appli
-├── style.css              Thème sombre, mise en page responsive
+├── style.css              Thèmes clair et sombre, mise en page responsive
 ├── js/
 │   ├── app.js             Vues, navigation par hash, fiche détaillée
 │   ├── mood.js            Analyse de l'envie et score (pur JS, testé)
-│   ├── i18n.js            Textes dans les 7 langues, pays européens, détection langue et pays
+│   ├── i18n.js            Textes dans les 7 langues, environ 140 pays, détection langue et pays
 │   ├── tmdb.js            Client API TMDB (langue et pays réglables, cache mémoire)
-│   └── store.js           Stockage local : langue, pays, clé, listes, notes, veille
+│   ├── store.js           Stockage local : langue, pays, clé, listes, notes, veille
+│   ├── tv.js              Mode TV : navigation à la télécommande
+│   ├── qr.js              Générateur de QR code (sans dépendance)
+│   ├── pair.js            Transfert chiffré du téléphone vers la télé
+│   └── alerts.js          Alertes « À voir » (nouvelle plateforme, nouvelle saison)
 ├── sw.js                  Service worker (interface hors ligne, cache des affiches)
 ├── manifest.webmanifest   Manifeste PWA
 ├── icons/                 Icône de l'appli, logo TMDB
 ├── scripts/captures.mjs   Génère les captures et le GIF du README (Playwright)
-└── tests/                 Tests node:test (analyseur, profil, traductions, client TMDB)
+└── tests/                 Tests node:test (analyseur, profil, traductions, client TMDB, TV, QR, transfert, alertes)
 ```
 
 **Choix techniques**
