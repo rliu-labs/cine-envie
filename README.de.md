@@ -56,6 +56,18 @@ Es ist eine installierbare Web-App (PWA) ohne Server, ohne Konto und ohne Abhän
 | 📱 **Installierbar** | Auf dem Computer (Chrome, Edge), Android und iPhone; die Oberfläche funktioniert auch offline. |
 | 🖥️ **TV-Modus** | Auf einem Smart-TV oder einer TV-Box (Android TV, Google TV, Fire TV, Samsung, LG…) wechselt die App von selbst in eine große Ansicht, die vom Sofa aus lesbar ist, und wird mit der Fernbedienung gesteuert: Pfeile zum Bewegen, OK zum Öffnen, Zurück zum Schließen. Erzwingen lässt er sich in den Einstellungen (Anzeige: Auto, Handy / Computer, TV) oder mit `?tv=1` in der Adresse. |
 
+## Läuft auf jedem Bildschirm
+
+Dieselbe App passt sich dem Gerät an, ohne Einstellungen:
+
+| Gerät | Ansicht und Bedienung | Getestete Browser |
+|---|---|---|
+| 📱 **Handy** | Eine Spalte, große Touch-Flächen, auf dem Startbildschirm installierbar. | Safari (iPhone), Chrome (Android) |
+| 💻 **Computer** | Breites Poster-Raster, Maus oder Tastatur (Tab, Enter, Esc). | Chrome, Edge, Firefox, Safari |
+| 🖥️ **TV** | Große Ansicht, vom Sofa aus lesbar, Ränder gegen Bildbeschnitt, Fernbedienung: Pfeile, OK, Zurück. Schaltet sich auf Smart-TVs und TV-Boxen von selbst ein. | Samsung (Tizen), LG (webOS), Android TV / Google TV, Fire TV |
+
+Tablets erhalten je nach Breite die Handy- oder Computer-Ansicht. Selbst wählen: **Einstellungen → Anzeige** (Auto, Handy / Computer, TV) oder `?tv=1` (bzw. `?tv=0`) in der Adresse.
+
 ## So funktioniert's
 
 Das Herz der App ist [`js/mood.js`](js/mood.js): ein kleiner Parser für natürliche Sprache (Englisch, Deutsch, Französisch, Spanisch, Italienisch, Portugiesisch, Darija), ohne externen Dienst, der einen Satz in Suchkriterien übersetzt.

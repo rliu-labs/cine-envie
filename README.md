@@ -56,6 +56,18 @@ It is an installable web app (PWA) with no server, no account and no dependencie
 | 📱 **Installable** | On desktop (Chrome, Edge), Android and iPhone; the interface stays available offline. |
 | 🖥️ **TV mode** | On a smart TV or a TV box (Android TV, Google TV, Fire TV, Samsung, LG…) the app switches by itself to a large display that reads from the sofa, driven with the remote: arrows to move, OK to open, Back to close. You can force it in the settings (Display: Auto, Phone / computer, TV) or with `?tv=1` in the address. |
 
+## Works on every screen
+
+The same app adapts to the device it runs on, with nothing to configure:
+
+| Device | Layout and controls | Tested browsers |
+|---|---|---|
+| 📱 **Phone** | One-column layout, large touch targets, can be installed on the home screen. | Safari (iPhone), Chrome (Android) |
+| 💻 **Computer** | Wide grid of posters, mouse or keyboard (Tab, Enter, Escape). | Chrome, Edge, Firefox, Safari |
+| 🖥️ **TV** | Large display that reads from the sofa, margins against screen cropping, remote control: arrows, OK, Back. Switches on by itself on smart TVs and TV boxes. | Samsung (Tizen), LG (webOS), Android TV / Google TV, Fire TV |
+
+Tablets get the phone or computer layout depending on their width. To pick a mode yourself: **Settings → Display** (Auto, Phone / computer, TV), or add `?tv=1` (or `?tv=0`) to the address.
+
 ## How it works
 
 The heart of the app is [`js/mood.js`](js/mood.js): a small natural-language parser (English, French, Spanish, German, Italian, Portuguese, Darija), with no external service, that turns a sentence into search criteria.
