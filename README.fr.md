@@ -57,7 +57,7 @@ C'est une application web installable (PWA), sans serveur, sans compte, sans dé
 | 🖥️ **Mode TV** | Sur une télé connectée ou un boîtier (Android TV, Google TV, Fire TV, Samsung, LG…), l'appli passe toute seule en grand affichage lisible depuis le canapé, et se pilote à la télécommande : flèches pour se déplacer, OK pour ouvrir, Retour pour fermer. On peut le forcer dans les réglages (Affichage : Auto, Téléphone / ordinateur, TV) ou avec `?tv=1` dans l'adresse. |
 | 🔎 **Recherche par titre et à la voix** | Recherche par envie ou par titre, avec des suggestions pendant la frappe, un bouton 🎤 pour dicter et **Voir plus** sous chaque liste. |
 | 📲 **Du téléphone à la télé en un scan** | Scanne avec ton téléphone le QR code affiché sur la télé : elle reçoit ta clé, tes réglages et tes listes. |
-| 🌗 **Thème clair ou sombre** | Auto, clair ou sombre. Photos des acteurs sur chaque fiche. |
+| 🌗 **Thème clair ou sombre** | Auto, clair ou sombre. Photos des acteurs sur chaque fiche (touche-en une pour voir ses autres films), bande-annonce lue dans la fiche. |
 
 ## Compatible avec tous les écrans
 

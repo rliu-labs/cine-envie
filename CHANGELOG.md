@@ -1,5 +1,10 @@
 # Journal des versions
 
+## 0.14.0 (novembre 2026)
+- Chargement animé : des affiches grises qui « respirent » remplacent le texte « Chargement… » (fiches comprises), sans animation si le système demande moins de mouvement.
+- Bande-annonce lue directement dans la fiche (YouTube en mode sans cookies), avec un lien pour l'ouvrir sur YouTube ; elle s'arrête quand on ferme la fiche.
+- Fiches acteur : toucher une photo de la distribution ouvre sa page (photo, naissance, biographie, tous ses films et séries avec son rôle, « Voir plus »).
+
 ## 0.13.0 (novembre 2026)
 - Du téléphone à la télé en un scan : la télé affiche un QR code, le téléphone envoie la clé TMDB, les réglages et (au choix) les listes, chiffrés de bout en bout via le relais public ntfy.sh. Aussi dans Réglages → « Passer sur un autre appareil ».
 - Recherche par titre (en plus de la recherche par envie), avec suggestions pendant la frappe : idées toutes faites ou titres avec leur affiche.

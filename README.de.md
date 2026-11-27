@@ -57,7 +57,7 @@ Es ist eine installierbare Web-App (PWA) ohne Server, ohne Konto und ohne Abhän
 | 🖥️ **TV-Modus** | Auf einem Smart-TV oder einer TV-Box (Android TV, Google TV, Fire TV, Samsung, LG…) wechselt die App von selbst in eine große Ansicht, die vom Sofa aus lesbar ist, und wird mit der Fernbedienung gesteuert: Pfeile zum Bewegen, OK zum Öffnen, Zurück zum Schließen. Erzwingen lässt er sich in den Einstellungen (Anzeige: Auto, Handy / Computer, TV) oder mit `?tv=1` in der Adresse. |
 | 🔎 **Titelsuche und Sprache** | Suche nach Stimmung oder Titel, mit Vorschlägen beim Tippen, einem 🎤-Knopf zum Diktieren und **Mehr anzeigen** unter jeder Liste. |
 | 📲 **Vom Handy auf den Fernseher mit einem Scan** | Scanne mit dem Handy den QR-Code auf dem Fernseher: Er erhält Schlüssel, Einstellungen und Listen. |
-| 🌗 **Helles oder dunkles Design** | Auto, hell oder dunkel. Fotos der Besetzung auf jeder Titelseite. |
+| 🌗 **Helles oder dunkles Design** | Auto, hell oder dunkel. Fotos der Besetzung auf jeder Titelseite (antippen für weitere Filme), Trailer direkt auf der Seite. |
 
 ## Läuft auf jedem Bildschirm
 

@@ -1,10 +1,10 @@
-import { parseMood, scoreItem, genreMaps, buildProfile } from './mood.js?v=19';
-import * as api from './tmdb.js?v=19';
-import * as store from './store.js?v=19';
-import { resolveTv, setTv, isTv } from './tv.js?v=19';
-import { qrSvg } from './qr.js?v=19';
-import * as pair from './pair.js?v=19';
-import { t, getLang, setLang, LANGS, moodLabel, DEFAULT_LANG, guessCountry, countryName, countryOptions } from './i18n.js?v=19';
+import { parseMood, scoreItem, genreMaps, buildProfile } from './mood.js?v=20';
+import * as api from './tmdb.js?v=20';
+import * as store from './store.js?v=20';
+import { resolveTv, setTv, isTv } from './tv.js?v=20';
+import { qrSvg } from './qr.js?v=20';
+import * as pair from './pair.js?v=20';
+import { intlLang, t, getLang, setLang, LANGS, moodLabel, DEFAULT_LANG, guessCountry, countryName, countryOptions } from './i18n.js?v=20';
 
 const $ = (s, el = document) => el.querySelector(s);
 const view = $('#view');
@@ -194,6 +194,10 @@ function pagedGrid(out, first, next, extra = () => ({}), header = '') {
 }
 
 function loading(msg = t('loading')) { return `<p class="loading">${msg}</p>`; }
+// Grille d'affiches grises animées pendant le chargement (le texte reste lu par les lecteurs d'écran).
+function skeleton(msg = t('loading'), n = 12) {
+  return `<p class="sr-only" role="status">${msg}</p><div class="grid skel" aria-hidden="true">${'<div class="sk-card"><div class="sk-poster"></div><div class="sk-line"></div><div class="sk-line short"></div></div>'.repeat(n)}</div>`;
+}
 function errorBox(e) { return `<p class="error">${esc(e.message || e)}</p>`; }
 
 function langSwitch() {
@@ -476,7 +480,7 @@ async function runTitle(q) {
   lastTitle = q.trim();
   const out = $('#moodOut');
   if (!lastTitle || !out) return;
-  out.innerHTML = loading(t('searching'));
+  out.innerHTML = skeleton(t('searching'));
   try {
     const first = await api.searchTitle(lastTitle);
     pagedGrid(out, first, (k) => api.searchTitle(lastTitle, k + 1), () => ({}), `<p class="hint">${esc(t('titleResults')(lastTitle))}</p>`);
@@ -491,7 +495,7 @@ async function runMood(q) {
   // Si la phrase ne précise pas film ou série, on suit le choix Films / Séries / Les deux.
   if (mood.type === 'all') mood.type = store.getMediaType();
   const moods = mood.moods.map(moodLabel);
-  out.innerHTML = loading(t('searching'));
+  out.innerHTML = skeleton(t('searching'));
   try {
     const pool = new Map();
     const add = (list, why) => list.forEach((it) => {
@@ -585,7 +589,7 @@ async function viewTendances() {
     <section class="toolbar">
       <h2>${t('trends')}</h2>
       <div class="seg">${[['all', t('all')], ['movie', t('movies')], ['tv', t('series')]].map(([v, l]) => `<button data-v="${v}" class="${v === trendType ? 'on' : ''}">${l}</button>`).join('')}</div>
-    </section><div id="trendOut">${loading()}</div>`;
+    </section><div id="trendOut">${skeleton()}</div>`;
   view.querySelectorAll('.seg button').forEach((b) => b.addEventListener('click', () => { trendType = b.dataset.v; viewTendances(); }));
   try {
     const type = trendType;
@@ -612,7 +616,7 @@ async function viewGenres() {
     </section>
     <div class="chips">${Object.entries(map).map(([id, n]) => `<button class="chip ${Number(id) === genreState.genre ? 'on' : ''}" data-g="${id}">${n}</button>`).join('')}</div>
     <div id="pill">${platformPill()}</div>
-    <div id="genreOut">${loading()}</div>`;
+    <div id="genreOut">${skeleton()}</div>`;
   view.querySelectorAll('#gType button').forEach((b) => b.addEventListener('click', () => { genreState.type = b.dataset.v; viewGenres(); }));
   view.querySelectorAll('#gSort button').forEach((b) => b.addEventListener('click', () => { genreState.sort = b.dataset.v; viewGenres(); }));
   view.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => { genreState.genre = Number(c.dataset.g); viewGenres(); }));
@@ -654,7 +658,7 @@ async function viewTaste(all) {
       ${profile.disliked.length ? `<h3>${t('dislikes')}</h3><div class="chips">${chips(profile.disliked, 'dislike')}</div>` : ''}
       <p class="hint">${t('tasteLocal')}</p>
     </section>
-    <h3>${t('forYou')}</h3><div id="forYou">${loading()}</div>`;
+    <h3>${t('forYou')}</h3><div id="forYou">${skeleton(t('loading'), 6)}</div>`;
   if (!api.hasCredential()) { $('#forYou').innerHTML = ''; return; }
   try {
     const known = new Set(all.map((e) => `${e.media_type}:${e.id}`));
@@ -754,8 +758,11 @@ async function renderProviderPicker() {
 // ---------- Fiche détaillée ----------
 async function openDetail(type, id) {
   const dlg = $('#detail');
-  dlg.innerHTML = `<div class="sheet">${loading()}</div>`;
+  dlg.innerHTML = `<div class="sheet"><div class="sk-backdrop" aria-hidden="true"></div><div class="body"><p class="sr-only" role="status">${t('loading')}</p><div class="sk-line wide"></div><div class="sk-line"></div><div class="sk-line"></div></div></div>`;
   dlg.showModal();
+  // À la fermeture, on vide la fiche : une bande-annonce en cours s'arrête.
+  dlg.addEventListener('close', () => { dlg.innerHTML = ''; }, { once: true });
+  let playing = false;
   try {
     const d = await api.details(type, id);
     const it = { ...d, media_type: type, genre_ids: d.genres.map((g) => g.id) };
@@ -765,8 +772,8 @@ async function openDetail(type, id) {
     const cast = (d.credits?.cast || []).slice(0, 12);
     const initials = (n) => n.split(/\s+/).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
     const castBlock = cast.length ? `<h3>${t('cast')}</h3><ul class="cast">${cast.map((c) => `
-      <li>${c.profile_path ? `<img loading="lazy" src="${esc(`${api.IMG}w185${c.profile_path}`)}" alt="">` : `<span class="noface" aria-hidden="true">${esc(initials(c.name || '?'))}</span>`}
-        <strong>${esc(c.name)}</strong>${c.character ? `<small>${esc(c.character)}</small>` : ''}</li>`).join('')}</ul>` : '';
+      <li><button type="button" class="person" data-person="${esc(c.id)}" aria-label="${esc(t('seePerson')(c.name))}">${c.profile_path ? `<img loading="lazy" src="${esc(`${api.IMG}w185${c.profile_path}`)}" alt="">` : `<span class="noface" aria-hidden="true">${esc(initials(c.name || '?'))}</span>`}
+        <strong>${esc(c.name)}</strong>${c.character ? `<small>${esc(c.character)}</small>` : ''}</button></li>`).join('')}</ul>` : '';
     const director = (d.credits?.crew || []).find((c) => c.job === 'Director')?.name || (d.created_by || []).map((c) => c.name).join(', ');
     const render = () => {
       const entry = store.getEntry(it);
@@ -777,7 +784,9 @@ async function openDetail(type, id) {
       const offers = provRow(t('flatrate'), prov.flatrate) + provRow(t('free'), [...(prov.free || []), ...(prov.ads || [])]) + provRow(t('rent'), prov.rent) + provRow(t('buy'), prov.buy);
       dlg.innerHTML = `
         <div class="sheet">
-          ${d.backdrop_path ? `<img class="backdrop" src="${esc(`${api.IMG}${isTv() ? 'w1280' : 'w780'}${d.backdrop_path}`)}" alt="">` : ''}
+          ${playing ? `<div class="player"><iframe src="https://www.youtube-nocookie.com/embed/${esc(encodeURIComponent(trailer.key))}?autoplay=1&rel=0&playsinline=1&hl=${esc(getLang())}" title="${esc(`${t('trailer')} : ${titleOf(d)}`)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen tabindex="-1"></iframe></div>
+            <p class="hint yt"><a href="https://www.youtube.com/watch?v=${esc(encodeURIComponent(trailer.key))}" target="_blank" rel="noopener">${t('onYoutube')}</a></p>`
+    : (d.backdrop_path ? `<img class="backdrop" src="${esc(`${api.IMG}${isTv() ? 'w1280' : 'w780'}${d.backdrop_path}`)}" alt="">` : '')}
           <button class="close" aria-label="${esc(t('close'))}">✕</button>
           <div class="body">
             <h2>${esc(titleOf(d))} <small>${esc(year(d))}</small></h2>
@@ -788,7 +797,7 @@ async function openDetail(type, id) {
             <div class="row actions">
               <button data-s="towatch" class="${st === 'towatch' ? 'primary' : ''}">${st === 'towatch' ? t('inList') : t('addList')}</button>
               <button data-s="seen" class="${st === 'seen' ? 'primary' : ''}">${st === 'seen' ? t('isSeen') : t('markSeen')}</button>
-              ${trailer ? `<a class="btn" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=${esc(encodeURIComponent(trailer.key))}">${t('trailer')}</a>` : ''}
+              ${trailer ? `<button type="button" data-trailer>${playing ? t('closeTrailer') : t('trailer')}</button>` : ''}
               <button data-more>${t('similar')}</button>
             </div>
             <div class="rating">
@@ -810,12 +819,63 @@ async function openDetail(type, id) {
       dlg.querySelectorAll('[data-s]').forEach((b) => b.addEventListener('click', () => {
         store.setStatus(it, st === b.dataset.s ? null : b.dataset.s); render(); refreshBadges();
       }));
+      $('[data-trailer]', dlg)?.addEventListener('click', () => {
+        playing = !playing; render();
+        $('[data-trailer]', dlg)?.focus();
+        if (playing) $('.player', dlg)?.scrollIntoView({ block: 'nearest' });
+      });
+      dlg.querySelectorAll('[data-person]').forEach((b) => b.addEventListener('click', () => {
+        dlg.close(); location.hash = `#personne/${b.dataset.person}`;
+      }));
       $('[data-more]', dlg).addEventListener('click', () => {
         dlg.close(); lastQuery = t('likeQ')(titleOf(d)); location.hash = '#envie'; route();
       });
     };
     render();
   } catch (e) { dlg.innerHTML = `<div class="sheet">${errorBox(e)}</div>`; }
+}
+
+// ---------- Fiche acteur / actrice ----------
+async function viewPerson(id) {
+  document.querySelectorAll('nav a').forEach((a) => a.classList.remove('on'));
+  view.innerHTML = `<section class="person-head"><div class="sk-face" aria-hidden="true"></div><div><div class="sk-line wide"></div><div class="sk-line"></div></div></section>${skeleton()}`;
+  try {
+    const p = await api.person(id);
+    if (location.hash !== `#personne/${id}`) return; // on est parti entre-temps
+    // Rôles (films et séries), sans doublons, les plus connus d'abord
+    const seen = new Map();
+    for (const c of [...(p.combined_credits?.cast || []), ...(p.combined_credits?.crew || [])]) {
+      if (!['movie', 'tv'].includes(c.media_type)) continue;
+      const k = `${c.media_type}:${c.id}`;
+      if (!seen.has(k)) seen.set(k, { ...c, _role: c.character || c.job || '' });
+    }
+    const all = [...seen.values()].sort((a, b) => (b.vote_count || 0) - (a.vote_count || 0));
+    const fmt = (d) => { try { return new Intl.DateTimeFormat(intlLang(), { dateStyle: 'long' }).format(new Date(d)); } catch { return d; } };
+    const age = (from, to = new Date()) => Math.floor((new Date(to) - new Date(from)) / 31557600000);
+    const life = [
+      p.birthday ? t('born')(fmt(p.birthday), p.deathday ? null : age(p.birthday), p.place_of_birth) : '',
+      p.deathday ? t('died')(fmt(p.deathday), p.birthday ? age(p.birthday, p.deathday) : null) : '',
+    ].filter(Boolean).join(' · ');
+    const bio = (p.biography || '').trim();
+    const short = bio.length > 600 ? `${bio.slice(0, bio.lastIndexOf(' ', 560))}…` : bio;
+    view.innerHTML = `
+      <button type="button" class="link back" id="personBack">← ${t('back')}</button>
+      <section class="person-head">
+        ${p.profile_path ? `<img class="face" src="${esc(`${api.IMG}w342${p.profile_path}`)}" alt="">` : `<span class="face noface" aria-hidden="true">${esc((p.name || '?').split(/\s+/).map((w) => w[0]).slice(0, 2).join(''))}</span>`}
+        <div>
+          <h2>${esc(p.name)}</h2>
+          ${life ? `<p class="hint">${esc(life)}</p>` : ''}
+          ${bio ? (short === bio ? `<p class="bio">${esc(bio)}</p>` : `<p class="bio" id="bio">${esc(short)}</p><button type="button" class="link" id="bioMore">${t('readMore')}</button>`) : ''}
+        </div>
+      </section>
+      <h3>${t('filmography')(all.length)}</h3>
+      <div id="personOut"></div>`;
+    $('#personBack').addEventListener('click', () => { if (history.length > 1) history.back(); else { location.hash = '#envie'; } });
+    $('#bioMore')?.addEventListener('click', (e) => { $('#bio').textContent = bio; e.target.remove(); });
+    let k = 0;
+    const page = (n) => all.slice(n * 30, n * 30 + 30);
+    pagedGrid($('#personOut'), page(0), async () => page(++k), (it) => ({ why: it._role ? t('as')(it._role) : '' }));
+  } catch (e) { view.innerHTML = errorBox(e); }
 }
 
 function refreshBadges() { if ((location.hash || '#envie') === '#listes') viewListes(); }
@@ -826,6 +886,8 @@ function route() {
   stopListen?.(); stopListen = null;
   const p = pair.parsePair(location.hash);
   if (p) { viewPair(p); window.scrollTo(0, 0); return; }
+  const person = /^#personne\/(\d+)$/.exec(location.hash);
+  if (person && api.hasCredential()) { viewPerson(person[1]); window.scrollTo(0, 0); return; }
   const h = ROUTES[location.hash] ? location.hash : '#envie';
   document.querySelectorAll('nav a').forEach((a) => a.classList.toggle('on', a.getAttribute('href') === h));
   if (!api.hasCredential() && h !== '#listes') return needKey();

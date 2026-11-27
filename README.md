@@ -57,7 +57,7 @@ It is an installable web app (PWA) with no server, no account and no dependencie
 | 🖥️ **TV mode** | On a smart TV or a TV box (Android TV, Google TV, Fire TV, Samsung, LG…) the app switches by itself to a large display that reads from the sofa, driven with the remote: arrows to move, OK to open, Back to close. You can force it in the settings (Display: Auto, Phone / computer, TV) or with `?tv=1` in the address. |
 | 🔎 **Title search and voice** | Search by mood or by title, with suggestions as you type, a 🎤 button to speak your search, and **Show more** under every list. |
 | 📲 **From phone to TV in one scan** | Scan the QR code shown on the TV with your phone: the TV gets your key, settings and lists. |
-| 🌗 **Light or dark theme** | Auto, light or dark. Cast photos on every title page. |
+| 🌗 **Light or dark theme** | Auto, light or dark. Cast photos on every title page (tap one to see their other movies), trailer played right in the page. |
 
 ## Works on every screen
 

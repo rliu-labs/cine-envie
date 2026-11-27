@@ -57,7 +57,7 @@ Escreves o que te apetece ver como dirias a um amigo, **em português, inglês, 
 | 🖥️ **Modo TV** | Numa smart TV ou numa box (Android TV, Google TV, Fire TV, Samsung, LG…), a app passa sozinha para uma vista grande que se lê do sofá e usa-se com o comando: setas para mover, OK para abrir, Voltar para fechar. Pode ser forçado nas definições (Ecrã: Auto, Telemóvel / computador, TV) ou com `?tv=1` no endereço. |
 | 🔎 **Pesquisa por título e por voz** | Pesquisa por vontade ou por título, com sugestões enquanto escreves, um botão 🎤 para ditar e **Ver mais** sob cada lista. |
 | 📲 **Do telemóvel para a TV num scan** | Lê com o telemóvel o código QR mostrado na TV: recebe a chave, as definições e as listas. |
-| 🌗 **Tema claro ou escuro** | Auto, claro ou escuro. Fotos do elenco em cada ficha. |
+| 🌗 **Tema claro ou escuro** | Auto, claro ou escuro. Fotos do elenco em cada ficha (toca numa para ver os outros filmes), trailer dentro da ficha. |
 
 ## Compatível com todos os ecrãs
 

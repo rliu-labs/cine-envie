@@ -57,7 +57,7 @@ Hiya application web katinstalla (PWA), bla serveur, bla compte, bla dépendance
 | 🖥️ **Mode TV** | F télé connectée wla boîtier (Android TV, Google TV, Fire TV, Samsung, LG…), l'appli katdouz bouha l affichage kbir li yt9ra mn l canapé, w katkhdem b la télécommande : les flèches bach tt7rrek, OK bach t7ell, Retour bach tsedd. T9der tforcih f réglages (L3ard : Auto, Téléphone / ordinateur, TV) wla b `?tv=1` f l'adresse. |
 | 🔎 **9lab b smiya w b sot** | 9elleb b l5atr wla b smiya, m3a i9tira7at mlli katkteb, bouton 🎤 bach tgol, w **Chouf ktar** t7t kol liste. |
 | 📲 **Mn téléphone l la télé f scan wa7ed** | Scanni b téléphone l QR code li f la télé : katched la clé, réglages w listes dyalek. |
-| 🌗 **Thème fat7 wla ghame9** | Auto, fat7 wla ghame9. Tsawer dyal les acteurs f kol fiche. |
+| 🌗 **Thème fat7 wla ghame9** | Auto, fat7 wla ghame9. Tsawer dyal les acteurs f kol fiche (wrek 3la wa7ed bach tchouf aflamou lokhrin), bande-annonce f la fiche. |
 
 ## Katkhdem f ga3 les écrans
 

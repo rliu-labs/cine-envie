@@ -57,7 +57,7 @@ Es una aplicación web instalable (PWA), sin servidor, sin cuenta y sin dependen
 | 🖥️ **Modo TV** | En una smart TV o un dispositivo (Android TV, Google TV, Fire TV, Samsung, LG…), la app pasa sola a una vista grande que se lee desde el sofá y se maneja con el mando: flechas para moverse, OK para abrir, Atrás para cerrar. Se puede forzar en los ajustes (Pantalla: Auto, Móvil / ordenador, TV) o con `?tv=1` en la dirección. |
 | 🔎 **Búsqueda por título y por voz** | Busca por ganas o por título, con sugerencias mientras escribes, un botón 🎤 para dictar y **Ver más** bajo cada lista. |
 | 📲 **Del móvil a la tele en un escaneo** | Escanea con el móvil el código QR que muestra la tele: recibe tu clave, tus ajustes y tus listas. |
-| 🌗 **Tema claro u oscuro** | Auto, claro u oscuro. Fotos del reparto en cada ficha. |
+| 🌗 **Tema claro u oscuro** | Auto, claro u oscuro. Fotos del reparto en cada ficha (toca una para ver sus otras películas), tráiler dentro de la ficha. |
 
 ## Compatible con todas las pantallas
 

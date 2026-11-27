@@ -57,7 +57,7 @@ Scrivi cosa ti va di vedere come lo diresti a un amico, **in italiano, inglese, 
 | 🖥️ **Modalità TV** | Su una smart TV o un box (Android TV, Google TV, Fire TV, Samsung, LG…) l'app passa da sola a una vista grande leggibile dal divano e si usa con il telecomando: frecce per spostarsi, OK per aprire, Indietro per chiudere. Si può forzare nelle impostazioni (Visualizzazione: Auto, Telefono / computer, TV) o con `?tv=1` nell'indirizzo. |
 | 🔎 **Ricerca per titolo e a voce** | Cerca per voglia o per titolo, con suggerimenti mentre scrivi, un pulsante 🎤 per dettare e **Mostra altri** sotto ogni lista. |
 | 📲 **Dal telefono alla TV con una scansione** | Inquadra col telefono il codice QR mostrato dalla TV: riceve chiave, impostazioni e liste. |
-| 🌗 **Tema chiaro o scuro** | Auto, chiaro o scuro. Foto del cast in ogni scheda. |
+| 🌗 **Tema chiaro o scuro** | Auto, chiaro o scuro. Foto del cast in ogni scheda (toccane una per vedere gli altri film), trailer nella scheda. |
 
 ## Compatibile con ogni schermo
 
