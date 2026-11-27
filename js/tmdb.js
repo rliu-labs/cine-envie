@@ -74,8 +74,9 @@ export async function discover(type, params) {
   return d.results.map(withType(type));
 }
 
-export async function searchTitle(query) {
-  const d = await tmdb('/search/multi', { query });
+export async function searchTitle(query, page = 1) {
+  const d = await tmdb('/search/multi', { query, page });
+  if (page > (d.total_pages || 1)) return [];
   return d.results.filter((r) => r.media_type === 'movie' || r.media_type === 'tv');
 }
 

@@ -100,7 +100,9 @@ function firstTarget() {
   const s = scope();
   if (s !== document.body) return candidates(s).find((el) => !el.classList.contains('close')) || candidates(s)[0];
   const view = document.getElementById('view');
-  return candidates(view).find((el) => el.classList.contains('card')) || candidates(view)[0] || candidates()[0];
+  const c = candidates(view);
+  // Une affiche si la grille est là ; sinon, sur la page Envie, la première suggestion toute faite (rien à taper).
+  return c.find((el) => el.classList.contains('card')) || c.find((el) => el.matches('#presets .chip')) || c[0] || candidates()[0];
 }
 
 function back() {

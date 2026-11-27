@@ -1,5 +1,5 @@
 // Stockage local (navigateur) : langue, pays, clé TMDB, listes « à voir » / « vus », veille des tendances.
-const K = { active: 'cine.activeProviders', providers: 'cine.providers', mediaType: 'cine.mediaType', lang: 'cine.lang', region: 'cine.region', key: 'cine.tmdbKey', list: 'cine.list', trend: 'cine.trendSeen', trendAt: 'cine.trendAt', display: 'cine.display' };
+const K = { active: 'cine.activeProviders', providers: 'cine.providers', mediaType: 'cine.mediaType', lang: 'cine.lang', region: 'cine.region', key: 'cine.tmdbKey', list: 'cine.list', trend: 'cine.trendSeen', trendAt: 'cine.trendAt', display: 'cine.display', theme: 'cine.theme' };
 
 const read = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
 const write = (k, v) => localStorage.setItem(k, JSON.stringify(v));
@@ -12,6 +12,9 @@ export const setLang = (v) => localStorage.setItem(K.lang, v);
 // Affichage : 'auto' (détection), 'screen' (téléphone / ordinateur) ou 'tv'.
 export const getDisplay = () => (['auto', 'screen', 'tv'].includes(localStorage.getItem(K.display)) ? localStorage.getItem(K.display) : 'auto');
 export const setDisplay = (v) => localStorage.setItem(K.display, v);
+// Thème : 'auto' (celui du système), 'light' ou 'dark'.
+export const getTheme = () => (['auto', 'light', 'dark'].includes(localStorage.getItem(K.theme)) ? localStorage.getItem(K.theme) : 'auto');
+export const setTheme = (v) => localStorage.setItem(K.theme, v);
 export const getRegion = () => localStorage.getItem(K.region) || '';
 export const setRegion = (v) => localStorage.setItem(K.region, v);
 
@@ -97,4 +100,32 @@ export function importData(json) {
   if (!data || typeof data.list !== 'object') throw new Error('Fichier non reconnu');
   write(K.list, { ...getList(), ...data.list });
   return Object.keys(data.list).length;
+}
+
+// Transfert vers un autre appareil (QR code) : clé TMDB, langue, pays, plateformes, thème et, au choix, les listes.
+export function exportTransfer(withLists = true) {
+  return {
+    v: 1, key: getKey(), lang: getLang(), region: getRegion(), theme: getTheme(),
+    providers: read(K.providers, null), mediaType: read(K.mediaType, null),
+    ...(withLists ? { list: getList() } : {}),
+  };
+}
+// Applique un transfert reçu. Les listes sont fusionnées (la version la plus récente de chaque titre gagne).
+// Renvoie le nombre de titres reçus.
+export function importTransfer(d) {
+  if (!d || d.v !== 1) throw new Error('Transfert non reconnu');
+  if (typeof d.key === 'string' && d.key.trim()) setKey(d.key);
+  if (typeof d.lang === 'string' && d.lang) setLang(d.lang);
+  if (/^[A-Z]{2}$/.test(d.region || '')) setRegion(d.region);
+  if (['auto', 'light', 'dark'].includes(d.theme)) setTheme(d.theme);
+  if (d.providers && typeof d.providers === 'object') write(K.providers, d.providers);
+  if (['movie', 'tv', 'all'].includes(d.mediaType)) setMediaType(d.mediaType);
+  if (!d.list || typeof d.list !== 'object') return 0;
+  const list = getList();
+  for (const [k, e] of Object.entries(d.list)) {
+    if (!/^(movie|tv):\d+$/.test(k) || !e || typeof e !== 'object') continue;
+    if (!list[k] || (e.updatedAt || 0) > (list[k].updatedAt || 0)) list[k] = e;
+  }
+  write(K.list, list);
+  return Object.keys(d.list).length;
 }

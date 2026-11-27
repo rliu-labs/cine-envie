@@ -55,6 +55,9 @@ C'est une application web installable (PWA), sans serveur, sans compte, sans dé
 | 📋 **Mes listes** | « À voir » et « Vus », stockés dans le navigateur, avec export / import JSON pour changer d'appareil. |
 | 📱 **Installable** | Sur ordinateur (Chrome, Edge), Android et iPhone ; l'interface reste disponible hors ligne. |
 | 🖥️ **Mode TV** | Sur une télé connectée ou un boîtier (Android TV, Google TV, Fire TV, Samsung, LG…), l'appli passe toute seule en grand affichage lisible depuis le canapé, et se pilote à la télécommande : flèches pour se déplacer, OK pour ouvrir, Retour pour fermer. On peut le forcer dans les réglages (Affichage : Auto, Téléphone / ordinateur, TV) ou avec `?tv=1` dans l'adresse. |
+| 🔎 **Recherche par titre, suggestions et voix** | Recherche par envie ou par titre exact, avec des suggestions pendant la frappe (idées toutes faites ou titres avec leur affiche). Là où le navigateur le permet (Chrome, Edge, Safari), un bouton 🎤 permet de dire ce qu'on veut. Chaque liste se termine par un bouton **Voir plus**. |
+| 📲 **Du téléphone à la télé en un scan** | La télé affiche un QR code : scanne-le avec le téléphone où l'appli est déjà réglée, confirme, et la télé reçoit ta clé TMDB, tes réglages et tes listes. Rien à taper à la télécommande. |
+| 🌗 **Thème clair ou sombre** | Auto (comme l'appareil), clair ou sombre, dans les réglages. Photos des acteurs sur chaque fiche. |
 
 ## Compatible avec tous les écrans
 
@@ -148,8 +151,9 @@ Ciné‑Envie est conçu pour ne rien savoir de toi.
 | 🔑 **Ta clé reste chez toi** | La clé TMDB est stockée dans ton navigateur et envoyée uniquement à l'API TMDB. |
 | 🙈 **Aucun pistage** | Pas de statistiques, de publicité ni de cookies. |
 | 🌐 **Ce que ton navigateur contacte** | TMDB (données et images) et GitHub Pages, qui héberge l'appli et peut enregistrer ton adresse IP. Les bandes-annonces s'ouvrent sur YouTube. |
+| 📲 **Transfert par QR code** | Seulement si tu l'utilises : les données sont chiffrées dans ton navigateur (AES-GCM) et passent par le relais public ntfy.sh, qui ne peut pas les lire (la clé reste dans le QR code) et les efface sous 12 h. La recherche vocale envoie le son au service de reconnaissance du navigateur (Google pour Chrome, Apple pour Safari). |
 | 📦 **Zéro dépendance** | La page ne charge aucun paquet npm ni script externe : rien qui puisse être compromis en amont. (Les seuls paquets npm servent à générer les captures, jamais à l'appli.) |
-| 🛡️ **Content Security Policy** | Le navigateur bloque tout script étranger et toute connexion hors de TMDB. |
+| 🛡️ **Content Security Policy** | Le navigateur bloque tout script étranger et toute connexion hors de TMDB et du relais ntfy.sh. |
 | 🧹 **Données échappées** | Tout ce qui vient de TMDB ou d'un import est neutralisé avant affichage. |
 
 Une faille ? Voir [SECURITY.md](SECURITY.md) pour la signaler en privé.
