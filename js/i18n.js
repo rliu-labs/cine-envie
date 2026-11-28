@@ -1,22 +1,22 @@
-// Langue de l'interface (en, fr, es, de, it, pt et darija marocain en lettres latines) et pays de résidence pour les plateformes de streaming.
+// Interface language (en, fr, es, de, it, pt and Moroccan Darija in Latin script) and country of residence for streaming services.
 
-// Pays proposés : ceux où TMDB / JustWatch publient les offres de streaming (codes ISO 3166-1).
-// Europe, Amériques, Afrique, Moyen-Orient, Asie et Océanie.
+// Countries offered: those where TMDB / JustWatch publish streaming offers (ISO 3166-1 codes).
+// Europe, Americas, Africa, Middle East, Asia and Oceania.
 export const COUNTRIES = [
   // Europe
   'AD', 'AL', 'AT', 'BA', 'BE', 'BG', 'BY', 'CH', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GB', 'GG', 'GI', 'GR', 'HR', 'HU',
   'IE', 'IS', 'IT', 'LI', 'LT', 'LU', 'LV', 'MC', 'MD', 'ME', 'MK', 'MT', 'NL', 'NO', 'PL', 'PT', 'RO', 'RS', 'SE', 'SI', 'SK', 'SM',
   'UA', 'VA', 'XK',
-  // Amériques
+  // Americas
   'AG', 'AR', 'BB', 'BM', 'BO', 'BR', 'BS', 'BZ', 'CA', 'CL', 'CO', 'CR', 'CU', 'DO', 'EC', 'GF', 'GT', 'GY', 'HN', 'JM', 'LC',
   'MX', 'NI', 'PA', 'PE', 'PY', 'SV', 'TC', 'TT', 'US', 'UY', 'VE',
-  // Afrique
+  // Africa
   'AO', 'BF', 'CD', 'CI', 'CM', 'CV', 'DZ', 'EG', 'GH', 'GQ', 'KE', 'LY', 'MA', 'MG', 'ML', 'MU', 'MW', 'MZ', 'NE', 'NG', 'SC',
   'SN', 'TD', 'TN', 'TZ', 'UG', 'ZA', 'ZM', 'ZW',
-  // Moyen-Orient et Asie
+  // Middle East and Asia
   'AE', 'AZ', 'BH', 'HK', 'ID', 'IL', 'IN', 'IQ', 'JO', 'JP', 'KR', 'KW', 'LB', 'MY', 'OM', 'PH', 'PK', 'PS', 'QA', 'SA', 'SG',
   'TH', 'TR', 'TW', 'YE',
-  // Océanie
+  // Oceania
   'AU', 'FJ', 'NZ', 'PF', 'PG',
 ];
 
@@ -76,14 +76,14 @@ const STR = {
     sendDone: 'C\'est envoyé ✔ L\'autre écran va s\'ouvrir tout seul dans quelques secondes.',
     sendNoKey: 'Cet appareil n\'a pas encore de clé TMDB, il n\'a donc rien à envoyer. Scanne le QR code avec le téléphone où l\'appli est déjà réglée.',
     privacyPair: 'Transfert par QR code : les données passent chiffrées (AES-GCM) par le relais public ntfy.sh, qui ne peut pas les lire et les efface sous 12 h. Recherche vocale : le navigateur envoie le son à son service de reconnaissance (Google pour Chrome, Apple pour Safari).',
-    credits: 'Données fournies par TMDB. Ce produit utilise l\'API TMDB mais n\'est ni approuvé ni certifié par TMDB. Disponibilités streaming : JustWatch via TMDB.',
+    errKeyMissing: 'Clé TMDB manquante.', errKeyRejected: 'Clé TMDB refusée (401). Vérifie-la dans Réglages.', errBadFile: 'Fichier non reconnu.',
     close: 'Fermer', seasons: (n) => `${n} saison${n > 1 ? 's' : ''}`, noOverview: 'Pas de résumé disponible.',
-    by: 'De', with: 'avec', inList: '✔ Dans ma liste', addList: '+ À voir', isSeen: '✔ Vu', markSeen: 'Marquer vu',
+    by: 'De', inList: '✔ Dans ma liste', addList: '+ À voir', isSeen: '✔ Vu', markSeen: 'Marquer vu',
     trailer: '▶ Bande-annonce', similar: 'Des idées similaires', likeQ: (t) => `comme ${t}`,
     whereIn: 'Où le regarder', flatrate: 'Abonnement', free: 'Gratuit', rent: 'Location', buy: 'Achat',
     noOffer: 'Aucune offre légale référencée dans ce pays pour l\'instant (souvent le cas des films encore au cinéma).',
     allOffers: 'Voir toutes les offres (JustWatch)',
-    taste: 'Mes goûts', rate: 'Ta note', rateHint: 'Note les titres que tu as vus : tes recommandations s\'adaptent à tes goûts.',
+    taste: 'Mes goûts', rate: 'Ta note',
     clearRate: 'Effacer', stars: (n) => `${n} étoile${n > 1 ? 's' : ''}`,
     tasteIntro: (n) => `D'après tes ${n} note${n > 1 ? 's' : ''}, voici ce que tu aimes.`,
     tasteEmpty: 'Note au moins 3 titres vus (ouvre une fiche, puis donne des étoiles) pour construire ton profil de goûts.',
@@ -99,7 +99,12 @@ const STR = {
     onPlatforms: (n) => `Sur tes plateformes : ${n}`, editPlatforms: 'modifier', allPlatforms: 'Tout le catalogue', choosePlatforms: 'choisir mes plateformes',
     trendsAllPlatforms: 'Les tendances couvrent toutes les plateformes.', both: 'Les deux', clearAll: 'Tout décocher',
     lookFor: 'Je cherche', onWhere: 'Sur', allShort: 'Toutes', addPlatform: '+ ajouter une plateforme',
-    moods: {},
+    moods: {
+      cozy: 'cosy', funny: 'drôle', mystery: 'intrigue', scary: 'frissons', tension: 'tension', action: 'action',
+      adventure: 'aventure', romance: 'romance', emotional: 'émotion', scifi: 'SF', fantasy: 'fantastique',
+      family: 'famille', animation: 'animation', documentary: 'docu / histoire vraie',
+      historical: 'historique', dadMovie: 'film de daron', crime: 'crime', western: 'western', music: 'musique',
+    },
   },
   en: {
     nav: ['Mood', 'Trending', 'Genres', 'My lists'],
@@ -156,14 +161,14 @@ const STR = {
     sendDone: 'Sent ✔ The other screen will open by itself in a few seconds.',
     sendNoKey: 'This device has no TMDB key yet, so there is nothing to send. Scan the QR code with the phone where the app is already set up.',
     privacyPair: 'QR code transfer: data travels encrypted (AES-GCM) through the public ntfy.sh relay, which cannot read it and deletes it within 12 hours. Voice search: the browser sends the audio to its speech service (Google for Chrome, Apple for Safari).',
-    credits: 'Data provided by TMDB. This product uses the TMDB API but is not endorsed or certified by TMDB. Streaming availability: JustWatch via TMDB.',
+    errKeyMissing: 'Missing TMDB key.', errKeyRejected: 'TMDB key rejected (401). Check it in Settings.', errBadFile: 'Unrecognised file.',
     close: 'Close', seasons: (n) => `${n} season${n > 1 ? 's' : ''}`, noOverview: 'No overview available.',
-    by: 'By', with: 'starring', inList: '✔ In my list', addList: '+ To watch', isSeen: '✔ Seen', markSeen: 'Mark as seen',
+    by: 'By', inList: '✔ In my list', addList: '+ To watch', isSeen: '✔ Seen', markSeen: 'Mark as seen',
     trailer: '▶ Trailer', similar: 'Similar ideas', likeQ: (t) => `like ${t}`,
     whereIn: 'Where to watch', flatrate: 'Subscription', free: 'Free', rent: 'Rent', buy: 'Buy',
     noOffer: 'No legal offer listed in this country yet (often the case for movies still in theaters).',
     allOffers: 'See all offers (JustWatch)',
-    taste: 'My taste', rate: 'Your rating', rateHint: 'Rate the titles you have seen: your recommendations adapt to your taste.',
+    taste: 'My taste', rate: 'Your rating',
     clearRate: 'Clear', stars: (n) => `${n} star${n > 1 ? 's' : ''}`,
     tasteIntro: (n) => `Based on your ${n} rating${n > 1 ? 's' : ''}, here is what you like.`,
     tasteEmpty: 'Rate at least 3 titles you have seen (open a title, then give it stars) to build your taste profile.',
@@ -180,10 +185,10 @@ const STR = {
     trendsAllPlatforms: 'Trending covers all streaming services.', both: 'Both', clearAll: 'Untick all',
     lookFor: 'Looking for', onWhere: 'On', allShort: 'All', addPlatform: '+ add a service',
     moods: {
-      cosy: 'cozy', 'drôle': 'funny', intrigue: 'mystery', frissons: 'scary', tension: 'tension', action: 'action',
-      aventure: 'adventure', romance: 'romance', 'émotion': 'emotional', SF: 'sci-fi', fantastique: 'fantasy',
-      famille: 'family', animation: 'animation', 'docu / histoire vraie': 'documentary / true story',
-      historique: 'historical', 'film de daron': 'dad movie', crime: 'crime', western: 'western', musique: 'music',
+      cozy: 'cozy', funny: 'funny', mystery: 'mystery', scary: 'scary', tension: 'tension', action: 'action',
+      adventure: 'adventure', romance: 'romance', emotional: 'emotional', scifi: 'sci-fi', fantasy: 'fantasy',
+      family: 'family', animation: 'animation', documentary: 'documentary / true story',
+      historical: 'historical', dadMovie: 'dad movie', crime: 'crime', western: 'western', music: 'music',
     },
   },
   es: {
@@ -241,14 +246,14 @@ const STR = {
     sendDone: 'Enviado ✔ La otra pantalla se abrirá sola en unos segundos.',
     sendNoKey: 'Este dispositivo aún no tiene clave TMDB, así que no hay nada que enviar. Escanea el código QR con el móvil donde la app ya está configurada.',
     privacyPair: 'Transferencia por código QR: los datos viajan cifrados (AES-GCM) por el relé público ntfy.sh, que no puede leerlos y los borra en 12 h. Búsqueda por voz: el navegador envía el audio a su servicio de reconocimiento (Google en Chrome, Apple en Safari).',
-    credits: 'Datos proporcionados por TMDB. Este producto usa la API de TMDB pero no está avalado ni certificado por TMDB. Disponibilidad en streaming: JustWatch vía TMDB.',
+    errKeyMissing: 'Falta la clave de TMDB.', errKeyRejected: 'Clave de TMDB rechazada (401). Revísala en Ajustes.', errBadFile: 'Archivo no reconocido.',
     close: 'Cerrar', seasons: (n) => `${n} temporada${n > 1 ? 's' : ''}`, noOverview: 'No hay sinopsis disponible.',
-    by: 'De', with: 'con', inList: '✔ En mi lista', addList: '+ Por ver', isSeen: '✔ Vista', markSeen: 'Marcar como vista',
+    by: 'De', inList: '✔ En mi lista', addList: '+ Por ver', isSeen: '✔ Vista', markSeen: 'Marcar como vista',
     trailer: '▶ Tráiler', similar: 'Ideas parecidas', likeQ: (t) => `como ${t}`,
     whereIn: 'Dónde verla', flatrate: 'Suscripción', free: 'Gratis', rent: 'Alquiler', buy: 'Compra',
     noOffer: 'Todavía no hay ninguna oferta legal en este país (suele pasar con las películas que siguen en cines).',
     allOffers: 'Ver todas las ofertas (JustWatch)',
-    taste: 'Mis gustos', rate: 'Tu nota', rateHint: 'Puntúa lo que has visto: las recomendaciones se adaptan a tus gustos.',
+    taste: 'Mis gustos', rate: 'Tu nota',
     clearRate: 'Borrar', stars: (n) => `${n} estrella${n > 1 ? 's' : ''}`,
     tasteIntro: (n) => `Según tus ${n} nota${n > 1 ? 's' : ''}, esto es lo que te gusta.`,
     tasteEmpty: 'Puntúa al menos 3 títulos que hayas visto (abre una ficha y dale estrellas) para crear tu perfil de gustos.',
@@ -265,10 +270,10 @@ const STR = {
     trendsAllPlatforms: 'Las tendencias incluyen todas las plataformas.', both: 'Ambas', clearAll: 'Desmarcar todo',
     lookFor: 'Busco', onWhere: 'En', allShort: 'Todas', addPlatform: '+ añadir una plataforma',
     moods: {
-      cosy: 'tranquila', 'drôle': 'divertida', intrigue: 'misterio', frissons: 'miedo', tension: 'tensión', action: 'acción',
-      aventure: 'aventura', romance: 'romance', 'émotion': 'emotiva', SF: 'ciencia ficción', fantastique: 'fantasía',
-      famille: 'familiar', animation: 'animación', 'docu / histoire vraie': 'documental / historia real',
-      historique: 'histórica', 'film de daron': 'peli de padre', crime: 'crimen', western: 'western', musique: 'música',
+      cozy: 'tranquila', funny: 'divertida', mystery: 'misterio', scary: 'miedo', tension: 'tensión', action: 'acción',
+      adventure: 'aventura', romance: 'romance', emotional: 'emotiva', scifi: 'ciencia ficción', fantasy: 'fantasía',
+      family: 'familiar', animation: 'animación', documentary: 'documental / historia real',
+      historical: 'histórica', dadMovie: 'peli de padre', crime: 'crimen', western: 'western', music: 'música',
     },
   },
   de: {
@@ -326,14 +331,14 @@ const STR = {
     sendDone: 'Gesendet ✔ Der andere Bildschirm öffnet sich in wenigen Sekunden von selbst.',
     sendNoKey: 'Dieses Gerät hat noch keinen TMDB-Schlüssel, es gibt also nichts zu senden. Scanne den QR-Code mit dem Handy, auf dem die App schon eingerichtet ist.',
     privacyPair: 'Übertragung per QR-Code: Die Daten laufen verschlüsselt (AES-GCM) über das öffentliche Relais ntfy.sh, das sie nicht lesen kann und nach 12 Stunden löscht. Sprachsuche: Der Browser sendet den Ton an seinen Erkennungsdienst (Google bei Chrome, Apple bei Safari).',
-    credits: 'Daten von TMDB. Dieses Produkt nutzt die TMDB-API, wird aber von TMDB weder unterstützt noch zertifiziert. Streaming-Verfügbarkeit: JustWatch über TMDB.',
+    errKeyMissing: 'TMDB-Schlüssel fehlt.', errKeyRejected: 'TMDB-Schlüssel abgelehnt (401). Prüfe ihn in den Einstellungen.', errBadFile: 'Datei nicht erkannt.',
     close: 'Schließen', seasons: (n) => `${n} Staffel${n > 1 ? 'n' : ''}`, noOverview: 'Keine Beschreibung verfügbar.',
-    by: 'Von', with: 'mit', inList: '✔ Auf meiner Liste', addList: '+ Merken', isSeen: '✔ Gesehen', markSeen: 'Als gesehen markieren',
+    by: 'Von', inList: '✔ Auf meiner Liste', addList: '+ Merken', isSeen: '✔ Gesehen', markSeen: 'Als gesehen markieren',
     trailer: '▶ Trailer', similar: 'Ähnliche Ideen', likeQ: (t) => `wie ${t}`,
     whereIn: 'Wo ansehen', flatrate: 'Abo', free: 'Kostenlos', rent: 'Leihen', buy: 'Kaufen',
     noOffer: 'In diesem Land gibt es noch kein legales Angebot (oft bei Filmen, die noch im Kino laufen).',
     allOffers: 'Alle Angebote ansehen (JustWatch)',
-    taste: 'Mein Geschmack', rate: 'Deine Bewertung', rateHint: 'Bewerte, was du gesehen hast: Deine Empfehlungen passen sich deinem Geschmack an.',
+    taste: 'Mein Geschmack', rate: 'Deine Bewertung',
     clearRate: 'Löschen', stars: (n) => `${n} Stern${n > 1 ? 'e' : ''}`,
     tasteIntro: (n) => `Nach deinen ${n} Bewertung${n > 1 ? 'en' : ''} magst du Folgendes.`,
     tasteEmpty: 'Bewerte mindestens 3 gesehene Titel (Titel öffnen, dann Sterne vergeben), um dein Geschmacksprofil aufzubauen.',
@@ -350,10 +355,10 @@ const STR = {
     trendsAllPlatforms: 'Die Trends umfassen alle Streamingdienste.', both: 'Beides', clearAll: 'Alle abwählen',
     lookFor: 'Ich suche', onWhere: 'Bei', allShort: 'Alle', addPlatform: '+ Dienst hinzufügen',
     moods: {
-      cosy: 'gemütlich', 'drôle': 'lustig', intrigue: 'Rätsel', frissons: 'gruselig', tension: 'Spannung', action: 'Action',
-      aventure: 'Abenteuer', romance: 'Romantik', 'émotion': 'emotional', SF: 'Science-Fiction', fantastique: 'Fantasy',
-      famille: 'Familie', animation: 'Animation', 'docu / histoire vraie': 'Doku / wahre Geschichte',
-      historique: 'historisch', 'film de daron': 'Papa-Film', crime: 'Krimi', western: 'Western', musique: 'Musik',
+      cozy: 'gemütlich', funny: 'lustig', mystery: 'Rätsel', scary: 'gruselig', tension: 'Spannung', action: 'Action',
+      adventure: 'Abenteuer', romance: 'Romantik', emotional: 'emotional', scifi: 'Science-Fiction', fantasy: 'Fantasy',
+      family: 'Familie', animation: 'Animation', documentary: 'Doku / wahre Geschichte',
+      historical: 'historisch', dadMovie: 'Papa-Film', crime: 'Krimi', western: 'Western', music: 'Musik',
     },
   },
   it: {
@@ -411,14 +416,14 @@ const STR = {
     sendDone: 'Inviato ✔ L\'altro schermo si aprirà da solo tra pochi secondi.',
     sendNoKey: 'Questo dispositivo non ha ancora una chiave TMDB, quindi non c\'è niente da inviare. Inquadra il codice QR con il telefono dove l\'app è già configurata.',
     privacyPair: 'Trasferimento con codice QR: i dati passano cifrati (AES-GCM) dal relè pubblico ntfy.sh, che non può leggerli e li cancella entro 12 ore. Ricerca vocale: il browser invia l\'audio al suo servizio di riconoscimento (Google per Chrome, Apple per Safari).',
-    credits: 'Dati forniti da TMDB. Questo prodotto usa l\'API di TMDB ma non è approvato né certificato da TMDB. Disponibilità in streaming: JustWatch tramite TMDB.',
+    errKeyMissing: 'Chiave TMDB mancante.', errKeyRejected: 'Chiave TMDB rifiutata (401). Controllala nelle Impostazioni.', errBadFile: 'File non riconosciuto.',
     close: 'Chiudi', seasons: (n) => `${n} stagion${n > 1 ? 'i' : 'e'}`, noOverview: 'Nessuna trama disponibile.',
-    by: 'Di', with: 'con', inList: '✔ Nella mia lista', addList: '+ Da vedere', isSeen: '✔ Visto', markSeen: 'Segna come visto',
+    by: 'Di', inList: '✔ Nella mia lista', addList: '+ Da vedere', isSeen: '✔ Visto', markSeen: 'Segna come visto',
     trailer: '▶ Trailer', similar: 'Idee simili', likeQ: (t) => `come ${t}`,
     whereIn: 'Dove guardarlo', flatrate: 'Abbonamento', free: 'Gratis', rent: 'Noleggio', buy: 'Acquisto',
     noOffer: 'Ancora nessuna offerta legale in questo paese (succede spesso con i film ancora al cinema).',
     allOffers: 'Vedi tutte le offerte (JustWatch)',
-    taste: 'I miei gusti', rate: 'Il tuo voto', rateHint: 'Vota i titoli che hai visto: i consigli si adattano ai tuoi gusti.',
+    taste: 'I miei gusti', rate: 'Il tuo voto',
     clearRate: 'Cancella', stars: (n) => `${n} stell${n > 1 ? 'e' : 'a'}`,
     tasteIntro: (n) => `In base ai tuoi ${n} vot${n > 1 ? 'i' : 'o'}, ecco cosa ti piace.`,
     tasteEmpty: 'Vota almeno 3 titoli che hai visto (apri una scheda e assegna le stelle) per creare il tuo profilo dei gusti.',
@@ -435,10 +440,10 @@ const STR = {
     trendsAllPlatforms: 'Le tendenze coprono tutte le piattaforme.', both: 'Entrambi', clearAll: 'Deseleziona tutto',
     lookFor: 'Cerco', onWhere: 'Su', allShort: 'Tutte', addPlatform: '+ aggiungi una piattaforma',
     moods: {
-      cosy: 'rilassante', 'drôle': 'divertente', intrigue: 'mistero', frissons: 'paura', tension: 'tensione', action: 'azione',
-      aventure: 'avventura', romance: 'romantico', 'émotion': 'commovente', SF: 'fantascienza', fantastique: 'fantasy',
-      famille: 'famiglia', animation: 'animazione', 'docu / histoire vraie': 'documentario / storia vera',
-      historique: 'storico', 'film de daron': 'film da papà', crime: 'crimine', western: 'western', musique: 'musica',
+      cozy: 'rilassante', funny: 'divertente', mystery: 'mistero', scary: 'paura', tension: 'tensione', action: 'azione',
+      adventure: 'avventura', romance: 'romantico', emotional: 'commovente', scifi: 'fantascienza', fantasy: 'fantasy',
+      family: 'famiglia', animation: 'animazione', documentary: 'documentario / storia vera',
+      historical: 'storico', dadMovie: 'film da papà', crime: 'crimine', western: 'western', music: 'musica',
     },
   },
   pt: {
@@ -496,14 +501,14 @@ const STR = {
     sendDone: 'Enviado ✔ O outro ecrã vai abrir sozinho dentro de segundos.',
     sendNoKey: 'Este aparelho ainda não tem chave TMDB, por isso não há nada para enviar. Lê o código QR com o telemóvel onde a app já está configurada.',
     privacyPair: 'Transferência por código QR: os dados passam cifrados (AES-GCM) pelo relé público ntfy.sh, que não os consegue ler e os apaga em 12 h. Pesquisa por voz: o navegador envia o áudio para o seu serviço de reconhecimento (Google no Chrome, Apple no Safari).',
-    credits: 'Dados fornecidos pelo TMDB. Este produto usa a API do TMDB mas não é aprovado nem certificado pelo TMDB. Disponibilidade em streaming: JustWatch via TMDB.',
+    errKeyMissing: 'Falta a chave TMDB.', errKeyRejected: 'Chave TMDB recusada (401). Verifica-a nas Definições.', errBadFile: 'Ficheiro não reconhecido.',
     close: 'Fechar', seasons: (n) => `${n} temporada${n > 1 ? 's' : ''}`, noOverview: 'Sem sinopse disponível.',
-    by: 'De', with: 'com', inList: '✔ Na minha lista', addList: '+ Para ver', isSeen: '✔ Visto', markSeen: 'Marcar como visto',
+    by: 'De', inList: '✔ Na minha lista', addList: '+ Para ver', isSeen: '✔ Visto', markSeen: 'Marcar como visto',
     trailer: '▶ Trailer', similar: 'Ideias parecidas', likeQ: (t) => `como ${t}`,
     whereIn: 'Onde ver', flatrate: 'Subscrição', free: 'Grátis', rent: 'Aluguer', buy: 'Compra',
     noOffer: 'Ainda não há nenhuma oferta legal neste país (acontece muito com filmes que ainda estão no cinema).',
     allOffers: 'Ver todas as ofertas (JustWatch)',
-    taste: 'Os meus gostos', rate: 'A tua nota', rateHint: 'Dá nota ao que viste: as recomendações adaptam-se aos teus gostos.',
+    taste: 'Os meus gostos', rate: 'A tua nota',
     clearRate: 'Apagar', stars: (n) => `${n} estrela${n > 1 ? 's' : ''}`,
     tasteIntro: (n) => `Com base nas tuas ${n} nota${n > 1 ? 's' : ''}, eis o que gostas.`,
     tasteEmpty: 'Dá nota a pelo menos 3 títulos que viste (abre uma ficha e dá estrelas) para criar o teu perfil de gostos.',
@@ -520,10 +525,10 @@ const STR = {
     trendsAllPlatforms: 'As tendências abrangem todas as plataformas.', both: 'Ambos', clearAll: 'Desmarcar tudo',
     lookFor: 'Procuro', onWhere: 'Em', allShort: 'Todas', addPlatform: '+ adicionar uma plataforma',
     moods: {
-      cosy: 'tranquilo', 'drôle': 'divertido', intrigue: 'mistério', frissons: 'medo', tension: 'tensão', action: 'ação',
-      aventure: 'aventura', romance: 'romance', 'émotion': 'emotivo', SF: 'ficção científica', fantastique: 'fantasia',
-      famille: 'família', animation: 'animação', 'docu / histoire vraie': 'documentário / história verídica',
-      historique: 'histórico', 'film de daron': 'filme de pai', crime: 'crime', western: 'western', musique: 'música',
+      cozy: 'tranquilo', funny: 'divertido', mystery: 'mistério', scary: 'medo', tension: 'tensão', action: 'ação',
+      adventure: 'aventura', romance: 'romance', emotional: 'emotivo', scifi: 'ficção científica', fantasy: 'fantasia',
+      family: 'família', animation: 'animação', documentary: 'documentário / história verídica',
+      historical: 'histórico', dadMovie: 'filme de pai', crime: 'crime', western: 'western', music: 'música',
     },
   },
   ary: {
@@ -581,14 +586,14 @@ const STR = {
     sendDone: 'Tsifet ✔ L\'écran lakhor ghadi yt7ell bouhdou f chi tawani.',
     sendNoKey: 'Had l\'appareil ma3ndouch clé TMDB, ma3ndou ma ysifet. Scanni l QR code b téléphone li fih l\'appli mreglia.',
     privacyPair: 'Transfert b QR code : les données katdouz mchiffrin (AES-GCM) mn l relais public ntfy.sh, li ma ye9derch y9rahom w kaymse7hom f 12 sa3a. Recherche b sot : navigateur kaysifet sot l service dyalou (Google f Chrome, Apple f Safari).',
-    credits: 'Data mn TMDB. Had l produit kaykhdem b l\'API TMDB walakin TMDB ma 9blatouch w ma certifiatouch. Streaming : JustWatch 3la TMDB.',
+    errKeyMissing: 'Ma kaynach l clé TMDB.', errKeyRejected: 'TMDB rfdat l clé (401). Chouf-ha f Réglages.', errBadFile: 'Had l fichier ma t3erfch 3lih.',
     close: 'Sedd', seasons: (n) => `${n} saison`, noOverview: 'Ma kaynch résumé.',
-    by: 'Dyal', with: 'm3a', inList: '✔ F lista dyali', addList: '+ Nchoufo', isSeen: '✔ Chefto', markSeen: 'Chefto',
+    by: 'Dyal', inList: '✔ F lista dyali', addList: '+ Nchoufo', isSeen: '✔ Chefto', markSeen: 'Chefto',
     trailer: '▶ Bande-annonce', similar: 'Afkar b7alo', likeQ: (t) => `b7al ${t}`,
     whereIn: 'Fin tchoufo', flatrate: 'Abonnement', free: 'Batel', rent: 'Kra', buy: 'Chra',
     noOffer: 'Ma kayna 7tta offre l9anouniya f had lblad daba (ghaliban l film mazal f cinéma).',
     allOffers: 'Chouf ga3 les offres (JustWatch)',
-    taste: 'Dou9i', rate: 'N9ta dyalek', rateHint: '3ti n9ta l les films li cheftihom : les recommandations ghadi yt3ellmo dou9ek.',
+    taste: 'Dou9i', rate: 'N9ta dyalek',
     clearRate: 'Mse7', stars: (n) => `${n} njma`,
     tasteIntro: (n) => `3la 7sab ${n} n9ta li 3titi, ha chno kat7ebb.`,
     tasteEmpty: '3ti n9ta l 3 titres 3la l9ell (7ell fiche, w 3tiha njoum) bach nbniw dou9ek.',
@@ -605,18 +610,18 @@ const STR = {
     trendsAllPlatforms: 'Trend fih ga3 les plateformes.', both: 'Bjouj', clearAll: 'Mse7 kolchi',
     lookFor: 'Kan9elleb 3la', onWhere: 'F', allShort: 'Kolhom', addPlatform: '+ zid plateforme',
     moods: {
-      cosy: 'cosy / ra7a', 'drôle': 'd7k', intrigue: 'lghaz', frissons: 'khl3a', tension: 'tachwi9', action: 'action',
-      aventure: 'moghamara', romance: 'l7ob', 'émotion': 'kaybekki', SF: 'lfada / SF', fantastique: 'fantastique',
-      famille: 'l3a2ila', animation: 'rssoum mot7arrika', 'docu / histoire vraie': 'wata2i9i / 9issa wa9i3iya',
-      historique: 'tarikh', 'film de daron': 'film dyal bba', crime: 'chfara / crime', western: 'western', musique: 'mousi9a',
+      cozy: 'cosy / ra7a', funny: 'd7k', mystery: 'lghaz', scary: 'khl3a', tension: 'tachwi9', action: 'action',
+      adventure: 'moghamara', romance: 'l7ob', emotional: 'kaybekki', scifi: 'lfada / SF', fantasy: 'fantastique',
+      family: 'l3a2ila', animation: 'rssoum mot7arrika', documentary: 'wata2i9i / 9issa wa9i3iya',
+      historical: 'tarikh', dadMovie: 'film dyal bba', crime: 'chfara / crime', western: 'western', music: 'mousi9a',
     },
   },
 };
 
 let lang = 'en';
 export const getLang = () => lang;
-// Langues proposées : code interne, nom affiché, abréviation du menu, attribut lang HTML.
-// L'anglais (langue par défaut) en tête, puis les autres par ordre alphabétique de leur nom.
+// Available languages: internal code, display name, menu abbreviation, HTML lang attribute.
+// English (the default) first, then the others in alphabetical order of their name.
 export const LANGS = [['en', 'English', 'EN', 'en'], ['ary', 'Darija', 'DRJ', 'ary-Latn'], ['de', 'Deutsch', 'DE', 'de'],
   ['es', 'Español', 'ES', 'es'], ['fr', 'Français', 'FR', 'fr'], ['it', 'Italiano', 'IT', 'it'], ['pt', 'Português', 'PT', 'pt']];
 export const DEFAULT_LANG = 'en';
@@ -624,12 +629,12 @@ export function setLang(l) {
   lang = STR[l] ? l : DEFAULT_LANG;
   if (typeof document !== 'undefined') document.documentElement.lang = LANGS.find((x) => x[0] === lang)[3];
 }
-// Langue utilisée pour Intl (noms de pays, tri) : le darija retombe sur le français.
+// Language used for Intl (country names, sorting): Darija falls back to French.
 export const intlLang = (l = lang) => (['en', 'es', 'de', 'it', 'pt'].includes(l) ? l : 'fr');
-export const t = (k) => STR[lang][k] ?? STR.fr[k];
+export const t = (k) => STR[lang][k] ?? STR[DEFAULT_LANG][k];
 export const moodLabel = (m) => STR[lang].moods[m] || m;
 
-// Pays par défaut d'après la langue du navigateur.
+// Default country from the browser language.
 export function guessCountry(langs = []) {
   for (const l of langs) {
     const c = (l.split('-')[1] || '').toUpperCase();

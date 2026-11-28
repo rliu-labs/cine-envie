@@ -36,7 +36,7 @@ Escreves o que te apetece ver como dirias a um amigo, **em português, inglês, 
 É uma aplicação web instalável (PWA), sem servidor, sem conta e sem dependências: HTML, CSS e JavaScript nativo.
 
 <p align="center">
-  <img src="docs/accueil.pt.png" alt="Ecrã inicial do Ciné‑Envie" width="760">
+  <img src="docs/home.pt.png" alt="Ecrã inicial do Ciné‑Envie" width="760">
 </p>
 
 ## Funcionalidades
@@ -59,18 +59,6 @@ Escreves o que te apetece ver como dirias a um amigo, **em português, inglês, 
 | 📲 **Do telemóvel para a TV num scan** | Lê com o telemóvel o código QR mostrado na TV: recebe a chave, as definições e as listas. |
 | 🌗 **Tema claro ou escuro** | Auto, claro ou escuro. |
 | 🔔 **Avisos Para ver** | Um aviso diz-te quando um título da lista «Para ver» chega a uma das tuas plataformas ou tem nova temporada. |
-
-## Compatível com todos os ecrãs
-
-A mesma app adapta-se ao aparelho, sem configurar nada:
-
-| Aparelho | Vista e comandos | Navegadores testados |
-|---|---|---|
-| 📱 **Telemóvel** | Uma coluna, zonas de toque grandes, instalável no ecrã principal. | Safari (iPhone), Chrome (Android) |
-| 💻 **Computador** | Grelha larga de cartazes, rato ou teclado (Tab, Enter, Esc). | Chrome, Edge, Firefox, Safari |
-| 🖥️ **TV** | Vista grande que se lê do sofá, margens contra o corte do ecrã, comando: setas, OK, Voltar. Ativa-se sozinha em smart TVs e boxes de TV. | Samsung (Tizen), LG (webOS), Android TV / Google TV, Fire TV |
-
-Os tablets usam a vista de telemóvel ou de computador conforme a largura. Para escolher: **Definições → Ecrã** (Auto, Telemóvel / computador, TV), ou `?tv=1` (ou `?tv=0`) no endereço.
 
 ## Compatível com todos os ecrãs
 

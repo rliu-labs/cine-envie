@@ -1,19 +1,19 @@
 ---
 name: Bug
-about: Quelque chose ne marche pas comme prévu
+about: Something does not work as expected
 labels: bug
 ---
 
-**Ce qui se passe**
+**What happens**
 
 
-**Ce qui était attendu**
+**What was expected**
 
 
-**Pour reproduire**
+**Steps to reproduce**
 1.
 2.
 
-**Appareil / navigateur** (ex. iPhone Safari, Chrome sur Windows)
+**Device / browser** (e.g. iPhone Safari, Chrome on Windows)
 
-> Ne colle jamais ta clé TMDB dans un ticket.
+> Never paste your TMDB key into an issue.

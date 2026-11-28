@@ -5,7 +5,7 @@
   --focus: #fff; --halo: rgba(138, 180, 255, .45); --shadow: rgba(0, 0, 0, .45);
   color-scheme: dark;
 }
-/* Thème clair : choisi dans les réglages, ou suivi du système en mode Auto. */
+/* Light theme: chosen in the settings, or following the system in Auto mode. */
 :root[data-theme="light"] {
   --bg: #f4f4f8; --bg2: #ffffff; --bg3: #e2e2ea; --fg: #16161d; --mut: #5b5b6e;
   --acc: #d63a40; --ok: #1f8a57; --new: #f0b429;
@@ -66,8 +66,8 @@ input { font: inherit; color: var(--fg); background: var(--bg2); border: 1px sol
 .badge { font-size: .7rem; font-weight: 700; padding: 2px 7px; border-radius: 999px; background: var(--bg3); }
 .badge.new { background: var(--new); color: #000; }
 .badge.seen { background: var(--ok); color: #fff; }
-.badge.todo { background: var(--acc); color: #fff; }
-.note { color: #fff; position: absolute; bottom: 6px; right: 6px; font-size: .75rem; padding: 2px 6px; border-radius: 6px; background: rgba(0,0,0,.75); }
+.badge.towatch { background: var(--acc); color: #fff; }
+.score { color: #fff; position: absolute; bottom: 6px; right: 6px; font-size: .75rem; padding: 2px 6px; border-radius: 6px; background: rgba(0,0,0,.75); }
 .meta { padding: .45rem .15rem; display: flex; flex-direction: column; gap: 2px; }
 .meta strong { font-size: .95rem; line-height: 1.2; }
 .meta small { color: var(--mut); font-size: .78rem; }
@@ -78,7 +78,6 @@ input { font: inherit; color: var(--fg); background: var(--bg2); border: 1px sol
 .error { background: var(--err-bg); color: var(--err-fg); padding: .75rem 1rem; border-radius: var(--r); }
 .panel { max-width: 720px; }
 .panel ol { padding-left: 1.2rem; }
-.tmdb { margin-top: 2rem; font-size: .8rem; color: var(--mut); }
 
 dialog { padding: 0; border: 0; border-radius: 16px; background: var(--bg2); color: var(--fg); width: min(860px, 96vw); max-height: 92vh; }
 dialog::backdrop { background: rgba(0,0,0,.7); }
@@ -94,7 +93,7 @@ dialog::backdrop { background: rgba(0,0,0,.7); }
 .prov span { width: 90px; color: var(--mut); font-size: .85rem; }
 .prov img { width: 40px; height: 40px; border-radius: 9px; }
 
-/* Grand écran / TV : tout un peu plus grand */
+/* Large screens: everything slightly bigger */
 @media (min-width: 1700px) { body { font-size: 19px; } }
 
 select { font: inherit; color: var(--fg); background: var(--bg2); border: 1px solid var(--bg3); border-radius: var(--r); padding: .55rem .8rem; max-width: 100%; }
@@ -119,7 +118,6 @@ button.link { background: none; color: var(--link); padding: .2rem .5rem; font-s
 .chip.dislike { border-color: var(--acc); opacity: .8; }
 small.mine { color: var(--new); letter-spacing: .05em; }
 
-.row.opts { margin-top: .25rem; gap: .75rem; }
 .pill-line { margin: 0; font-size: .9rem; }
 .provs { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .4rem; }
 .prov-pick { display: flex; align-items: center; gap: .5rem; text-align: left; background: var(--bg2); border: 1px solid var(--bg3); padding: .4rem .6rem; font-size: .85rem; }
@@ -140,7 +138,7 @@ small.mine { color: var(--new); letter-spacing: .05em; }
   .tchip, .pchip { padding: .4rem .7rem; font-size: .9rem; }
 }
 
-/* Menu de langue (en-tête) */
+/* Language menu (header) */
 .langmenu { position: relative; margin-left: auto; }
 .lm-btn { display: inline-flex; align-items: center; gap: .35rem; background: transparent; color: var(--mut); border: 1px solid var(--bg3); border-radius: 999px; padding: .35rem .7rem; font-size: .9rem; }
 .lm-btn:hover, .lm-btn[aria-expanded="true"] { color: var(--fg); background: var(--bg3); filter: none; }
@@ -157,10 +155,7 @@ small.mine { color: var(--new); letter-spacing: .05em; }
   nav { order: 3; width: 100%; }
 }
 
-/* ---------- Mode TV (grand écran lu de loin, télécommande) ----------
-   Activé par la classe .tv sur <html> (détection auto, réglages ou ?tv=1).
-   Les tailles suivent la largeur de l'écran : même rendu en 1080p et en 4K. */
-/* Alertes « À voir » */
+/* "To watch" alerts */
 .alerts { max-width: 1400px; margin: 1rem auto 0; padding: 0 1rem; box-sizing: border-box; }
 .alerts[hidden] { display: none; }
 .alerts-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
@@ -177,9 +172,12 @@ html.tv .alerts { max-width: none; padding: 0 5vw; margin-top: 1.5rem; }
 html.tv .alerts-head h2 { font-size: 1.3rem; }
 html.tv .alert-open img { width: 48px; height: 72px; }
 
+/* ---------- TV mode (large display read from the sofa, remote control) ----------
+   Enabled by the .tv class on <html> (auto-detection, settings or ?tv=1).
+   Sizes follow the screen width: same look in 1080p and 4K. */
 html.tv { font-size: clamp(20px, 1.45vw, 56px); }
 html.tv body { font-size: 1rem; line-height: 1.4; }
-/* Marge de sécurité : les téléviseurs rognent souvent les bords de l'image (overscan). */
+/* Safe area: TVs often crop the edges of the picture (overscan). */
 html.tv header { padding: 1.2rem 5vw; gap: .75rem 2.5rem; }
 html.tv header h1 { font-size: 1.6rem; }
 html.tv nav { gap: .5rem; overflow: visible; }
@@ -191,7 +189,7 @@ html.tv h3 { font-size: 1.05rem; }
 html.tv .hero h2 { font-size: 2.1rem; }
 html.tv .hint, html.tv .pill-line { font-size: .95rem; }
 
-/* Focus très visible : contour épais + léger zoom, sans animation brusque. */
+/* Highly visible focus: thick outline + slight zoom, no abrupt animation. */
 html.tv :focus-visible, html.tv :focus { outline: .22rem solid var(--focus); outline-offset: .2rem; box-shadow: 0 0 0 .5rem var(--halo); }
 html.tv input:focus, html.tv select:focus { outline-offset: 0; }
 html.tv button, html.tv .btn { padding: .65rem 1.25rem; }
@@ -203,7 +201,7 @@ html.tv .pchip img { width: 1.4rem; height: 1.4rem; }
 html.tv .flabel { font-size: .85rem; min-width: 9rem; }
 html.tv input, html.tv select { padding: .7rem 1rem; }
 
-/* Grille : de grandes affiches, 6 par ligne en 16:9. */
+/* Grid: large posters, 6 per row in 16:9. */
 html.tv .grid { grid-template-columns: repeat(auto-fill, minmax(max(13vw, 180px), 1fr)); gap: 2.2rem 1.6rem; }
 html.tv .card { transition: transform .18s ease-out; }
 html.tv .card:focus, html.tv .card:focus-visible { outline: none; box-shadow: none; transform: scale(1.08); z-index: 1; }
@@ -212,9 +210,9 @@ html.tv .card:hover:not(:focus) { transform: none; }
 html.tv .meta strong { font-size: 1rem; }
 html.tv .meta small { font-size: .8rem; }
 html.tv .badge { font-size: .7rem; padding: .15rem .55rem; }
-html.tv .note { font-size: .8rem; padding: .15rem .45rem; }
+html.tv .score { font-size: .8rem; padding: .15rem .45rem; }
 
-/* Fiche détaillée : presque plein écran. */
+/* Title dialog: almost full screen. */
 html.tv dialog { width: min(1600px, 86vw); max-height: 90vh; border-radius: 1.2rem; }
 html.tv .backdrop { aspect-ratio: 21/8; }
 html.tv .body { padding: 1rem 2.5rem 2.5rem; }
@@ -229,13 +227,13 @@ html.tv .prov-pick { font-size: .9rem; padding: .5rem .8rem; }
 html.tv .prov-pick img { width: 2.2rem; height: 2.2rem; }
 html.tv .panel { max-width: 60rem; }
 
-/* Menu de langue */
+/* Language menu */
 html.tv .lm-btn { font-size: .95rem; padding: .45rem .95rem; }
 html.tv .lm-btn svg { width: 1.2rem; height: 1.2rem; }
 html.tv .lm-list button { padding: .75rem 1.25rem; }
 html.tv .lm-list button:focus { background: var(--fg); color: var(--bg); }
 
-/* ---------- Recherche : envie / titre, suggestions, micro ---------- */
+/* ---------- Search: mood / title, suggestions, microphone ---------- */
 .seg.modes { margin: .25rem 0 .6rem; }
 .searchrow { position: relative; flex-wrap: nowrap; }
 .searchrow .field { position: relative; flex: 1; min-width: 0; display: flex; }
@@ -255,11 +253,11 @@ input[type="search"]::-webkit-search-cancel-button { filter: grayscale(1); }
 @media (prefers-reduced-motion: reduce) { .mic.on { animation: none; } }
 #voiceMsg { margin: .5rem 0 0; }
 
-/* « Voir plus » */
+/* "Show more" */
 .more-row { display: flex; justify-content: center; margin: 1.75rem 0 .5rem; }
 .more-btn { min-width: 14rem; padding: .75rem 1.5rem; border: 1px solid var(--bg3); background: var(--bg2); border-radius: 999px; }
 
-/* Fiche : distribution avec photos */
+/* Title dialog: cast with photos */
 .cast { list-style: none; margin: .25rem 0 1rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: .9rem .6rem; }
 .cast li { display: flex; flex-direction: column; align-items: center; text-align: center; gap: .15rem; min-width: 0; }
 .cast img, .cast .noface { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; object-position: center 20%; background: var(--bg3); margin-bottom: .3rem; }
@@ -267,7 +265,7 @@ input[type="search"]::-webkit-search-cancel-button { filter: grayscale(1); }
 .cast strong { font-size: .85rem; line-height: 1.2; }
 .cast small { font-size: .75rem; color: var(--mut); line-height: 1.2; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 
-/* Transfert par QR code */
+/* QR code transfer */
 .pairbox { display: flex; gap: 1.25rem 1.75rem; align-items: center; flex-wrap: wrap; margin-top: 1.5rem; padding: 1rem 1.25rem; background: var(--bg2); border: 1px solid var(--bg3); border-radius: var(--r); }
 .pairbox > div:last-child { flex: 1 1 16rem; min-width: 0; }
 .pairbox h3 { margin-top: 0; }
@@ -277,7 +275,7 @@ input[type="search"]::-webkit-search-cancel-button { filter: grayscale(1); }
 .check { display: flex; align-items: center; gap: .6rem; margin: .75rem 0 1rem; cursor: pointer; }
 .check input { flex: none; width: 1.2rem; height: 1.2rem; accent-color: var(--acc); }
 
-/* Mode TV : suggestions toutes faites d'abord (pas besoin de taper), QR code bien grand */
+/* TV mode: presets first (no typing needed), large QR code */
 html.tv .hero { display: flex; flex-direction: column; }
 html.tv .hero > h2 { order: 0; }
 html.tv #filterBox { order: 1; }
@@ -287,15 +285,14 @@ html.tv #moodForm { order: 4; }
 html.tv #voiceMsg { order: 5; }
 html.tv .mic { width: 3.4rem; font-size: 1.2rem; }
 html.tv .qr { width: min(17rem, 22vw); }
-html.tv .pairbox { margin: 0 0 1.5rem; }
-html.tv .pairbox { padding: 1.5rem 2rem; gap: 2rem 3rem; }
+html.tv .pairbox { margin: 0 0 1.5rem; padding: 1.5rem 2rem; gap: 2rem 3rem; }
 html.tv .cast { grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr)); }
 html.tv .cast img, html.tv .cast .noface { width: 5.5rem; height: 5.5rem; }
 html.tv .more-btn:focus { background: var(--fg); color: var(--bg); }
 html.tv .sugg .sg:focus { background: var(--fg); color: var(--bg); }
 html.tv .sugg .sg:focus small { color: var(--bg); }
 
-/* ---------- Chargement : affiches grises qui « respirent » ---------- */
+/* ---------- Loading: grey posters that "breathe" ---------- */
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .sk-poster, .sk-line, .sk-backdrop, .sk-face { background: var(--bg3); border-radius: var(--r); animation: breathe 1.4s ease-in-out infinite; }
 .sk-poster { aspect-ratio: 2/3; }
@@ -309,12 +306,12 @@ html.tv .sugg .sg:focus small { color: var(--bg); }
 @keyframes breathe { 50% { opacity: .45; } }
 @media (prefers-reduced-motion: reduce) { .sk-poster, .sk-line, .sk-backdrop, .sk-face { animation: none; opacity: .7; } }
 
-/* ---------- Bande-annonce dans la fiche ---------- */
+/* ---------- Trailer in the title dialog ---------- */
 .player { position: relative; aspect-ratio: 16/9; background: #000; border-radius: 16px 16px 0 0; overflow: hidden; }
 .player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .hint.yt { margin: .4rem 1.5rem 0; font-size: .85rem; }
 
-/* ---------- Distribution cliquable et fiche acteur ---------- */
+/* ---------- Clickable cast and person page ---------- */
 .cast .person { all: unset; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: .15rem; width: 100%; border-radius: var(--r); padding: .25rem 0; }
 .cast .person:hover img, .cast .person:focus-visible img { outline: 3px solid var(--link); outline-offset: 2px; }
 .cast .person:focus-visible { outline: 3px solid var(--link); outline-offset: 2px; }

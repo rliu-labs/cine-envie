@@ -1,11 +1,11 @@
-// Génère les captures d'écran et le GIF de démonstration du README avec de vraies données TMDB.
+// Generates the README screenshots and demo GIF with real TMDB data.
 //
 //   npm install
 //   npx playwright install chromium
-//   TMDB_KEY=ta_cle npm run captures        (PowerShell : $env:TMDB_KEY="ta_cle"; npm run captures)
+//   TMDB_KEY=your_key npm run captures        (PowerShell: $env:TMDB_KEY="your_key"; npm run captures)
 //
-// La clé n'est lue que depuis la variable d'environnement : elle n'est écrite nulle part
-// et n'apparaît sur aucune capture. Résultat : docs/captures/*.png et docs/captures/demo.gif
+// The key is only read from the environment variable: it is written nowhere
+// and appears on no screenshot. Output: docs/captures/*.png and docs/captures/demo.gif
 
 import { createServer } from 'node:http';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
@@ -20,9 +20,9 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const OUT = join(ROOT, 'docs', 'captures');
 const KEY = process.env.TMDB_KEY;
 const LANG = process.env.LANG_UI === 'en' ? 'en' : 'fr';
-if (!KEY) { console.error('Définis la variable TMDB_KEY avec ta clé TMDB.'); process.exit(1); }
+if (!KEY) { console.error('Set the TMDB_KEY environment variable to your TMDB key.'); process.exit(1); }
 
-// Petit serveur statique local (pas besoin de Python)
+// Small local static server (no Python needed)
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.webmanifest': 'application/manifest+json' };
 const server = createServer(async (req, res) => {
   let path = decodeURIComponent(new URL(req.url, 'http://x').pathname);
@@ -56,10 +56,10 @@ const browser = await chromium.launch();
 try {
   await mkdir(OUT, { recursive: true });
   const ctx = await browser.newContext({ viewport: { width: 960, height: 600 }, locale: LOCALE, serviceWorkers: 'block' });
-  const page = await openApp(ctx, '#envie');
+  const page = await openApp(ctx, '#mood');
   await page.waitForSelector('#moodInput');
 
-  // 1. On tape une envie (lettre par lettre pour le GIF)
+  // 1. Type a mood (a few letters at a time for the GIF)
   const query = LANG === 'en'
     ? 'A cozy, funny night with some mystery, like Knives Out'
     : 'Soirée cosy, drôle avec de l\'intrigue comme À couteaux tirés';
@@ -74,13 +74,13 @@ try {
   await frame(page, 1600);
   await page.mouse.wheel(0, 330); await wait(500);
   await frame(page, 1600);
-  await page.screenshot({ path: join(OUT, 'envie.png') });
+  await page.screenshot({ path: join(OUT, 'mood.png') });
 
-  // 2. Fiche détaillée, note, changement de pays
+  // 2. Title dialog, rating, country change
   await page.click('#moodOut .card');
   await page.waitForSelector('#detail .rating'); await wait(1200);
   await frame(page, 1800);
-  await page.screenshot({ path: join(OUT, 'fiche.png') });
+  await page.screenshot({ path: join(OUT, 'detail.png') });
   await page.click('#detail .star[data-r="5"]'); await wait(300);
   await frame(page, 1200);
   await page.selectOption('#detailCountry', 'BE'); await wait(400);
@@ -88,7 +88,7 @@ try {
   await page.selectOption('#detailCountry', 'FR');
   await page.click('#detail .close');
 
-  // 3. Quelques notes de plus, puis le profil de goûts
+  // 3. A few more ratings, then the taste profile
   const cards = await page.$$('#moodOut .card');
   for (const [i, r] of [[1, 4], [2, 5], [5, 2]]) {
     if (!cards[i]) continue;
@@ -97,26 +97,26 @@ try {
     await page.click(`#detail .star[data-r="${r}"]`);
     await page.click('#detail .close');
   }
-  await page.evaluate(() => { location.hash = '#listes'; });
+  await page.evaluate(() => { location.hash = '#lists'; });
   await page.click('.seg button[data-v="taste"]');
   await page.waitForSelector('#forYou .card img', { timeout: 20000 }); await wait(1500);
   await frame(page, 2200);
-  await page.screenshot({ path: join(OUT, 'gouts.png') });
+  await page.screenshot({ path: join(OUT, 'taste.png') });
 
-  // 4. Tendances
-  await page.evaluate(() => { location.hash = '#tendances'; });
+  // 4. Trending
+  await page.evaluate(() => { location.hash = '#trending'; });
   await page.waitForSelector('#trendOut .card img', { timeout: 20000 }); await wait(1500);
   await frame(page, 1800);
   await ctx.close();
 
   // 5. Mobile
   const mctx = await browser.newContext({ ...devices['iPhone 13'], locale: LOCALE, serviceWorkers: 'block' });
-  const m = await openApp(mctx, '#tendances');
+  const m = await openApp(mctx, '#trending');
   await m.waitForSelector('#trendOut .card img', { timeout: 20000 }); await wait(1500);
   await m.screenshot({ path: join(OUT, 'mobile.png') });
   await mctx.close();
 
-  // GIF animé
+  // Animated GIF
   const gif = GIFEncoder();
   for (const f of frames) {
     const palette = quantize(f.data, 256);
@@ -124,7 +124,7 @@ try {
   }
   gif.finish();
   await writeFile(join(OUT, 'demo.gif'), gif.bytes());
-  console.log(`OK : ${frames.length} images dans le GIF, captures dans docs/captures/`);
+  console.log(`OK: ${frames.length} frames in the GIF, screenshots in docs/captures/`);
 } finally {
   await browser.close();
   server.close();

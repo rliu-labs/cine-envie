@@ -36,7 +36,7 @@ Tu écris ton envie comme tu la dirais à un ami, **en français, anglais, espag
 C'est une application web installable (PWA), sans serveur, sans compte, sans dépendance : du HTML, du CSS et du JavaScript natif.
 
 <p align="center">
-  <img src="docs/accueil.png" alt="Écran d'accueil de Ciné‑Envie" width="760">
+  <img src="docs/home.png" alt="Écran d'accueil de Ciné‑Envie" width="760">
 </p>
 
 ## Fonctionnalités
@@ -59,18 +59,6 @@ C'est une application web installable (PWA), sans serveur, sans compte, sans dé
 | 📲 **Du téléphone à la télé en un scan** | Scanne avec ton téléphone le QR code affiché sur la télé : elle reçoit ta clé, tes réglages et tes listes. |
 | 🌗 **Thème clair ou sombre** | Auto, clair ou sombre. |
 | 🔔 **Alertes À voir** | Un bandeau prévient quand un titre de ta liste « À voir » arrive sur une de tes plateformes ou a une nouvelle saison. |
-
-## Compatible avec tous les écrans
-
-La même appli s'adapte à l'appareil, sans rien régler :
-
-| Appareil | Affichage et commandes | Navigateurs testés |
-|---|---|---|
-| 📱 **Téléphone** | Une colonne, grandes zones à toucher, installable sur l'écran d'accueil. | Safari (iPhone), Chrome (Android) |
-| 💻 **Ordinateur** | Grande grille d'affiches, souris ou clavier (Tab, Entrée, Échap). | Chrome, Edge, Firefox, Safari |
-| 🖥️ **TV** | Grand affichage lisible depuis le canapé, marges contre le rognage de l'écran, télécommande : flèches, OK, Retour. S'active tout seul sur les télés connectées et les boîtiers. | Samsung (Tizen), LG (webOS), Android TV / Google TV, Fire TV |
-
-Les tablettes prennent l'affichage téléphone ou ordinateur selon leur largeur. Pour choisir soi-même : **Réglages → Affichage** (Auto, Téléphone / ordinateur, TV), ou `?tv=1` (ou `?tv=0`) dans l'adresse.
 
 ## Compatible avec tous les écrans
 

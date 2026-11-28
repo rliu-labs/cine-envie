@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as api from '../js/tmdb.js';
 
-test('les requêtes suivent la langue et le pays choisis', async () => {
+test('requests follow the chosen language and country', async () => {
   const urls = [];
   globalThis.fetch = async (u) => { urls.push(new URL(u)); return { ok: true, status: 200, json: async () => ({ results: [] }) }; };
   api.setCredential('abc');
@@ -12,10 +12,10 @@ test('les requêtes suivent la langue et le pays choisis', async () => {
   assert.equal(urls[0].searchParams.get('watch_region'), 'BE');
   assert.equal(api.getRegion(), 'BE');
   api.setLocale('fr', 'nimportequoi');
-  assert.equal(api.getRegion(), 'BE', 'un code pays invalide est ignoré');
+  assert.equal(api.getRegion(), 'BE', 'an invalid country code is ignored');
 });
 
-test('le filtre plateformes est ajouté aux recherches', async () => {
+test('the services filter is added to searches', async () => {
   const urls = [];
   globalThis.fetch = async (u) => { urls.push(new URL(u)); return { ok: true, status: 200, json: async () => ({ results: [] }) }; };
   api.setCredential('abc2');
@@ -30,7 +30,7 @@ test('le filtre plateformes est ajouté aux recherches', async () => {
   assert.equal(urls.at(-1).searchParams.get('with_watch_providers'), null);
 });
 
-test('liste des plateformes du pays, sans doublon et triée', async () => {
+test('the country\'s services, without duplicates and sorted', async () => {
   globalThis.fetch = async (u) => {
     const type = new URL(u).pathname.includes('/tv') ? 'tv' : 'movie';
     const results = type === 'movie'

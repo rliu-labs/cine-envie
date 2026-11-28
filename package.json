@@ -1,8 +1,8 @@
 {
   "name": "cine-envie",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "private": true,
-  "description": "PWA de recommandations de films et séries selon l'envie du moment (API TMDB).",
+  "description": "PWA that recommends movies and series matching your mood (TMDB API).",
   "type": "module",
   "scripts": {
     "start": "python3 -m http.server 8000",

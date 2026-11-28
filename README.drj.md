@@ -36,7 +36,7 @@ Katkteb chno bghiti b7al ila katgoulha l sa7bek, **b darija, fransawiya, englizi
 Hiya application web katinstalla (PWA), bla serveur, bla compte, bla dépendances : ghir HTML, CSS w JavaScript natif.
 
 <p align="center">
-  <img src="docs/accueil.drj.png" alt="L'écran dyal l bdya f Ciné‑Envie" width="760">
+  <img src="docs/home.drj.png" alt="L'écran dyal l bdya f Ciné‑Envie" width="760">
 </p>
 
 ## Chno kaydir
@@ -59,18 +59,6 @@ Hiya application web katinstalla (PWA), bla serveur, bla compte, bla dépendance
 | 📲 **Mn téléphone l la télé f scan wa7ed** | Scanni b téléphone l QR code li f la télé : katched la clé, réglages w listes dyalek. |
 | 🌗 **Thème fat7 wla ghame9** | Auto, fat7 wla ghame9. |
 | 🔔 **Alertes Nchoufo** | Bandeau kay9ol lik mlli chi titre mn la liste « Nchoufo » kayji l chi plateforme dyalek wla tkharjat lih saison jdida. |
-
-## Katkhdem f ga3 les écrans
-
-Nfs l'appli katbeddel rasha 3la 7sab l'appareil, bla ma tbeddel walou :
-
-| Appareil | L3ard w t7akkom | Navigateurs li jarrabna |
-|---|---|---|
-| 📱 **Téléphone** | Colonne wa7da, blays kbar l lmss, t9der tinstalliha f l'écran d'accueil. | Safari (iPhone), Chrome (Android) |
-| 💻 **Ordinateur** | Grille kbira dyal les affiches, souris wla clavier (Tab, Entrée, Échap). | Chrome, Edge, Firefox, Safari |
-| 🖥️ **TV** | Affichage kbir li yt9ra mn l canapé, marges bach la télé matkoupich, télécommande : les flèches, OK, Retour. Katched bouha f les télés connectées w les boîtiers. | Samsung (Tizen), LG (webOS), Android TV / Google TV, Fire TV |
-
-Les tablettes katched l'affichage dyal téléphone wla ordinateur 3la 7sab l3ard dyalhom. Bach tkhtar nta : **Réglages → L3ard** (Auto, Téléphone / ordinateur, TV), wla `?tv=1` (wla `?tv=0`) f l'adresse.
 
 ## Katkhdem f ga3 les écrans
 

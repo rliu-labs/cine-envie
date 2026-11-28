@@ -1,9 +1,9 @@
 {
   "name": "Ciné-Envie",
   "short_name": "Ciné-Envie",
-  "description": "Recommandations de films et séries selon mes envies, tendances et ma liste à voir.",
-  "lang": "fr",
-  "start_url": "./#envie",
+  "description": "Movie and series recommendations that match your mood, with trending titles and a watchlist.",
+  "lang": "en",
+  "start_url": "./#mood",
   "scope": "./",
   "display": "standalone",
   "background_color": "#14141c",

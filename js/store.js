@@ -1,5 +1,5 @@
-// Stockage local (navigateur) : langue, pays, clé TMDB, listes « à voir » / « vus », veille des tendances.
-const K = { active: 'cine.activeProviders', providers: 'cine.providers', mediaType: 'cine.mediaType', lang: 'cine.lang', region: 'cine.region', key: 'cine.tmdbKey', list: 'cine.list', trend: 'cine.trendSeen', trendAt: 'cine.trendAt', display: 'cine.display', theme: 'cine.theme', snaps: 'cine.watchSnaps', alerts: 'cine.alerts' };
+// Local (browser) storage: language, country, TMDB key, "to watch" / "seen" lists, trending watch, alerts.
+const K = { active: 'cine.activeProviders', providers: 'cine.providers', mediaType: 'cine.mediaType', lang: 'cine.lang', region: 'cine.region', key: 'cine.tmdbKey', list: 'cine.list', trend: 'cine.trendSeen', display: 'cine.display', theme: 'cine.theme', snaps: 'cine.watchSnaps', alerts: 'cine.alerts' };
 
 const read = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
 const write = (k, v) => localStorage.setItem(k, JSON.stringify(v));
@@ -9,17 +9,17 @@ export const setKey = (v) => localStorage.setItem(K.key, v.trim());
 
 export const getLang = () => localStorage.getItem(K.lang) || '';
 export const setLang = (v) => localStorage.setItem(K.lang, v);
-// Affichage : 'auto' (détection), 'screen' (téléphone / ordinateur) ou 'tv'.
+// Display: 'auto' (detection), 'screen' (phone / computer) or 'tv'.
 export const getDisplay = () => (['auto', 'screen', 'tv'].includes(localStorage.getItem(K.display)) ? localStorage.getItem(K.display) : 'auto');
 export const setDisplay = (v) => localStorage.setItem(K.display, v);
-// Thème : 'auto' (celui du système), 'light' ou 'dark'.
+// Theme: 'auto' (follows the system), 'light' or 'dark'.
 export const getTheme = () => (['auto', 'light', 'dark'].includes(localStorage.getItem(K.theme)) ? localStorage.getItem(K.theme) : 'auto');
 export const setTheme = (v) => localStorage.setItem(K.theme, v);
 export const getRegion = () => localStorage.getItem(K.region) || '';
 export const setRegion = (v) => localStorage.setItem(K.region, v);
 
-// Mes plateformes (abonnements), mémorisées par pays : { FR: [8, 119], BE: [...] }.
-// Par défaut : Netflix, Prime Video et Disney+.
+// My streaming services (subscriptions), stored per country: { FR: [8, 119], BE: [...] }.
+// Default: Netflix, Prime Video and Disney+.
 export const DEFAULT_PROVIDERS = [8, 119, 337];
 export function getProviders(region) {
   const all = read(K.providers, {});
@@ -31,20 +31,20 @@ export function setProviders(region, ids) {
   write(K.providers, all);
   setActive(region, getActive(region).filter((id) => all[region].includes(id)));
 }
-// Sélection en cours sur la page de recherche (sous-ensemble de mes plateformes ; vide = « Toutes »)
+// Current selection on the search page (a subset of my services; empty = "All").
 export const getActive = (region) => (read(K.active, {})[region] || []);
 export function setActive(region, ids) {
   const all = read(K.active, {});
   all[region] = [...new Set(ids.map(Number))];
   write(K.active, all);
 }
-// Plateformes réellement utilisées pour filtrer : la sélection en cours, sinon toutes mes plateformes.
+// Services actually used for filtering: the current selection, otherwise all my services.
 export function effectiveProviders(region) {
   const mine = getProviders(region);
   const active = getActive(region).filter((id) => mine.includes(id));
   return active.length ? active : mine;
 }
-// Préférence Films / Séries / Les deux pour la recherche par envie
+// Movies / Series / Both preference for the mood search.
 export const getMediaType = () => (['movie', 'tv', 'all'].includes(read(K.mediaType, 'all')) ? read(K.mediaType, 'all') : 'all');
 export const setMediaType = (v) => write(K.mediaType, v);
 
@@ -53,9 +53,9 @@ export const itemKey = (it) => `${it.media_type}:${it.id}`;
 export function getList() { return read(K.list, {}); }
 export function getEntry(it) { return getList()[itemKey(it)] || null; }
 
-// Note de 1 à 5 sur un titre vu (0 pour l'effacer). Noter un titre le marque comme vu.
+// Rating from 1 to 5 on a seen title (0 clears it). Rating a title marks it as seen.
 export function setRating(it, rating) {
-  if (!getEntry(it) || getEntry(it).status !== 'seen') setStatus(it, 'seen');
+  if (getEntry(it)?.status !== 'seen') setStatus(it, 'seen');
   const list = getList();
   const k = itemKey(it);
   if (rating >= 1 && rating <= 5) list[k].rating = Math.round(rating);
@@ -82,17 +82,17 @@ export function setStatus(it, status) {
   write(K.list, list);
 }
 
-// Alertes « À voir » : instantanés par titre ({ 'tv:1399': { region, prov, names, seasons, at } }) et alertes en attente.
+// "To watch" alerts: one snapshot per title ({ 'tv:1399': { region, prov, names, seasons, at } }) and pending alerts.
 export const getSnaps = () => read(K.snaps, {});
 export function setSnap(key, snap) {
   const all = getSnaps();
   all[key] = { ...snap, at: Date.now() };
-  // On oublie les titres sortis de la liste « À voir ».
+  // Forget titles that left the "to watch" list.
   const list = getList();
   for (const k of Object.keys(all)) if (list[k]?.status !== 'towatch') delete all[k];
   write(K.snaps, all);
 }
-// Alertes encore valables (le titre est toujours dans « À voir »).
+// Alerts that still apply (the title is still in "to watch").
 export function getAlerts() {
   const list = getList();
   return read(K.alerts, []).filter((a) => list[a.key]?.status === 'towatch');
@@ -105,13 +105,12 @@ export function addAlerts(items) {
 export const dismissAlert = (key) => write(K.alerts, getAlerts().filter((a) => a.key !== key));
 export const clearAlerts = () => write(K.alerts, []);
 
-// Veille : renvoie l'ensemble des ids de tendances déjà vus avant cette visite, puis mémorise les actuels.
+// Trending watch: returns a predicate telling whether an item is new since the last visit, then remembers the current ones.
 export function diffTrending(items) {
   const before = new Set(read(K.trend, []));
   const firstRun = before.size === 0;
   const merged = new Set([...before, ...items.map(itemKey)]);
   write(K.trend, [...merged].slice(-600));
-  write(K.trendAt, Date.now());
   return (it) => !firstRun && !before.has(itemKey(it));
 }
 
@@ -120,12 +119,12 @@ export function exportData() {
 }
 export function importData(json) {
   const data = JSON.parse(json);
-  if (!data || typeof data.list !== 'object') throw new Error('Fichier non reconnu');
+  if (!data || typeof data.list !== 'object') throw Object.assign(new Error('Unrecognised file'), { code: 'errBadFile' });
   write(K.list, { ...getList(), ...data.list });
   return Object.keys(data.list).length;
 }
 
-// Transfert vers un autre appareil (QR code) : clé TMDB, langue, pays, plateformes, thème et, au choix, les listes.
+// Transfer to another device (QR code): TMDB key, language, country, services, theme and, optionally, the lists.
 export function exportTransfer(withLists = true) {
   return {
     v: 1, key: getKey(), lang: getLang(), region: getRegion(), theme: getTheme(),
@@ -133,10 +132,10 @@ export function exportTransfer(withLists = true) {
     ...(withLists ? { list: getList() } : {}),
   };
 }
-// Applique un transfert reçu. Les listes sont fusionnées (la version la plus récente de chaque titre gagne).
-// Renvoie le nombre de titres reçus.
+// Applies a received transfer. Lists are merged (the most recent version of each title wins).
+// Returns the number of titles received.
 export function importTransfer(d) {
-  if (!d || d.v !== 1) throw new Error('Transfert non reconnu');
+  if (!d || d.v !== 1) throw new Error('Unrecognised transfer');
   if (typeof d.key === 'string' && d.key.trim()) setKey(d.key);
   if (typeof d.lang === 'string' && d.lang) setLang(d.lang);
   if (/^[A-Z]{2}$/.test(d.region || '')) setRegion(d.region);

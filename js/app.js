@@ -1,11 +1,11 @@
-import { parseMood, scoreItem, genreMaps, buildProfile } from './mood.js?v=21';
-import * as api from './tmdb.js?v=21';
-import * as store from './store.js?v=21';
-import { resolveTv, setTv, isTv } from './tv.js?v=21';
-import { qrSvg } from './qr.js?v=21';
-import * as pair from './pair.js?v=21';
-import * as alerts from './alerts.js?v=21';
-import { intlLang, t, getLang, setLang, LANGS, moodLabel, DEFAULT_LANG, guessCountry, countryName, countryOptions } from './i18n.js?v=21';
+import { parseMood, scoreItem, genreMaps, buildProfile } from './mood.js?v=22';
+import * as api from './tmdb.js?v=22';
+import * as store from './store.js?v=22';
+import { resolveTv, setTv, isTv } from './tv.js?v=22';
+import { qrSvg } from './qr.js?v=22';
+import * as pair from './pair.js?v=22';
+import * as alerts from './alerts.js?v=22';
+import { intlLang, t, getLang, setLang, LANGS, moodLabel, DEFAULT_LANG, guessCountry, countryOptions } from './i18n.js?v=22';
 
 const $ = (s, el = document) => el.querySelector(s);
 const view = $('#view');
@@ -17,19 +17,19 @@ const genreName = (it, g) => {
   return (it.media_type === 'tv' ? m.tv : m.movie)[g] || m.movie[g] || m.tv[g];
 };
 
-// ---------- Langue et pays ----------
+// ---------- Language and country ----------
 const langs = typeof navigator !== 'undefined' ? [...(navigator.languages || [navigator.language || ''])] : [];
 function applyLocale() {
-  setLang(store.getLang() || DEFAULT_LANG); // anglais pour un nouvel utilisateur, sinon le choix enregistré
+  setLang(store.getLang() || DEFAULT_LANG); // English for a new user, otherwise the saved choice
   api.setLocale(getLang(), store.getRegion() || guessCountry(langs));
   api.setProviders(store.effectiveProviders(api.getRegion()));
   document.querySelectorAll('nav a').forEach((a, i) => { if (t('nav')[i]) a.textContent = t('nav')[i]; });
-  const gear = $('nav a[href="#reglages"]');
+  const gear = $('nav a[href="#settings"]');
   if (gear) { gear.textContent = '⚙︎'; gear.setAttribute('aria-label', t('settings')); }
   renderFooter();
   renderLangMenu();
 }
-// Thème clair / sombre : attribut data-theme sur <html> (absent = celui du système).
+// Light / dark theme: data-theme attribute on <html> (absent = follow the system).
 const darkQuery = typeof matchMedia === 'function' ? matchMedia('(prefers-color-scheme: dark)') : null;
 function applyTheme() {
   const th = store.getTheme();
@@ -42,7 +42,7 @@ darkQuery?.addEventListener?.('change', applyTheme);
 
 const tasteProfile = () => buildProfile(Object.values(store.getList()));
 
-// Menu de langue dans l'en-tête (style Material : bouton globe + menu déroulant)
+// Language menu in the header (Material style: globe button + dropdown).
 function renderLangMenu() {
   const header = $('header');
   if (!header) return;
@@ -71,7 +71,7 @@ function renderLangMenu() {
   };
   btn.addEventListener('click', () => (list.hidden ? open() : closeLangMenu(true)));
   btn.addEventListener('keydown', (e) => {
-    if (isTv()) return; // à la télécommande, les flèches servent à se déplacer ; OK ouvre le menu
+    if (isTv()) return; // with a remote, arrows move the focus; OK opens the menu
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); open(e.key === 'ArrowUp' ? items.length - 1 : 0); }
   });
   list.addEventListener('keydown', (e) => {
@@ -97,8 +97,8 @@ function closeLangMenu(refocus = false) {
   if (refocus) $('.lm-btn', box).focus();
 }
 
-// Mention TMDB obligatoire (logo + phrase exacte des conditions d'utilisation), puis « À propos » repliable
-// (confidentialité, marques, mentions légales), en pied de page : visible même sans clé TMDB.
+// Mandatory TMDB attribution (logo + exact wording from the terms of use), then a collapsible "About"
+// (privacy, trademarks, legal notice) in the footer: visible even without a TMDB key.
 function renderFooter() {
   let f = $('#credits');
   if (!f) { f = document.createElement('footer'); f.id = 'credits'; document.body.appendChild(f); }
@@ -114,7 +114,7 @@ function renderFooter() {
     </details>`;
 }
 
-// Bandeau « Sur tes plateformes : … » (ou lien pour les choisir)
+// "On your services: …" line (or a link to pick them).
 let providerNames = new Map();
 async function loadProviderNames() {
   if (!api.hasCredential()) return [];
@@ -122,9 +122,9 @@ async function loadProviderNames() {
 }
 function platformPill() {
   const ids = api.getProviders();
-  if (!ids.length) return `<p class="hint pill-line">${t('allPlatforms')} · <a href="#reglages">${t('choosePlatforms')}</a></p>`;
+  if (!ids.length) return `<p class="hint pill-line">${t('allPlatforms')} · <a href="#settings">${t('choosePlatforms')}</a></p>`;
   const names = ids.map((id) => providerNames.get(id)?.name).filter(Boolean).join(', ') || ids.length;
-  return `<p class="hint pill-line">${esc(t('onPlatforms')(names))} · <a href="#reglages">${t('editPlatforms')}</a></p>`;
+  return `<p class="hint pill-line">${esc(t('onPlatforms')(names))} · <a href="#settings">${t('editPlatforms')}</a></p>`;
 }
 async function refreshPill() {
   if (api.getProviders().length && !providerNames.size) await loadProviderNames();
@@ -134,21 +134,22 @@ async function refreshPill() {
 const countrySelect = (id) => `<select id="${id}" aria-label="${esc(t('country'))}">${countryOptions().map(([c, n]) => `<option value="${c}" ${c === api.getRegion() ? 'selected' : ''}>${esc(n)}</option>`).join('')}</select>`;
 function setCountry(c) { store.setRegion(c); providerNames = new Map(); applyLocale(); }
 
-// ---------- Rendu commun ----------
-function card(it, extra = {}) {
-  const entry = store.getEntry(it);
+// ---------- Shared rendering ----------
+// `list` is passed in by grids so that localStorage is read once per grid, not once per card.
+function card(it, extra = {}, list = store.getList()) {
+  const entry = list[store.itemKey(it)];
   const poster = it.poster_path ? `${api.IMG}${isTv() ? 'w500' : 'w342'}${it.poster_path}` : '';
   const badges = [
     extra.isNew ? `<span class="badge new">${t('isNew')}</span>` : '',
     entry?.status === 'seen' ? `<span class="badge seen">${t('seen')}</span>` : '',
-    entry?.status === 'towatch' ? `<span class="badge todo">${t('toWatch')}</span>` : '',
+    entry?.status === 'towatch' ? `<span class="badge towatch">${t('toWatch')}</span>` : '',
   ].join('');
   const genres = (it.genre_ids || []).slice(0, 2).map((g) => genreName(it, g)).filter(Boolean).join(' · ');
   return `
     <button class="card" data-type="${esc(it.media_type)}" data-id="${esc(it.id)}" title="${esc(titleOf(it))}">
       <div class="poster">${poster ? `<img loading="lazy" src="${esc(poster)}" alt="">` : `<div class="noimg">${esc(titleOf(it))}</div>`}
         <div class="badges">${badges}</div>
-        ${it.vote_average ? `<span class="note">★ ${Number(it.vote_average).toFixed(1)}</span>` : ''}
+        ${it.vote_average ? `<span class="score">★ ${Number(it.vote_average).toFixed(1)}</span>` : ''}
       </div>
       <div class="meta">
         <strong>${esc(titleOf(it))}</strong>
@@ -161,12 +162,13 @@ function card(it, extra = {}) {
 
 function grid(items, extraFn = () => ({})) {
   if (!items.length) return `<p class="empty">${t('empty')}</p>`;
-  return `<div class="grid">${items.map((it) => card(it, extraFn(it))).join('')}</div>`;
+  const list = store.getList();
+  return `<div class="grid">${items.map((it) => card(it, extraFn(it), list)).join('')}</div>`;
 }
 
-// Grille avec bouton « Voir plus » : next(k) charge le k-ième lot suivant (k = 1, 2…) ; les doublons sont ignorés.
+// Grid with a "Show more" button: next(k) loads the k-th next batch (k = 1, 2…); duplicates are skipped.
 function pagedGrid(out, first, next, extra = () => ({}), header = '') {
-  if (!out) return; // on a changé de page entre-temps
+  if (!out) return; // the user navigated away meanwhile
   const shown = new Set(first.map(store.itemKey));
   out.innerHTML = header + grid(first, extra) + (first.length ? `<div class="more-row"><button type="button" class="more-btn">${t('more')}</button></div>` : '');
   const btn = $('.more-btn', out);
@@ -185,21 +187,24 @@ function pagedGrid(out, first, next, extra = () => ({}), header = '') {
       }
       fresh.forEach((it) => shown.add(store.itemKey(it)));
       const g = $('.grid', out);
-      g.insertAdjacentHTML('beforeend', fresh.map((it) => card(it, extra(it))).join(''));
+      const list = store.getList();
+      g.insertAdjacentHTML('beforeend', fresh.map((it) => card(it, extra(it), list)).join(''));
       if (!fresh.length) btn.closest('.more-row').innerHTML = `<p class="hint">${t('noMore')}</p>`;
       else { btn.disabled = false; btn.textContent = t('more'); }
-      // À la télécommande : on enchaîne sur la première nouvelle affiche.
+      // With a remote: move on to the first new poster.
       if (hadFocus && fresh.length) g.querySelector(`.card[data-type="${fresh[0].media_type}"][data-id="${fresh[0].id}"]`)?.focus();
     } catch (e) { btn.disabled = false; btn.textContent = t('more'); btn.insertAdjacentHTML('afterend', errorBox(e)); }
   });
 }
 
 function loading(msg = t('loading')) { return `<p class="loading">${msg}</p>`; }
-// Grille d'affiches grises animées pendant le chargement (le texte reste lu par les lecteurs d'écran).
+// Grid of animated grey posters while loading (the text is still read by screen readers).
 function skeleton(msg = t('loading'), n = 12) {
   return `<p class="sr-only" role="status">${msg}</p><div class="grid skel" aria-hidden="true">${'<div class="sk-card"><div class="sk-poster"></div><div class="sk-line"></div><div class="sk-line short"></div></div>'.repeat(n)}</div>`;
 }
-function errorBox(e) { return `<p class="error">${esc(e.message || e)}</p>`; }
+// Errors with a known code get a translated message.
+const errorText = (e) => (e?.code && t(e.code)) || e?.message || String(e);
+function errorBox(e) { return `<p class="error">${esc(errorText(e))}</p>`; }
 
 function langSwitch() {
   return `<div class="seg" id="langSeg">${LANGS.map(([v, l]) => `<button type="button" data-l="${v}" class="${v === getLang() ? 'on' : ''}">${l}</button>`).join('')}</div>`;
@@ -223,7 +228,7 @@ function needKey() {
   startReceive();
 }
 
-// ---------- Transfert par QR code (voir pair.js) ----------
+// ---------- QR code transfer (see pair.js) ----------
 let stopListen = null;
 function receivePanel() {
   return `<div class="pairbox" id="pairBox">
@@ -249,16 +254,16 @@ function startReceive() {
     const n = store.importTransfer(data);
     applyTheme(); applyLocale(); api.setCredential(store.getKey()); providerNames = new Map();
     if ($('#pairMsg')) $('#pairMsg').textContent = t('pairGot')(n);
-    setTimeout(() => { location.hash = '#envie'; route(); }, 1500);
+    setTimeout(() => { location.hash = '#mood'; route(); }, 1500);
   }, () => { if ($('#pairMsg')) $('#pairMsg').textContent = t('pairRetry'); });
 }
 
-// Page ouverte en scannant le QR code : on envoie la clé, les réglages et (au choix) les listes.
+// Page opened by scanning the QR code: sends the key, settings and (optionally) the lists.
 function viewPair(s) {
   document.querySelectorAll('nav a').forEach((a) => a.classList.remove('on'));
   const n = Object.keys(store.getList()).length;
   if (!store.getKey()) {
-    view.innerHTML = `<section class="panel"><h2>${t('sendTitle')}</h2><p>${t('sendNoKey')}</p><a class="btn" href="#envie">${t('close')}</a></section>`;
+    view.innerHTML = `<section class="panel"><h2>${t('sendTitle')}</h2><p>${t('sendNoKey')}</p><a class="btn" href="#mood">${t('close')}</a></section>`;
     return;
   }
   view.innerHTML = `
@@ -266,7 +271,7 @@ function viewPair(s) {
       <h2>${t('sendTitle')}</h2>
       <p>${t('sendIntro')}</p>
       <label class="check"><input type="checkbox" id="sendLists" ${n ? 'checked' : ''}> ${esc(t('sendLists')(n))}</label>
-      <div class="row"><button type="button" class="primary" id="sendGo">${t('sendBtn')}</button><a class="btn" href="#envie">${t('cancel')}</a></div>
+      <div class="row"><button type="button" class="primary" id="sendGo">${t('sendBtn')}</button><a class="btn" href="#mood">${t('cancel')}</a></div>
       <p class="hint" id="sendMsg" role="status"></p>
     </section>`;
   const btn = $('#sendGo');
@@ -277,8 +282,8 @@ function viewPair(s) {
       await pair.send(s, store.exportTransfer($('#sendLists').checked));
       $('#sendMsg').textContent = t('sendDone');
       btn.remove();
-      // Le lien d'appairage ne doit pas resservir : on l'efface de l'historique.
-      history.replaceState(null, '', `${location.pathname}#envie`);
+      // The pairing link must not be reused: remove it from the history.
+      history.replaceState(null, '', `${location.pathname}#mood`);
     } catch (e) { btn.disabled = false; $('#sendMsg').textContent = `${t('pairErr')} (${e.message})`; }
   });
 }
@@ -292,26 +297,28 @@ function bindKeyForm() {
   $('#keyForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const k = $('#keyInput').value.trim();
+    // An empty field clears the saved key (useful on a shared computer).
+    if (!k) { store.setKey(''); api.setCredential(''); route(); return; }
     api.setCredential(k);
     $('#keyMsg').textContent = t('checking');
     try {
       await api.tmdb('/configuration');
       store.setKey(k);
       $('#keyMsg').textContent = t('keyOk');
-      setTimeout(() => { location.hash = '#envie'; route(); }, 400);
-    } catch (err) { $('#keyMsg').textContent = err.message; }
+      setTimeout(() => { location.hash = '#mood'; route(); }, 400);
+    } catch (err) { $('#keyMsg').textContent = errorText(err); }
   });
 }
 
-// ---------- Vue « Envie du moment » ----------
+// ---------- "Mood" view ----------
 let lastQuery = '';
-// Noms de secours des plateformes par défaut (avant le chargement de la liste TMDB)
+// Fallback names of the default services (before the TMDB list has loaded).
 const QUICK = [[8, 'Netflix'], [119, 'Prime Video'], [337, 'Disney+']];
 const provName = (id) => providerNames.get(id)?.name || QUICK.find(([q]) => q === id)?.[1] || '';
 
 function filterBar() {
   const type = store.getMediaType();
-  // Les puces = mes plateformes (réglages). « Toutes » = toutes mes plateformes.
+  // Chips = my services (settings). "All" = all my services.
   const region = api.getRegion();
   const mine = store.getProviders(region);
   const sel = new Set(store.getActive(region).filter((id) => mine.includes(id)));
@@ -326,7 +333,7 @@ function filterBar() {
         <div class="fchips" role="group">
           <button type="button" class="pchip ${sel.size ? '' : 'on'}" data-p="all" aria-pressed="${!sel.size}">${t('allShort')}</button>
           ${chips.map(chip).join('')}
-          <a class="more" href="#reglages">${t('addPlatform')}</a>
+          <a class="more" href="#settings">${t('addPlatform')}</a>
         </div>
       </div>
     </div>`;
@@ -352,14 +359,14 @@ function bindFilterBar(onChange) {
   }));
 }
 
-// Recherche : « par envie » (phrase libre) ou « par titre » (nom d'un film ou d'une série).
+// Search "by mood" (free sentence) or "by title" (name of a movie or series).
 let searchMode = 'mood';
 let lastTitle = '';
 const SR = typeof window !== 'undefined' ? (window.SpeechRecognition || window.webkitSpeechRecognition) : null;
 const SPEECH_LANG = { en: 'en-US', fr: 'fr-FR', es: 'es-ES', de: 'de-DE', it: 'it-IT', pt: 'pt-PT', ary: 'fr-FR' };
 const norm = (x) => String(x || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 
-async function viewEnvie() {
+async function viewMood() {
   const presets = t('presets');
   const isTitle = searchMode === 'title';
   view.innerHTML = `
@@ -387,16 +394,16 @@ async function viewEnvie() {
   view.querySelectorAll('#presets .chip').forEach((c) => c.addEventListener('click', () => { input.value = c.dataset.q; go(c.dataset.q); }));
   view.querySelectorAll('#modeSeg button').forEach((b) => b.addEventListener('click', () => {
     if (searchMode === b.dataset.m) return;
-    searchMode = b.dataset.m; viewEnvie(); $(`#modeSeg [data-m="${searchMode}"]`)?.focus();
+    searchMode = b.dataset.m; viewMood(); $(`#modeSeg [data-m="${searchMode}"]`)?.focus();
   }));
   bindSuggestions(input, go);
   if (SR) $('#micBtn').addEventListener('click', () => startVoice(input, go));
   rerun();
-  // Charge logos et noms des plateformes du pays, puis redessine la barre
+  // Load the country's service logos and names, then redraw the bar.
   if ((!providerNames.size || store.getProviders(api.getRegion()).some((id) => !providerNames.has(id))) && api.hasCredential()) { await loadProviderNames(); if ($('#filterBox')) bindFilterBar(rerun); }
 }
 
-// ---------- Suggestions pendant la saisie ----------
+// ---------- Suggestions while typing ----------
 let suggTimer = 0;
 let suggSeq = 0;
 function hideSugg() { const l = $('#sugg'); if (l) { l.hidden = true; l.innerHTML = ''; } }
@@ -409,13 +416,13 @@ function bindSuggestions(input, go) {
     const seq = ++suggSeq;
     if (q.length < 2) { hideSugg(); return; }
     if (searchMode === 'mood') {
-      // Phrases toutes faites qui contiennent ce qui est tapé (sans tenir compte des accents)
+      // Presets that contain what was typed (ignoring accents).
       const words = norm(q).split(/\s+/).filter((w) => w.length > 1);
       const hits = t('presets').filter((p) => words.every((w) => norm(p).includes(w))).slice(0, 5);
       show(hits.map((p) => `<li role="none"><button type="button" role="option" class="sg" data-q="${esc(p)}">✨ ${esc(p)}</button></li>`).join(''));
       return;
     }
-    // Par titre : les 6 premiers résultats TMDB, une fois la frappe arrêtée
+    // By title: the first 6 TMDB results, once typing stops.
     suggTimer = setTimeout(async () => {
       try {
         const items = (await api.searchTitle(q)).slice(0, 6);
@@ -432,7 +439,7 @@ function bindSuggestions(input, go) {
     if (b.dataset.id) { hideSugg(); openDetail(b.dataset.type, b.dataset.id); return; }
     input.value = b.dataset.q; go(b.dataset.q);
   });
-  // Clavier (téléphone / ordinateur) : flèche bas pour entrer dans la liste, Échap pour la fermer.
+  // Keyboard (phone / computer): Down arrow enters the list, Escape closes it.
   const items = () => [...list.querySelectorAll('.sg')];
   input.addEventListener('keydown', (e) => {
     if (isTv()) return;
@@ -449,7 +456,7 @@ function bindSuggestions(input, go) {
 }
 if (typeof document !== 'undefined') document.addEventListener('click', (e) => { if (!e.target.closest?.('.field')) hideSugg(); });
 
-// ---------- Recherche vocale (si le navigateur la propose) ----------
+// ---------- Voice search (when the browser supports it) ----------
 let recog = null;
 function startVoice(input, go) {
   const mic = $('#micBtn');
@@ -476,7 +483,7 @@ function startVoice(input, go) {
   try { recog.start(); } catch { recog = null; msg.textContent = t('voiceErr'); }
 }
 
-// ---------- Recherche par titre ----------
+// ---------- Title and mood search ----------
 async function runTitle(q) {
   lastTitle = q.trim();
   const out = $('#moodOut');
@@ -493,7 +500,7 @@ async function runMood(q) {
   const out = $('#moodOut');
   if (!lastQuery || !out) return;
   const mood = parseMood(lastQuery);
-  // Si la phrase ne précise pas film ou série, on suit le choix Films / Séries / Les deux.
+  // When the sentence names neither movie nor series, follow the Movies / Series / Both choice.
   if (mood.type === 'all') mood.type = store.getMediaType();
   const moods = mood.moods.map(moodLabel);
   out.innerHTML = skeleton(t('searching'));
@@ -515,8 +522,8 @@ async function runMood(q) {
         const recs = await api.recommendations(ref.media_type, ref.id);
         if (!api.getProviders().length) add(recs.map((r) => ({ ...r, _fromSimilar: true })), t('closeTo')(titleOf(ref)));
         else {
-          // Avec un filtre plateformes : on cherche dans le même registre que la référence,
-          // sur tes plateformes, et on favorise ce qui fait aussi partie de ses recommandations.
+          // With a services filter: search the same genres as the reference title on your
+          // services, and favour what is also among its recommendations.
           recKeys = new Set(recs.map((r) => store.itemKey(r)));
           for (const g of ref.genre_ids || []) (ref.media_type === 'tv' ? mood.tvGenres : mood.movieGenres).add(g);
           refWhy = t('closeTo')(titleOf(ref));
@@ -542,7 +549,7 @@ async function runMood(q) {
       };
     };
     const why = moods.length ? t('fits')(moods.join(', ')) : t('popular');
-    // Pages p1 et p2 de la recherche TMDB pour chaque type (films / séries)
+    // Pages p1 and p2 of the TMDB search for each type (movies / series).
     const fetchPages = async (p1, p2) => {
       const lists = await Promise.all(types.map((type) => {
         const params = paramsFor(type);
@@ -555,7 +562,7 @@ async function runMood(q) {
 
     const profile = tasteProfile();
     const used = new Set();
-    // Classe tout ce qui a été trouvé et pas encore montré
+    // Rank everything found and not shown yet.
     const ranked = () => {
       let items = [...pool.values()].filter((it) => !used.has(store.itemKey(it)));
       if (recKeys) items.forEach((it) => { if (recKeys.has(store.itemKey(it))) { it._fromSimilar = true; it._why = refWhy; } });
@@ -574,7 +581,7 @@ async function runMood(q) {
       api.getProviders().length ? `${t('onWhere').toLowerCase()} <b>${esc(api.getProviders().map((id) => provName(id) || id).join(', '))}</b>` : '',
       mood.recent ? `<b>${t('recent')}</b>` : '', mood.classic ? `<b>${t('classic')}</b>` : '', mood.short ? `<b>${t('short')}</b>` : '',
     ].filter(Boolean).join(' · ');
-    // « Voir plus » : d'abord le reste de ce qui a déjà été trouvé, puis les pages TMDB suivantes.
+    // "Show more": first the rest of what was already found, then the next TMDB pages.
     const next = async (k) => {
       if (ranked().length < 30) await fetchPages(2 * k + 1, 2 * k + 2);
       return take(ranked());
@@ -583,15 +590,15 @@ async function runMood(q) {
   } catch (e) { out.innerHTML = errorBox(e); }
 }
 
-// ---------- Vue « Tendances » ----------
+// ---------- "Trending" view ----------
 let trendType = 'all';
-async function viewTendances() {
+async function viewTrending() {
   view.innerHTML = `
     <section class="toolbar">
       <h2>${t('trends')}</h2>
       <div class="seg">${[['all', t('all')], ['movie', t('movies')], ['tv', t('series')]].map(([v, l]) => `<button data-v="${v}" class="${v === trendType ? 'on' : ''}">${l}</button>`).join('')}</div>
     </section><div id="trendOut">${skeleton()}</div>`;
-  view.querySelectorAll('.seg button').forEach((b) => b.addEventListener('click', () => { trendType = b.dataset.v; viewTendances(); }));
+  view.querySelectorAll('.seg button').forEach((b) => b.addEventListener('click', () => { trendType = b.dataset.v; viewTrending(); }));
   try {
     const type = trendType;
     const [p1, p2] = await Promise.all([api.trending(type, 'week', 1), api.trending(type, 'week', 2)]);
@@ -604,7 +611,7 @@ async function viewTendances() {
   } catch (e) { $('#trendOut').innerHTML = errorBox(e); }
 }
 
-// ---------- Vue « Par genre » ----------
+// ---------- "Genres" view ----------
 const genreState = { type: 'movie', genre: 35, sort: 'popularity.desc' };
 async function viewGenres() {
   const map = genreMaps(getLang())[genreState.type];
@@ -631,9 +638,9 @@ async function viewGenres() {
   } catch (e) { $('#genreOut').innerHTML = errorBox(e); }
 }
 
-// ---------- Vue « Mes listes » ----------
+// ---------- "My lists" view ----------
 let listTab = 'towatch';
-function viewListes() {
+function viewLists() {
   const all = Object.values(store.getList()).sort((a, b) => b.updatedAt - a.updatedAt);
   const items = all.filter((e) => e.status === listTab);
   const count = (s) => all.filter((e) => e.status === s).length;
@@ -642,7 +649,7 @@ function viewListes() {
       <h2>${t('library')}</h2>
       <div class="seg">${[['towatch', `${t('toWatch')} (${count('towatch')})`], ['seen', `${t('seenP')} (${count('seen')})`], ['taste', t('taste')]].map(([v, l]) => `<button data-v="${v}" class="${v === listTab ? 'on' : ''}">${l}</button>`).join('')}</div>
     </section><div id="listOut">${listTab === 'taste' ? '' : grid(items, (it) => ({ rating: it.rating }))}</div>`;
-  view.querySelectorAll('.seg button').forEach((b) => b.addEventListener('click', () => { listTab = b.dataset.v; viewListes(); }));
+  view.querySelectorAll('.seg button').forEach((b) => b.addEventListener('click', () => { listTab = b.dataset.v; viewLists(); }));
   if (listTab === 'taste') viewTaste(all);
 }
 
@@ -665,7 +672,7 @@ async function viewTaste(all) {
     const known = new Set(all.map((e) => `${e.media_type}:${e.id}`));
     const mood = { movieGenres: new Set(), tvGenres: new Set(), exclude: new Set(profile.disliked) };
     const jobs = ['movie', 'tv'].map((type) => {
-      const map = genreMaps('fr')[type];
+      const map = genreMaps('en')[type];
       const liked = profile.liked.filter((g) => map[g]).slice(0, 3);
       const disliked = profile.disliked.filter((g) => map[g] && !liked.includes(g));
       if (!liked.length) return Promise.resolve([]);
@@ -679,8 +686,8 @@ async function viewTaste(all) {
   } catch (e) { $('#forYou').innerHTML = errorBox(e); }
 }
 
-// ---------- Vue « Réglages » ----------
-function viewReglages() {
+// ---------- "Settings" view ----------
+function viewSettings() {
   view.innerHTML = `
     <section class="panel">
       <h2>${t('settings')}</h2>
@@ -708,10 +715,10 @@ function viewReglages() {
       <p class="hint">${t('installHint')}</p>
     </section>`;
   bindKeyForm();
-  bindLangSwitch(viewReglages);
-  $('#countrySel').addEventListener('change', (e) => { setCountry(e.target.value); viewReglages(); });
+  bindLangSwitch(viewSettings);
+  $('#countrySel').addEventListener('change', (e) => { setCountry(e.target.value); viewSettings(); });
   view.querySelectorAll('#themeSeg button').forEach((b) => b.addEventListener('click', () => {
-    store.setTheme(b.dataset.t); applyTheme(); viewReglages(); $(`#themeSeg [data-t="${b.dataset.t}"]`)?.focus();
+    store.setTheme(b.dataset.t); applyTheme(); viewSettings(); $(`#themeSeg [data-t="${b.dataset.t}"]`)?.focus();
   }));
   $('#recvBtn').addEventListener('click', () => {
     $('#recvSlot').innerHTML = receivePanel();
@@ -719,16 +726,16 @@ function viewReglages() {
     $('#pairBox').scrollIntoView({ block: 'center' });
   });
   view.querySelectorAll('#dispSeg button').forEach((b) => b.addEventListener('click', () => {
-    store.setDisplay(b.dataset.d); setTv(resolveTv(b.dataset.d, location.search)); viewReglages(); $(`#dispSeg [data-d="${b.dataset.d}"]`)?.focus();
+    store.setDisplay(b.dataset.d); setTv(resolveTv(b.dataset.d, location.search)); viewSettings(); $(`#dispSeg [data-d="${b.dataset.d}"]`)?.focus();
   }));
   renderProviderPicker();
   $('#exp').addEventListener('click', () => {
     const blob = new Blob([store.exportData()], { type: 'application/json' });
-    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `cinematheque-${new Date().toISOString().slice(0, 10)}.json` });
+    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `cine-envie-${new Date().toISOString().slice(0, 10)}.json` });
     a.click(); URL.revokeObjectURL(a.href);
   });
   $('#imp').addEventListener('change', async (e) => {
-    try { const n = store.importData(await e.target.files[0].text()); $('#ioMsg').textContent = t('imported')(n); } catch (err) { $('#ioMsg').textContent = err.message; }
+    try { const n = store.importData(await e.target.files[0].text()); $('#ioMsg').textContent = t('imported')(n); } catch (err) { $('#ioMsg').textContent = errorText(err); }
   });
 }
 
@@ -736,7 +743,7 @@ async function renderProviderPicker() {
   const box = $('#provPick');
   if (!box || !api.hasCredential()) return;
   const all = await loadProviderNames();
-  // les 30 principales du pays, plus celles déjà cochées si elles sont plus loin dans la liste
+  // The country's top 30, plus already ticked ones further down the list.
   const mine = store.getProviders(api.getRegion());
   const list = [...all.slice(0, 30), ...all.slice(30).filter((p) => mine.includes(p.id))];
   if (!$('#provPick')) return;
@@ -756,12 +763,12 @@ async function renderProviderPicker() {
   draw();
 }
 
-// ---------- Fiche détaillée ----------
+// ---------- Title dialog ----------
 async function openDetail(type, id) {
   const dlg = $('#detail');
   dlg.innerHTML = `<div class="sheet"><div class="sk-backdrop" aria-hidden="true"></div><div class="body"><p class="sr-only" role="status">${t('loading')}</p><div class="sk-line wide"></div><div class="sk-line"></div><div class="sk-line"></div></div></div>`;
   dlg.showModal();
-  // À la fermeture, on vide la fiche : une bande-annonce en cours s'arrête.
+  // Empty the dialog on close so that a playing trailer stops.
   dlg.addEventListener('close', () => { dlg.innerHTML = ''; }, { once: true });
   let playing = false;
   try {
@@ -780,7 +787,7 @@ async function openDetail(type, id) {
       const entry = store.getEntry(it);
       const st = entry?.status;
       const myRating = entry?.rating || 0;
-      // Toutes les régions sont renvoyées d'un coup : changer de pays ne refait pas d'appel.
+      // All regions come in one response: changing country needs no new request.
       const prov = d['watch/providers']?.results?.[api.getRegion()] || {};
       const offers = provRow(t('flatrate'), prov.flatrate) + provRow(t('free'), [...(prov.free || []), ...(prov.ads || [])]) + provRow(t('rent'), prov.rent) + provRow(t('buy'), prov.buy);
       dlg.innerHTML = `
@@ -819,7 +826,7 @@ async function openDetail(type, id) {
       $('#detailCountry', dlg).addEventListener('change', (e) => { setCountry(e.target.value); render(); });
       dlg.querySelectorAll('[data-s]').forEach((b) => b.addEventListener('click', () => {
         store.setStatus(it, st === b.dataset.s ? null : b.dataset.s);
-        // Ajout à « À voir » : on mémorise tout de suite où il est diffusé, pour les alertes à venir.
+        // Added to "to watch": record right away where it streams, for future alerts.
         if (store.getEntry(it)?.status === 'towatch') store.setSnap(store.itemKey(it), alerts.snapshot(d, api.getRegion()));
         render(); refreshBadges();
       }));
@@ -829,24 +836,24 @@ async function openDetail(type, id) {
         if (playing) $('.player', dlg)?.scrollIntoView({ block: 'nearest' });
       });
       dlg.querySelectorAll('[data-person]').forEach((b) => b.addEventListener('click', () => {
-        dlg.close(); location.hash = `#personne/${b.dataset.person}`;
+        dlg.close(); location.hash = `#person/${b.dataset.person}`;
       }));
       $('[data-more]', dlg).addEventListener('click', () => {
-        dlg.close(); lastQuery = t('likeQ')(titleOf(d)); location.hash = '#envie'; route();
+        dlg.close(); lastQuery = t('likeQ')(titleOf(d)); location.hash = '#mood'; route();
       });
     };
     render();
   } catch (e) { dlg.innerHTML = `<div class="sheet">${errorBox(e)}</div>`; }
 }
 
-// ---------- Fiche acteur / actrice ----------
+// ---------- Person page ----------
 async function viewPerson(id) {
   document.querySelectorAll('nav a').forEach((a) => a.classList.remove('on'));
   view.innerHTML = `<section class="person-head"><div class="sk-face" aria-hidden="true"></div><div><div class="sk-line wide"></div><div class="sk-line"></div></div></section>${skeleton()}`;
   try {
     const p = await api.person(id);
-    if (location.hash !== `#personne/${id}`) return; // on est parti entre-temps
-    // Rôles (films et séries), sans doublons, les plus connus d'abord
+    if (location.hash !== `#person/${id}`) return; // the user navigated away meanwhile
+    // Roles (movies and series), without duplicates, best known first.
     const seen = new Map();
     for (const c of [...(p.combined_credits?.cast || []), ...(p.combined_credits?.crew || [])]) {
       if (!['movie', 'tv'].includes(c.media_type)) continue;
@@ -874,7 +881,7 @@ async function viewPerson(id) {
       </section>
       <h3>${t('filmography')(all.length)}</h3>
       <div id="personOut"></div>`;
-    $('#personBack').addEventListener('click', () => { if (history.length > 1) history.back(); else { location.hash = '#envie'; } });
+    $('#personBack').addEventListener('click', () => { if (history.length > 1) history.back(); else { location.hash = '#mood'; } });
     $('#bioMore')?.addEventListener('click', (e) => { $('#bio').textContent = bio; e.target.remove(); });
     let k = 0;
     const page = (n) => all.slice(n * 30, n * 30 + 30);
@@ -882,14 +889,14 @@ async function viewPerson(id) {
   } catch (e) { view.innerHTML = errorBox(e); }
 }
 
-function refreshBadges() { if ((location.hash || '#envie') === '#listes') viewListes(); renderAlerts(); }
+function refreshBadges() { if ((location.hash || '#mood') === '#lists') viewLists(); renderAlerts(); }
 
-// ---------- Alertes « À voir » ----------
-// Bandeau en haut des pages Envie et Mes listes.
+// ---------- "To watch" alerts ----------
+// Banner at the top of the Mood and My lists pages.
 function renderAlerts() {
   const box = $('#alerts');
   if (!box) return;
-  const here = ['', '#envie', '#listes'].includes(location.hash);
+  const here = ['', '#mood', '#lists'].includes(location.hash);
   const list = here && api.hasCredential() ? store.getAlerts() : [];
   box.hidden = !list.length;
   if (!list.length) { box.innerHTML = ''; return; }
@@ -910,7 +917,7 @@ $('#alerts')?.addEventListener('click', (e) => {
   renderAlerts();
 });
 
-// Vérifie (au plus une fois par jour et par titre, 4 à la fois) les titres « À voir ».
+// Checks the "to watch" titles (at most once a day per title, 4 at a time).
 let checking = false;
 async function checkAlerts() {
   if (checking || !api.hasCredential()) return;
@@ -929,7 +936,7 @@ async function checkAlerts() {
           const cur = alerts.snapshot(await api.details(type, id), region);
           alerts.compare(snaps[k], cur, mine).forEach((a) => found.push({ ...a, key: k, id: Number(id), media_type: type, title: list[k].title, poster_path: list[k].poster_path }));
           store.setSnap(k, cur);
-        } catch { /* hors ligne ou titre retiré : on réessaiera */ }
+        } catch { /* offline or title removed: try again later */ }
       }));
     }
     store.addAlerts(found);
@@ -938,17 +945,21 @@ async function checkAlerts() {
 }
 
 // ---------- Navigation ----------
-const ROUTES = { '#envie': viewEnvie, '#tendances': viewTendances, '#genres': viewGenres, '#listes': viewListes, '#reglages': viewReglages };
+const ROUTES = { '#mood': viewMood, '#trending': viewTrending, '#genres': viewGenres, '#lists': viewLists, '#settings': viewSettings };
+// Addresses from before v0.16 (French route names), kept so that bookmarks and installed apps still work.
+const LEGACY_ROUTES = { '#envie': '#mood', '#tendances': '#trending', '#listes': '#lists', '#reglages': '#settings' };
 function route() {
+  const renamed = LEGACY_ROUTES[location.hash] || location.hash.replace(/^#personne\//, '#person/');
+  if (renamed !== location.hash) history.replaceState(null, '', renamed);
   stopListen?.(); stopListen = null;
   const p = pair.parsePair(location.hash);
   renderAlerts();
   if (p) { viewPair(p); window.scrollTo(0, 0); return; }
-  const person = /^#personne\/(\d+)$/.exec(location.hash);
+  const person = /^#person\/(\d+)$/.exec(location.hash);
   if (person && api.hasCredential()) { viewPerson(person[1]); window.scrollTo(0, 0); return; }
-  const h = ROUTES[location.hash] ? location.hash : '#envie';
+  const h = ROUTES[location.hash] ? location.hash : '#mood';
   document.querySelectorAll('nav a').forEach((a) => a.classList.toggle('on', a.getAttribute('href') === h));
-  if (!api.hasCredential() && h !== '#listes') return needKey();
+  if (!api.hasCredential() && h !== '#lists') return needKey();
   ROUTES[h]();
   window.scrollTo(0, 0);
 }
@@ -965,12 +976,12 @@ setTv(resolveTv(store.getDisplay(), location.search));
 applyLocale();
 api.setCredential(store.getKey());
 route();
-// Alertes : au lancement, puis quand on revient sur l'appli (les titres déjà vérifiés du jour sont sautés).
+// Alerts: at startup, then whenever the app comes back to the foreground (titles checked today are skipped).
 setTimeout(checkAlerts, 1500);
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') checkAlerts(); });
 
 if ('serviceWorker' in navigator) {
-  // Quand une nouvelle version de l'appli est publiée, on recharge une fois pour l'afficher tout de suite.
+  // When a new version is published, reload once to show it right away.
   const hadController = !!navigator.serviceWorker.controller;
   let reloaded = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => {
