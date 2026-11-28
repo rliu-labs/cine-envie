@@ -1,19 +1,19 @@
-# Sécurité
+# Security
 
-## Signaler une faille
-Si tu trouves un problème de sécurité, merci de **ne pas ouvrir de ticket public**.
-Utilise plutôt le signalement privé de GitHub : onglet **Security** → **Report a vulnerability**.
-Je réponds dès que possible et je corrige en priorité.
+## Reporting a vulnerability
+If you find a security issue, please **do not open a public issue**.
+Use GitHub's private reporting instead: **Security** tab → **Report a vulnerability**.
+I will reply as soon as possible and fix it as a priority.
 
-## Ce que l'appli protège
-- **Pas de serveur** : Ciné‑Envie est un site statique. Aucune donnée ne transite par un serveur à moi.
-- **Clé TMDB locale** : elle est enregistrée uniquement dans le navigateur (`localStorage`) et n'est envoyée qu'à `api.themoviedb.org`, en HTTPS.
-- **Listes et notes locales** : « à voir », « vus », tes notes et ton profil de goûts restent sur ton appareil ; l'export JSON est un fichier que tu gardes.
-- **Aucun pistage** : pas de statistiques, pas de publicité, pas de cookies, pas de service tiers en dehors de TMDB.
-- **Zéro dépendance dans l'appli** : la page ne charge aucun paquet npm ni script externe, donc pas de risque lié à la chaîne d'approvisionnement. Les paquets de développement (génération des captures) ne sont jamais servis aux utilisateurs.
-- **Content Security Policy stricte** : la page ne peut exécuter que ses propres scripts et ne peut contacter que l'API TMDB et son serveur d'images.
-- **Échappement systématique** des données affichées (titres, résumés, fichiers importés) contre les injections HTML.
+## What the app protects
+- **No server**: Ciné‑Envie is a static site. No data goes through a server of mine.
+- **Local TMDB key**: it is stored only in the browser (`localStorage`) and sent only to `api.themoviedb.org`, over HTTPS.
+- **Local lists and ratings**: "to watch", "seen", your ratings and your taste profile stay on your device; the JSON export is a file you keep.
+- **No tracking**: no analytics, no ads, no cookies. The only third parties are TMDB (data and images), YouTube (trailers, privacy-enhanced mode) and, only when you use the phone-to-TV transfer, the ntfy.sh relay, which receives end-to-end encrypted data it cannot read.
+- **No dependencies in the app**: the page loads no npm package or external script, so there is no supply-chain risk. Development packages (screenshot generation) are never served to users.
+- **Strict Content Security Policy**: the page can only run its own scripts and can only contact the TMDB API, its image server and the ntfy.sh relay.
+- **Systematic escaping** of displayed data (titles, overviews, imported files) against HTML injection.
 
-## Bon à savoir
-- Sur un ordinateur partagé, efface ta clé dans ⚙︎ Réglages après usage : n'importe qui utilisant le même navigateur pourrait la lire.
-- Ta clé TMDB est gratuite et révocable à tout moment depuis ton compte themoviedb.org.
+## Good to know
+- On a shared computer, clear your key in ⚙︎ Settings after use: anyone using the same browser could read it.
+- Your TMDB key is free and can be revoked at any time from your themoviedb.org account.

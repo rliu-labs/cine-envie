@@ -36,7 +36,7 @@ Escribes lo que te apetece como se lo dirías a un amigo, **en español, inglés
 Es una aplicación web instalable (PWA), sin servidor, sin cuenta y sin dependencias: HTML, CSS y JavaScript nativo.
 
 <p align="center">
-  <img src="docs/accueil.es.png" alt="Pantalla de inicio de Ciné‑Envie" width="760">
+  <img src="docs/home.es.png" alt="Pantalla de inicio de Ciné‑Envie" width="760">
 </p>
 
 ## Funciones
@@ -59,18 +59,6 @@ Es una aplicación web instalable (PWA), sin servidor, sin cuenta y sin dependen
 | 📲 **Del móvil a la tele en un escaneo** | Escanea con el móvil el código QR que muestra la tele: recibe tu clave, tus ajustes y tus listas. |
 | 🌗 **Tema claro u oscuro** | Auto, claro u oscuro. |
 | 🔔 **Avisos de Por ver** | Un aviso te dice cuándo un título de tu lista «Por ver» llega a una de tus plataformas o estrena temporada. |
-
-## Compatible con todas las pantallas
-
-La misma app se adapta al dispositivo, sin configurar nada:
-
-| Dispositivo | Vista y controles | Navegadores probados |
-|---|---|---|
-| 📱 **Móvil** | Una columna, zonas táctiles grandes, se puede instalar en la pantalla de inicio. | Safari (iPhone), Chrome (Android) |
-| 💻 **Ordenador** | Cuadrícula amplia de carteles, ratón o teclado (Tab, Intro, Esc). | Chrome, Edge, Firefox, Safari |
-| 🖥️ **TV** | Vista grande que se lee desde el sofá, márgenes contra el recorte de la pantalla, mando: flechas, OK, Atrás. Se activa sola en smart TV y dispositivos de TV. | Samsung (Tizen), LG (webOS), Android TV / Google TV, Fire TV |
-
-Las tabletas usan la vista de móvil o de ordenador según su ancho. Para elegir tú mismo: **Ajustes → Pantalla** (Auto, Móvil / ordenador, TV), o `?tv=1` (o `?tv=0`) en la dirección.
 
 ## Compatible con todas las pantallas
 

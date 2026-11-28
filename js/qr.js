@@ -1,13 +1,13 @@
-// Générateur de QR code minimal (mode octets, correction M, versions 1 à 10 : jusqu'à 213 octets).
-// Suffisant pour un lien d'appairage. Renvoie une matrice de booléens (true = module noir).
-// Écrit d'après la norme ISO/IEC 18004 ; aucun appel réseau, aucune dépendance.
+// Minimal QR code generator (byte mode, error correction level M, versions 1 to 10: up to 213 bytes).
+// Enough for a pairing link. Returns a boolean matrix (true = dark module).
+// Written from the ISO/IEC 18004 standard; no network call, no dependency.
 
-// Correction M : [codes de correction par bloc, nb blocs groupe 1, octets de données groupe 1, nb blocs groupe 2, octets groupe 2]
+// Level M: [EC codewords per block, group 1 blocks, group 1 data bytes, group 2 blocks, group 2 data bytes]
 const EC_M = [null, [10, 1, 16], [16, 1, 28], [26, 1, 44], [18, 2, 32], [24, 2, 43], [16, 4, 27], [18, 4, 31],
   [22, 2, 38, 2, 39], [22, 3, 36, 2, 37], [26, 4, 43, 1, 44]];
 const ALIGN = [null, [], [6, 18], [6, 22], [6, 26], [6, 30], [6, 34], [6, 22, 38], [6, 24, 42], [6, 26, 46], [6, 28, 50]];
 
-// Corps de Galois GF(256), polynôme 0x11D
+// Galois field GF(256), polynomial 0x11D
 const EXP = new Uint8Array(512);
 const LOG = new Uint8Array(256);
 for (let i = 0, x = 1; i < 255; i++) { EXP[i] = x; LOG[x] = i; x <<= 1; if (x & 0x100) x ^= 0x11d; }
@@ -46,7 +46,7 @@ function codewords(bytes, v) {
   const data = [];
   for (let i = 0; i < bits.length; i += 8) data.push(bits.slice(i, i + 8).reduce((a, b) => (a << 1) | b, 0));
   for (let p = 0; data.length < cap; p++) data.push(p % 2 ? 0x11 : 0xec);
-  // Blocs, correction, entrelacement
+  // Blocks, error correction, interleaving
   const [ec, b1, d1, b2 = 0, d2 = 0] = EC_M[v];
   const blocks = [];
   let k = 0;
@@ -69,7 +69,7 @@ function build(v, cw, mask) {
   const m = Array.from({ length: size }, () => new Array(size).fill(false));
   const fn = Array.from({ length: size }, () => new Array(size).fill(false));
   const set = (x, y, dark) => { m[y][x] = dark; fn[y][x] = true; };
-  // Motifs de repérage (+ séparateurs)
+  // Finder patterns (+ separators)
   for (const [cx, cy] of [[3, 3], [size - 4, 3], [3, size - 4]]) {
     for (let dy = -4; dy <= 4; dy++) for (let dx = -4; dx <= 4; dx++) {
       const x = cx + dx; const y = cy + dy;
@@ -78,15 +78,15 @@ function build(v, cw, mask) {
       set(x, y, d !== 2 && d !== 4);
     }
   }
-  // Lignes de synchronisation
+  // Timing patterns
   for (let i = 8; i < size - 8; i++) { set(6, i, i % 2 === 0); set(i, 6, i % 2 === 0); }
-  // Motifs d'alignement
+  // Alignment patterns
   const al = ALIGN[v];
   al.forEach((ax, i) => al.forEach((ay, j) => {
     if ((i === 0 && j === 0) || (i === 0 && j === al.length - 1) || (i === al.length - 1 && j === 0)) return;
     for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) set(ax + dx, ay + dy, Math.max(Math.abs(dx), Math.abs(dy)) !== 1);
   }));
-  // Informations de format (correction M = 00) et module noir
+  // Format information (level M = 00) and dark module
   const data = mask; // (00 << 3) | mask
   let rem = data;
   for (let i = 0; i < 10; i++) rem = (rem << 1) ^ ((rem >>> 9) * 0x537);
@@ -98,14 +98,14 @@ function build(v, cw, mask) {
   for (let i = 0; i < 8; i++) set(size - 1 - i, 8, bit(fmt, i));
   for (let i = 8; i < 15; i++) set(8, size - 15 + i, bit(fmt, i));
   set(8, size - 8, true);
-  // Informations de version (à partir de la version 7)
+  // Version information (version 7 and up)
   if (v >= 7) {
     let r = v;
     for (let i = 0; i < 12; i++) r = (r << 1) ^ ((r >>> 11) * 0x1f25);
     const vb = (v << 12) | r;
     for (let i = 0; i < 18; i++) { const a = size - 11 + (i % 3); const b = Math.floor(i / 3); set(a, b, bit(vb, i)); set(b, a, bit(vb, i)); }
   }
-  // Données en zigzag, avec masque
+  // Data in zigzag order, with mask
   let i = 0;
   for (let right = size - 1; right >= 1; right -= 2) {
     if (right === 6) right = 5;
@@ -124,7 +124,7 @@ function build(v, cw, mask) {
   return m;
 }
 
-// Pénalité simplifiée (règles 1, 2 et 4 de la norme) pour choisir le masque le plus lisible.
+// Simplified penalty (rules 1, 2 and 4 of the standard) to pick the most readable mask.
 function penalty(m) {
   const n = m.length;
   let p = 0;
@@ -150,7 +150,7 @@ export function qrMatrix(text) {
   const bytes = [...new TextEncoder().encode(text)];
   let v = 1;
   while (v <= 10 && capacity(v) < bytes.length + (v < 10 ? 2 : 3)) v++;
-  if (v > 10) throw new Error('Texte trop long pour le QR code');
+  if (v > 10) throw new Error('Text too long for a QR code');
   const cw = codewords(bytes, v);
   let best = null;
   let bestP = Infinity;
@@ -162,7 +162,7 @@ export function qrMatrix(text) {
   return best;
 }
 
-// Image SVG (chaîne) du QR code, avec la marge blanche obligatoire de 4 modules.
+// SVG image (string) of the QR code, with the mandatory 4-module quiet zone.
 export function qrSvg(text, { label = 'QR code' } = {}) {
   const m = qrMatrix(text);
   const n = m.length + 8;

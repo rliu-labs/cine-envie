@@ -1,4 +1,4 @@
-// Petit client TMDB (https://developer.themoviedb.org). Langue et pays réglables (en-US, fr-FR, es-ES, de-DE, it-IT, pt-PT ; pays européen).
+// Small TMDB client (https://developer.themoviedb.org) with configurable language (en-US, fr-FR, es-ES, de-DE, it-IT, pt-PT) and country.
 const BASE = 'https://api.themoviedb.org/3';
 export const IMG = 'https://image.tmdb.org/t/p/';
 
@@ -9,17 +9,17 @@ export function hasCredential() { return !!credential; }
 let language = 'fr-FR';
 let region = 'FR';
 export function setLocale(lang, country) {
-  language = { en: 'en-US', es: 'es-ES', de: 'de-DE', it: 'it-IT', pt: 'pt-PT' }[lang] || 'fr-FR'; // le darija retombe sur le français
+  language = { en: 'en-US', es: 'es-ES', de: 'de-DE', it: 'it-IT', pt: 'pt-PT' }[lang] || 'fr-FR'; // Darija falls back to French
   if (/^[A-Z]{2}$/.test(country || '')) region = country;
 }
 export const getRegion = () => region;
 
-// Filtre « mes plateformes » : identifiants TMDB des services choisis (vide = toutes).
+// "My services" filter: TMDB ids of the chosen services (empty = all).
 let providers = [];
 export function setProviders(ids) { providers = (ids || []).map(Number).filter((n) => Number.isInteger(n) && n > 0); }
 export const getProviders = () => providers;
 
-// Plateformes disponibles dans le pays choisi, films et séries confondus, par ordre d'importance.
+// Services available in the chosen country, movies and series combined, by display priority.
 export async function providerList() {
   const [m, t] = await Promise.all([
     tmdb('/watch/providers/movie', { watch_region: region }),
@@ -34,12 +34,12 @@ export async function providerList() {
   return [...byId.values()].sort((a, b) => a.prio - b.prio);
 }
 
-const memo = new Map();
+const memo = new Map(); // in-memory cache of requests (promises), per URL
 
 export async function tmdb(path, params = {}) {
-  if (!credential) throw new Error('Clé TMDB manquante');
+  if (!credential) throw Object.assign(new Error('Missing TMDB key'), { code: 'errKeyMissing' });
   const url = new URL(BASE + path);
-  const isToken = credential.startsWith('eyJ'); // jeton v4 (Bearer) vs clé v3
+  const isToken = credential.startsWith('eyJ'); // v4 token (Bearer) vs v3 key
   const all = { language, ...params };
   if (!isToken) all.api_key = credential;
   for (const [k, v] of Object.entries(all)) if (v !== undefined && v !== null && v !== '') url.searchParams.set(k, v);
@@ -47,7 +47,7 @@ export async function tmdb(path, params = {}) {
   if (memo.has(key)) return memo.get(key);
   const p = fetch(key, { headers: isToken ? { Authorization: `Bearer ${credential}` } : {} })
     .then(async (r) => {
-      if (r.status === 401) throw new Error('Clé TMDB refusée (401). Vérifie-la dans Réglages.');
+      if (r.status === 401) throw Object.assign(new Error('TMDB key rejected (401)'), { code: 'errKeyRejected' });
       if (!r.ok) throw new Error(`TMDB ${r.status}`);
       return r.json();
     });

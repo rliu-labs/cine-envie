@@ -1,22 +1,22 @@
-# Contribuer
+# Contributing
 
-Merci de ton intérêt ! Ciné‑Envie est un petit projet perso, mais les idées et corrections sont bienvenues.
+Thanks for your interest! Ciné‑Envie is a small personal project, but ideas and fixes are welcome.
 
-## En pratique
-1. Ouvre un ticket (bug ou idée) avant un gros changement.
-2. Forke, crée une branche, puis lance l'appli en local :
+## How to
+1. Open an issue (bug or idea) before a large change.
+2. Fork, create a branch, then run the app locally:
    ```
    python3 -m http.server 8000
    ```
-3. Lance les tests avant d'ouvrir une pull request :
+3. Run the tests before opening a pull request:
    ```
    npm test
    ```
 
-## Principes du projet
-- **Zéro dépendance, zéro build pour l'appli** : du HTML, du CSS et des modules JavaScript natifs. Les paquets npm sont réservés à l'outillage (captures).
-- **Rien côté serveur** : la clé TMDB et les listes restent dans le navigateur de l'utilisateur.
-- **En français** : interface, messages et commentaires.
-- **Légal** : on n'indique que des offres de streaming officielles.
+## Project principles
+- **No dependencies, no build step for the app**: plain HTML, CSS and native JavaScript modules. npm packages are only used for tooling (screenshots).
+- **Nothing server-side**: the TMDB key and the lists stay in the user's browser.
+- **English in the code**: comments, identifiers, commit messages and docs are written in English. User-facing text lives in `js/i18n.js` and must exist in all 7 languages.
+- **Legal**: only official streaming offers are shown.
 
-Ne committe jamais de clé API ni d'export de listes personnelles.
+Never commit an API key or an export of personal lists.

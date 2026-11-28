@@ -1,12 +1,12 @@
-// Mode TV : grand écran lu de loin, navigation à la télécommande (flèches + OK + Retour).
-// Détection automatique (téléviseurs connectés, boîtiers Android TV / Fire TV), forçable dans les réglages
-// ou par l'adresse (?tv=1 / ?tv=0). Sans le mode TV, rien ne change pour le téléphone ou l'ordinateur.
+// TV mode: large display read from the sofa, remote-control navigation (arrows + OK + Back).
+// Detected automatically (smart TVs, Android TV / Fire TV boxes), can be forced in the settings
+// or in the address (?tv=1 / ?tv=0). Without TV mode, nothing changes on phones or computers.
 
-// Navigateurs de téléviseurs et boîtiers connus.
+// Known TV and set-top box browsers.
 const TV_UA = /\b(SmartTV|SMART-TV|Tizen|Web0S|webOS|NetCast|HbbTV|BRAVIA|AFT[A-Z]+|Android TV|GoogleTV|CrKey|Roku|Viera|PhilipsTV|Hisense|VIDAA|Opera TV|AppleTV|Xbox|PlayStation)\b/i;
 export const detectTv = (ua = (typeof navigator !== 'undefined' ? navigator.userAgent : '')) => TV_UA.test(ua);
 
-// mode : 'auto' (défaut), 'tv' ou 'screen' (téléphone / ordinateur). L'adresse ?tv=1 ou ?tv=0 l'emporte.
+// mode: 'auto' (default), 'tv' or 'screen' (phone / computer). ?tv=1 or ?tv=0 in the address wins.
 export function resolveTv(mode = 'auto', search = '', ua) {
   const q = new URLSearchParams(search).get('tv');
   if (q === '1' || q === 'true') return true;
@@ -16,7 +16,7 @@ export function resolveTv(mode = 'auto', search = '', ua) {
   return detectTv(ua);
 }
 
-// Touches « Retour » des télécommandes : Tizen (10009), webOS (461), Android TV / navigateurs (GoNavigation).
+// Remote "Back" keys: Tizen (10009), webOS (461), Backspace (8); Android TV and browsers send GoBack / BrowserBack.
 const BACK_CODES = new Set([10009, 461, 8]);
 const isBack = (e) => e.key === 'GoBack' || e.key === 'BrowserBack' || e.key === 'Back' || e.key === 'Escape'
   || (BACK_CODES.has(e.keyCode) && !isTyping(e.target));
@@ -33,15 +33,15 @@ function visible(el) {
   return s.visibility !== 'hidden' && s.display !== 'none';
 }
 
-// Zone de navigation : la fiche ouverte, le menu de langue ouvert, sinon toute la page.
+// Navigation scope: the open title dialog, the open language menu, otherwise the whole page.
 function scope() {
   return document.querySelector('dialog[open]') || document.querySelector('.lm-list:not([hidden])') || document.body;
 }
 
 export const candidates = (root = scope()) => [...root.querySelectorAll(FOCUSABLE)].filter(visible);
 
-// Choisit l'élément le plus proche dans la direction demandée (algorithme des « centres »).
-// Exporté pour les tests : rects = [{ x, y, w, h }], from = index de départ.
+// Picks the closest element in the requested direction (centre-to-centre distance).
+// Exported for tests: rects = [{ x, y, w, h }], from = starting index.
 export function pickNext(from, rects, dir) {
   const c = (r) => ({ x: r.x + r.w / 2, y: r.y + r.h / 2 });
   const a = rects[from];
@@ -53,14 +53,14 @@ export function pickNext(from, rects, dir) {
     const cb = c(r);
     const dx = cb.x - ca.x;
     const dy = cb.y - ca.y;
-    // Il faut être vraiment de l'autre côté (au moins le bord), pas juste décalé d'un pixel.
+    // The target must really be on the other side (past the edge), not just one pixel off.
     let main; let cross; let overlap;
     if (dir === 'right') { if (r.x < a.x + a.w - 1 && dx <= 0.5 * a.w) return; main = dx; cross = dy; overlap = Math.min(a.y + a.h, r.y + r.h) - Math.max(a.y, r.y); }
     else if (dir === 'left') { if (r.x + r.w > a.x + 1 && -dx <= 0.5 * a.w) return; main = -dx; cross = dy; overlap = Math.min(a.y + a.h, r.y + r.h) - Math.max(a.y, r.y); }
     else if (dir === 'down') { if (r.y < a.y + a.h - 1 && dy <= 0.5 * a.h) return; main = dy; cross = dx; overlap = Math.min(a.x + a.w, r.x + r.w) - Math.max(a.x, r.x); }
     else { if (r.y + r.h > a.y + 1 && -dy <= 0.5 * a.h) return; main = -dy; cross = dx; overlap = Math.min(a.x + a.w, r.x + r.w) - Math.max(a.x, r.x); }
     if (main <= 0) return;
-    // Les éléments alignés (qui se chevauchent sur l'autre axe) passent devant ceux en diagonale.
+    // Aligned elements (overlapping on the other axis) beat diagonal ones.
     const score = main + Math.abs(cross) * (overlap > 0 ? 0.5 : 3);
     if (score < bestScore) { bestScore = score; best = i; }
   });
@@ -70,11 +70,11 @@ export function pickNext(from, rects, dir) {
 let lastMove = 0;
 function focusEl(el) {
   el.focus({ preventScroll: true });
-  // Touche maintenue ou appuis rapides : défilement immédiat, sinon il prend du retard sur le focus.
+  // Held key or rapid presses: scroll instantly, otherwise scrolling lags behind the focus.
   const now = Date.now();
   const behavior = now - lastMove < 300 ? 'auto' : 'smooth';
   lastMove = now;
-  // En haut de page, on remonte tout en haut pour voir l'en-tête ; sinon on centre l'élément.
+  // In the header, scroll back to the very top; otherwise centre the element.
   if (el.closest('header')) window.scrollTo({ top: 0, behavior });
   else el.scrollIntoView({ block: 'center', inline: 'nearest', behavior });
 }
@@ -84,24 +84,24 @@ function move(dir) {
   const cur = document.activeElement;
   let from = list.indexOf(cur);
   if (from < 0) { if (list[0]) focusEl(firstTarget() || list[0]); return true; }
-  // Positions dans la page (pas à l'écran) : l'en-tête collant reste « en haut », sinon les affiches
-  // cachées dessous après défilement passeraient devant lui. Une fiche ouverte, elle, ne défile pas avec la page.
+  // Page positions (not viewport ones): the sticky header stays "at the top", otherwise posters hidden
+  // under it after scrolling would come before it. An open dialog does not scroll with the page.
   const dy = document.querySelector('dialog[open]') ? 0 : scrollY;
   const rects = list.map((el) => { const r = el.getBoundingClientRect(); return { x: r.left, y: r.top + (el.closest('header') ? 0 : dy), w: r.width, h: r.height }; });
   const i = pickNext(from, rects, dir);
   if (i >= 0) { focusEl(list[i]); return true; }
-  // Rien plus bas (ou plus haut) : on fait défiler la page pour montrer la suite.
+  // Nothing further down (or up): scroll the page to reveal more.
   if (dir === 'down' || dir === 'up') window.scrollBy({ top: (dir === 'down' ? 1 : -1) * innerHeight * 0.6, behavior: 'smooth' });
   return false;
 }
 
-// Premier élément utile d'un écran : une affiche si la grille est chargée, sinon le premier bouton du contenu.
+// First useful element of a screen: a poster if the grid is loaded, otherwise the first content button.
 function firstTarget() {
   const s = scope();
   if (s !== document.body) return candidates(s).find((el) => !el.classList.contains('close')) || candidates(s)[0];
   const view = document.getElementById('view');
   const c = candidates(view);
-  // Une affiche si la grille est là ; sinon, sur la page Envie, la première suggestion toute faite (rien à taper).
+  // A poster if the grid is there; otherwise, on the Mood page, the first preset (nothing to type).
   return c.find((el) => el.classList.contains('card')) || c.find((el) => el.matches('#presets .chip')) || c[0] || candidates()[0];
 }
 
@@ -110,7 +110,7 @@ function back() {
   if (dlg) { dlg.close(); return; }
   const lm = document.querySelector('.lm-list:not([hidden])');
   if (lm) { document.querySelector('.lm-btn')?.click(); return; }
-  // Dans le contenu : on remonte au menu ; déjà dans le menu : page précédente.
+  // In the content: go up to the menu; already in the menu: previous page.
   const navOn = document.querySelector('nav a.on') || document.querySelector('nav a');
   if (document.activeElement && !document.activeElement.closest('header') && navOn) focusEl(navOn);
   else if (history.length > 1) history.back();
@@ -119,10 +119,10 @@ function back() {
 function onKey(e) {
   if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
   const el = e.target;
-  // Le menu de langue gère lui-même ses flèches et Échap.
+  // The language menu handles its own arrows and Escape.
   if (el?.closest?.('.langmenu') && e.key === 'Escape') return;
   if (isBack(e)) {
-    // Échap dans une fiche : le navigateur la ferme déjà tout seul.
+    // Escape in a dialog: the browser already closes it.
     if (e.key === 'Escape' && document.querySelector('dialog[open]')) return;
     if (e.key === 'Escape' && isTyping(el)) { el.blur(); move('down'); e.preventDefault(); return; }
     e.preventDefault();
@@ -133,11 +133,11 @@ function onKey(e) {
   if (dir) autoFocused = null;
   if (e.key === 'Enter') { pressed = signature(el); autoFocused = null; }
   if (!dir) {
-    // OK sur une liste déroulante : on ouvre le choix.
-    if (e.key === 'Enter' && el?.tagName === 'SELECT') { try { el.showPicker(); e.preventDefault(); } catch { /* ancien navigateur */ } }
+    // OK on a dropdown: open the picker.
+    if (e.key === 'Enter' && el?.tagName === 'SELECT') { try { el.showPicker(); e.preventDefault(); } catch { /* older browser */ } }
     return;
   }
-  // Dans un champ texte, gauche / droite déplacent le curseur tant qu'il n'est pas au bord.
+  // In a text field, left / right move the caret until it reaches the edge.
   if (isTyping(el) && (dir === 'left' || dir === 'right')) {
     const atStart = el.selectionStart === 0 && el.selectionEnd === 0;
     const atEnd = el.selectionStart === el.value.length;
@@ -149,10 +149,10 @@ function onKey(e) {
 
 let on = false;
 let lastFocus = null;
-let autoFocused = null; // élément choisi automatiquement (pas encore bougé par l'utilisateur)
-let pressed = null; // signature du dernier élément validé avec OK, pour le retrouver après un nouveau rendu
+let autoFocused = null; // element focused automatically (the user has not moved yet)
+let pressed = null; // selector of the last element pressed with OK, to find it again after a re-render
 
-// Signature stable d'un bouton : id, data-*, lien. Les écrans sont redessinés à chaque choix.
+// Stable selector for a button: id, data-* attributes or link. Screens are re-rendered on every choice.
 function signature(el) {
   if (!el || el === document.body) return null;
   if (el.id) return `#${CSS.escape(el.id)}`;
@@ -164,22 +164,22 @@ function signature(el) {
 
 const auto = (el) => { if (el) { el.focus({ preventScroll: true }); autoFocused = el; } };
 
-// Après chaque changement d'écran (ou chargement de la grille), on remet le focus sur quelque chose de visible.
+// After each screen change (or grid load), put the focus back on something visible.
 function ensureFocus() {
   if (!on) return;
   const a = document.activeElement;
   const dlg = document.querySelector('dialog[open]');
   if (dlg) {
-    // Fiche : premier bouton d'action plutôt que la croix (ou le cadre de la fiche lui-même).
+    // Dialog: first action button rather than the close button (or the dialog itself).
     if (!candidates(dlg).includes(a) || (a === autoFocused && a.classList.contains('close'))) auto(firstTarget());
     return;
   }
   const ok = a && a !== document.body && document.contains(a) && visible(a);
   if (ok && a !== autoFocused) return;
-  // L'élément validé existe encore après le nouveau rendu : on y reste.
+  // The pressed element still exists after the re-render: stay on it.
   const again = pressed && document.querySelector(pressed);
   if (!ok && again && visible(again)) { again.focus({ preventScroll: true }); autoFocused = null; return; }
-  // Focus automatique sur un bouton du haut : dès que les affiches arrivent, on passe à la première.
+  // Automatic focus on a top button: as soon as the posters arrive, move to the first one.
   const target = firstTarget();
   if (!ok || (target !== a && target?.classList.contains('card'))) auto(target);
 }
@@ -190,7 +190,7 @@ let installed = false;
 function install() {
   installed = true;
   document.addEventListener('keydown', (e) => { if (on) onKey(e); });
-  // Ouverture d'une fiche : on mémorise l'affiche pour y revenir à la fermeture.
+  // Opening a dialog: remember the poster to return to it on close.
   document.addEventListener('focusin', (e) => { if (!e.target.closest('dialog')) lastFocus = e.target; });
   const dlg = document.getElementById('detail');
   dlg?.addEventListener('close', () => { if (on && lastFocus && document.contains(lastFocus)) focusEl(lastFocus); });

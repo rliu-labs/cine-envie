@@ -36,7 +36,7 @@ You describe what you feel like watching the way you would tell a friend, **in E
 It is an installable web app (PWA) with no server, no account and no dependencies: plain HTML, CSS and native JavaScript.
 
 <p align="center">
-  <img src="docs/accueil.en.png" alt="Ciné‑Envie home screen" width="760">
+  <img src="docs/home.en.png" alt="Ciné‑Envie home screen" width="760">
 </p>
 
 ## Features
@@ -59,18 +59,6 @@ It is an installable web app (PWA) with no server, no account and no dependencie
 | 📲 **From phone to TV in one scan** | Scan the QR code shown on the TV with your phone: the TV gets your key, settings and lists. |
 | 🌗 **Light or dark theme** | Auto, light or dark. |
 | 🔔 **Watchlist alerts** | A banner tells you when a title from your "To watch" list arrives on one of your services or gets a new season. |
-
-## Works on every screen
-
-The same app adapts to the device it runs on, with nothing to configure:
-
-| Device | Layout and controls | Tested browsers |
-|---|---|---|
-| 📱 **Phone** | One-column layout, large touch targets, can be installed on the home screen. | Safari (iPhone), Chrome (Android) |
-| 💻 **Computer** | Wide grid of posters, mouse or keyboard (Tab, Enter, Escape). | Chrome, Edge, Firefox, Safari |
-| 🖥️ **TV** | Large display that reads from the sofa, margins against screen cropping, remote control: arrows, OK, Back. Switches on by itself on smart TVs and TV boxes. | Samsung (Tizen), LG (webOS), Android TV / Google TV, Fire TV |
-
-Tablets get the phone or computer layout depending on their width. To pick a mode yourself: **Settings → Display** (Auto, Phone / computer, TV), or add `?tv=1` (or `?tv=0`) to the address.
 
 ## Works on every screen
 

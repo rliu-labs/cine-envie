@@ -36,7 +36,7 @@ Scrivi cosa ti va di vedere come lo diresti a un amico, **in italiano, inglese, 
 È un'app web installabile (PWA), senza server, senza account e senza dipendenze: HTML, CSS e JavaScript nativo.
 
 <p align="center">
-  <img src="docs/accueil.it.png" alt="Schermata iniziale di Ciné‑Envie" width="760">
+  <img src="docs/home.it.png" alt="Schermata iniziale di Ciné‑Envie" width="760">
 </p>
 
 ## Funzionalità
@@ -59,18 +59,6 @@ Scrivi cosa ti va di vedere come lo diresti a un amico, **in italiano, inglese, 
 | 📲 **Dal telefono alla TV con una scansione** | Inquadra col telefono il codice QR mostrato dalla TV: riceve chiave, impostazioni e liste. |
 | 🌗 **Tema chiaro o scuro** | Auto, chiaro o scuro. |
 | 🔔 **Avvisi Da vedere** | Un avviso ti dice quando un titolo della lista «Da vedere» arriva su una delle tue piattaforme o ha una nuova stagione. |
-
-## Compatibile con ogni schermo
-
-La stessa app si adatta al dispositivo, senza impostare nulla:
-
-| Dispositivo | Vista e comandi | Browser provati |
-|---|---|---|
-| 📱 **Telefono** | Una colonna, grandi aree da toccare, installabile nella schermata Home. | Safari (iPhone), Chrome (Android) |
-| 💻 **Computer** | Ampia griglia di locandine, mouse o tastiera (Tab, Invio, Esc). | Chrome, Edge, Firefox, Safari |
-| 🖥️ **TV** | Vista grande leggibile dal divano, margini contro il ritaglio dello schermo, telecomando: frecce, OK, Indietro. Si attiva da sola su smart TV e box TV. | Samsung (Tizen), LG (webOS), Android TV / Google TV, Fire TV |
-
-I tablet usano la vista telefono o computer secondo la larghezza. Per scegliere tu: **Impostazioni → Visualizzazione** (Auto, Telefono / computer, TV), oppure `?tv=1` (o `?tv=0`) nell'indirizzo.
 
 ## Compatibile con ogni schermo
 

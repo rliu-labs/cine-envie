@@ -3,16 +3,16 @@ import assert from 'node:assert/strict';
 import { newSession, pairLink, parsePair, seal, open, split, join, send, listen } from '../js/pair.js';
 import { qrMatrix } from '../js/qr.js';
 
-test('lien d\'appairage : aller-retour et refus des liens bizarres', () => {
+test('pairing link: round trip and rejection of odd links', () => {
   const s = newSession();
   const link = pairLink('https://x.test/app/', s);
   assert.deepEqual(parsePair(new URL(link).hash), s);
-  assert.equal(parsePair('#envie'), null);
+  assert.equal(parsePair('#mood'), null);
   assert.equal(parsePair('#pair=evil.abc'), null);
   assert.equal(parsePair(`#pair=${s.topic}.${s.secret}<script>`), null);
 });
 
-test('chiffrement : seul le bon secret ouvre le message', async () => {
+test('encryption: only the right secret opens the message', async () => {
   const s = newSession();
   const obj = { v: 1, key: 'abc', list: { 'movie:1': { title: 'Été 85 🎬' } } };
   const text = await seal(obj, s.secret);
@@ -21,7 +21,7 @@ test('chiffrement : seul le bon secret ouvre le message', async () => {
   await assert.rejects(open(text, newSession().secret));
 });
 
-test('découpage en morceaux, dans le désordre et mélangé à d\'autres envois', () => {
+test('chunking, out of order and mixed with other sends', () => {
   const text = 'x'.repeat(7000);
   const parts = split(text, 'A');
   assert.equal(parts.length, 3);
@@ -29,7 +29,7 @@ test('découpage en morceaux, dans le désordre et mélangé à d\'autres envois
   assert.equal(join([parts[2], 'B/0/2/zz', parts[0], parts[1]]), text);
 });
 
-test('envoi puis réception par le relais (relais simulé)', async () => {
+test('send then receive through the relay (mocked relay)', async () => {
   const msgs = [];
   const realFetch = globalThis.fetch;
   globalThis.fetch = async (url, opt = {}) => {
@@ -46,7 +46,7 @@ test('envoi puis réception par le relais (relais simulé)', async () => {
   } finally { globalThis.fetch = realFetch; }
 });
 
-test('QR code : taille selon la longueur, limite respectée', () => {
+test('QR code: size follows length, limit enforced', () => {
   assert.equal(qrMatrix('hi').length, 21);
   assert.equal(qrMatrix('https://rliu-labs.github.io/cine-envie/#pair=cine-abcdefghijklmnopqrstuvwx.abcdefghijklmnopqrstuv').length, 41); // version 6
   assert.throws(() => qrMatrix('x'.repeat(300)));

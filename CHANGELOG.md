@@ -1,85 +1,95 @@
-# Journal des versions
+# Changelog
 
-## 0.15.0 (novembre 2026)
-- Environ 140 pays au choix (Europe, Amériques, Afrique, Moyen-Orient, Asie, Océanie), dont le Canada, les États-Unis et le Maroc.
-- Alertes « À voir » : un bandeau en haut des pages Envie et Mes listes prévient quand un titre de la liste arrive sur une de mes plateformes ou a une nouvelle saison. Chaque titre est vérifié au plus une fois par jour ; on peut ouvrir la fiche ou masquer l'alerte.
+## 0.16.0 (November 2026)
+- The codebase is now fully in English: comments, identifiers, CSS class names, tests, docs and file names (`docs/home.*.png`, `.github/ISSUE_TEMPLATE/idea.md`). The interface stays available in 7 languages.
+- English page addresses: `#mood`, `#trending`, `#genres`, `#lists`, `#settings`, `#person/<id>`. The old French addresses (`#envie`, `#tendances`, `#listes`, `#reglages`, `#personne/<id>`) still work and redirect to the new ones.
+- Error messages (missing or rejected TMDB key, unrecognised import file) are now translated into the interface language.
+- The list export file is now named `cine-envie-YYYY-MM-DD.json`.
+- Submitting an empty TMDB key in the settings now clears the saved key, as the security notes advise on shared computers.
+- Faster mood parsing: vocabulary patterns are compiled once instead of on every search, and duplicate words are removed. Poster grids read the lists from storage once per grid instead of once per poster.
+- README: removed the "Works on every screen" section that appeared twice in every language.
+- Removed unused code: unused translation strings, an unused stored timestamp, unused CSS rules and a duplicate base64 helper.
 
-## 0.14.0 (novembre 2026)
-- Chargement animé : des affiches grises qui « respirent » remplacent le texte « Chargement… » (fiches comprises), sans animation si le système demande moins de mouvement.
-- Bande-annonce lue directement dans la fiche (YouTube en mode sans cookies), avec un lien pour l'ouvrir sur YouTube ; elle s'arrête quand on ferme la fiche.
-- Fiches acteur : toucher une photo de la distribution ouvre sa page (photo, naissance, biographie, tous ses films et séries avec son rôle, « Voir plus »).
+## 0.15.0 (November 2026)
+- About 140 countries to choose from (Europe, Americas, Africa, Middle East, Asia, Oceania), including Canada, the United States and Morocco.
+- "To watch" alerts: a banner at the top of the Mood and My lists pages tells you when a title from your list arrives on one of your services or gets a new season. Each title is checked at most once a day; you can open the title page or dismiss the alert.
 
-## 0.13.0 (novembre 2026)
-- Du téléphone à la télé en un scan : la télé affiche un QR code, le téléphone envoie la clé TMDB, les réglages et (au choix) les listes, chiffrés de bout en bout via le relais public ntfy.sh. Aussi dans Réglages → « Passer sur un autre appareil ».
-- Recherche par titre (en plus de la recherche par envie), avec suggestions pendant la frappe : idées toutes faites ou titres avec leur affiche.
-- Recherche vocale (bouton 🎤) là où le navigateur la propose.
-- Bouton « Voir plus » sous chaque liste de résultats (envie, titre, tendances, thématiques).
-- Thème clair ou sombre au choix (Auto suit l'appareil).
-- Photos des acteurs dans la fiche.
-- Mode TV : les suggestions toutes faites passent avant le champ de saisie, pour ne rien avoir à taper.
+## 0.14.0 (November 2026)
+- Animated loading: grey posters that "breathe" replace the "Loading…" text (title pages included), with no animation when the system asks for reduced motion.
+- Trailer played right in the title page (YouTube in privacy-enhanced mode), with a link to open it on YouTube; it stops when the title page is closed.
+- Person pages: tapping a cast photo opens their page (photo, birth, biography, all their movies and series with their role, "Show more").
 
-## 0.12.0 (novembre 2026)
-- Mode TV : grand affichage lisible de loin (marges anti-rognage, affiches et textes agrandis, fiche presque plein écran) et navigation à la télécommande ou au clavier (flèches, OK, Retour), avec un focus bien visible.
-- Activé tout seul sur les télés connectées et boîtiers (Samsung Tizen, LG webOS, Android TV / Google TV, Fire TV…), réglable dans Réglages → Affichage (Auto, Téléphone / ordinateur, TV) ou avec `?tv=1` / `?tv=0` dans l'adresse. Rien ne change sur téléphone et ordinateur.
+## 0.13.0 (November 2026)
+- From phone to TV in one scan: the TV shows a QR code, the phone sends the TMDB key, settings and (optionally) lists, end-to-end encrypted through the public ntfy.sh relay. Also in Settings → "Move to another device".
+- Title search (in addition to mood search), with suggestions while typing: presets or titles with their poster.
+- Voice search (🎤 button) where the browser supports it.
+- "Show more" button under every result list (mood, title, trending, genres).
+- Light or dark theme (Auto follows the device).
+- Cast photos on the title page.
+- TV mode: presets come before the search field, so there is nothing to type.
 
-## 0.11.1 (novembre 2026)
-- Pied de page : section repliable « À propos et mentions légales » dans les 7 langues, visible même sans clé TMDB (confidentialité, marques des plateformes, éditeur et hébergeur).
-- README : note de confidentialité plus exacte (le navigateur contacte TMDB, GitHub Pages et YouTube pour les bandes-annonces), avertissement sur les marques et mentions légales dans les 7 langues.
+## 0.12.0 (November 2026)
+- TV mode: large display that reads from a distance (overscan-safe margins, larger posters and text, near full-screen title page) and remote-control or keyboard navigation (arrows, OK, Back) with a clearly visible focus.
+- Switches on by itself on smart TVs and TV boxes (Samsung Tizen, LG webOS, Android TV / Google TV, Fire TV…), configurable in Settings → Display (Auto, Phone / computer, TV) or with `?tv=1` / `?tv=0` in the address. Nothing changes on phones and computers.
 
-## 0.11.0 (novembre 2026)
-- Allemand, italien et portugais : interface complète, recherche par envie avec le registre familier (et les mots composés allemands comme « Actionfilm »), genres et fiches TMDB dans chaque langue.
-- Titre de référence plus fiable quand il contient « et / con / e » (« Cena con delitto », « Fast and Furious »).
-- README, bannière et capture d’accueil dans les 7 langues.
+## 0.11.1 (November 2026)
+- Footer: collapsible "About and legal notice" section in all 7 languages, visible even without a TMDB key (privacy, service trademarks, publisher and host).
+- README: more accurate privacy note (the browser contacts TMDB, GitHub Pages and YouTube for trailers), trademark disclaimer and legal notice in all 7 languages.
 
-## 0.10.0 (novembre 2026)
-- L’anglais devient la langue par défaut pour un nouvel utilisateur (un choix déjà enregistré est conservé).
-- Menu de langue et réglages : English en tête, puis Darija, Español, Français par ordre alphabétique.
+## 0.11.0 (November 2026)
+- German, Italian and Portuguese: full interface, mood search including slang (and German compound words such as "Actionfilm"), genres and TMDB title pages in each language.
+- More reliable reference titles when they contain "et / con / e" ("Cena con delitto", "Fast and Furious").
+- README, banner and home screenshot in all 7 languages.
 
-## 0.9.0 (novembre 2026)
-- Espagnol : interface complète (4e choix du menu de langue et des réglages), recherche par envie en espagnol avec le registre familier, genres et fiches TMDB en espagnol.
-- README en 4 langues : anglais (principal), français, espagnol et darija, avec un sélecteur en haut de chaque version ; bannière et capture d’accueil dans chaque langue.
+## 0.10.0 (November 2026)
+- English becomes the default language for new users (an already saved choice is kept).
+- Language menu and settings: English first, then Darija, Español, Français in alphabetical order.
 
-## 0.8.0 (novembre 2026)
-- Interface complète en darija marocain (lettres latines), 3e choix du menu de langue et des réglages.
-- La recherche par envie comprend le darija en « arabizi » (3, 7, 9…), ses variantes d’orthographe et les mélanges français / darija : « bghit chi film dyal d7k », « chi 7aja katkhl3 », « msalsal b7al Dark »…
-- En darija, les fiches TMDB (titres, résumés) s’affichent en français.
+## 0.9.0 (November 2026)
+- Spanish: full interface (4th choice in the language menu and settings), mood search in Spanish including slang, genres and TMDB title pages in Spanish.
+- README in 4 languages: English (main), French, Spanish and Darija, with a selector at the top of each version; banner and home screenshot in each language.
 
-## 0.7.0 (novembre 2026)
-- Menu déroulant de langue dans l’en-tête (globe FR / EN), façon Material Design : accessible au clavier, synchronisé avec les réglages.
+## 0.8.0 (November 2026)
+- Full interface in Moroccan Darija (Latin script), 3rd choice in the language menu and settings.
+- Mood search understands Darija written in "Arabizi" (3, 7, 9…), its spelling variants and French / Darija mixes: "bghit chi film dyal d7k", "chi 7aja katkhl3", "msalsal b7al Dark"…
+- In Darija, TMDB title pages (titles, overviews) are shown in French.
 
-## 0.6.0 (novembre 2026)
-- « Mes plateformes » par défaut : Netflix, Prime Video et Disney+.
-- Page de recherche : un bouton par plateforme cochée dans les réglages ; « Toutes » = l'ensemble de mes plateformes ; lien « + ajouter une plateforme ».
-- Les nouvelles versions de l'appli s'affichent dès le chargement suivant.
+## 0.7.0 (November 2026)
+- Language dropdown in the header (FR / EN globe), Material Design style: keyboard accessible and in sync with the settings.
 
-## 0.5.0 (novembre 2026)
-- Barre de filtres sur la page de recherche : Films / Séries / Les deux, et plateformes (Toutes, Netflix, Prime Video, Disney+) en multi-choix ; les autres plateformes se choisissent dans les réglages.
-- Le résumé des résultats rappelle les plateformes choisies.
+## 0.6.0 (November 2026)
+- Default "My services": Netflix, Prime Video and Disney+.
+- Search page: one button per service ticked in the settings; "All" = all my services; "+ add a service" link.
+- New versions of the app show up on the next load.
 
-## 0.4.0 (novembre 2026)
-- Filtre « Mes plateformes » : choix des services de streaming du pays (Netflix, Prime Video, Disney+, Canal+…), mémorisé par pays, appliqué aux recherches, thématiques et recommandations.
-- Choix Films / Séries / Les deux pour la recherche par envie.
-- Vocabulaire familier en français et en anglais (« qui fout les jetons », « film de daron », « à binger », « mind-bending »…).
+## 0.5.0 (November 2026)
+- Filter bar on the search page: Movies / Series / Both, and services (All, Netflix, Prime Video, Disney+) as multiple choice; other services are picked in the settings.
+- The results summary reminds you of the chosen services.
 
-## 0.3.0 (novembre 2026)
-- Profil de goûts : note de 1 à 5 étoiles sur les titres vus, affinités par genre, classement ajusté et sélection « Recommandé pour toi ».
-- Mention TMDB obligatoire (logo officiel et avertissement) et attribution JustWatch en pied de page.
-- Script `npm run captures` pour générer captures et GIF avec de vraies données.
+## 0.4.0 (November 2026)
+- "My services" filter: pick the country's streaming services (Netflix, Prime Video, Disney+, Canal+…), stored per country, applied to searches, genres and recommendations.
+- Movies / Series / Both choice for the mood search.
+- French and English slang ("qui fout les jetons", "film de daron", "à binger", "mind-bending"…).
 
-## 0.2.0 (novembre 2026)
-- Recherche par envie en anglais (humeurs, type, période, « like … », « in the style of … »).
-- Interface complète en français ou en anglais, choix mémorisé.
-- Choix du pays de résidence parmi 31 pays européens : plateformes légales affichées selon le pays, sélecteur aussi dans la fiche.
-- Tests des traductions et du client TMDB.
-- Nouvelle icône basée sur le pictogramme « clapperboard » de Lucide (ISC).
+## 0.3.0 (November 2026)
+- Taste profile: 1 to 5 star ratings on seen titles, per-genre affinities, adjusted ranking and a "Recommended for you" selection.
+- Mandatory TMDB attribution (official logo and disclaimer) and JustWatch credit in the footer.
+- `npm run captures` script to generate screenshots and a GIF with real data.
 
-## 0.1.0 (novembre 2026)
-Première version publique.
-- Recherche par envie en langage naturel (humeurs, exclusions, film ou série, récent / court / classique, titre de référence).
-- Tendances de la semaine avec badge « Nouveau ».
-- Navigation par thématique (genres, populaires, mieux notés).
-- Fiche détaillée : casting, bande‑annonce, plateformes légales en France.
-- Listes « à voir » / « vus » avec export / import JSON.
-- PWA installable, interface utilisable hors ligne.
-- Tests de l'analyse d'envie et intégration continue GitHub Actions.
-- Content Security Policy, échappement renforcé et politique de sécurité (SECURITY.md).
+## 0.2.0 (November 2026)
+- Mood search in English (moods, type, period, "like …", "in the style of …").
+- Full interface in French or English, choice remembered.
+- Country of residence among 31 European countries: legal services shown for that country, with a selector on the title page too.
+- Tests for translations and the TMDB client.
+- New icon based on Lucide's "clapperboard" pictogram (ISC).
+
+## 0.1.0 (November 2026)
+First public release.
+- Natural-language mood search (moods, exclusions, movie or series, recent / short / classic, reference title).
+- This week's trending titles with a "New" badge.
+- Browse by genre (popular, top rated).
+- Title page: cast, trailer, legal streaming services in France.
+- "To watch" / "Seen" lists with JSON export / import.
+- Installable PWA, interface usable offline.
+- Mood parser tests and GitHub Actions continuous integration.
+- Content Security Policy, stronger escaping and a security policy (SECURITY.md).

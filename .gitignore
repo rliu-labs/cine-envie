@@ -1,15 +1,16 @@
-# Système / éditeurs
+# OS / editors
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
 *.swp
 
-# Node (outillage éventuel)
+# Node (tooling only)
 node_modules/
 npm-debug.log*
 
-# Données locales : ne jamais committer de clé ni d'export perso
+# Local data: never commit a key or a personal export
 .env
 .env.*
+cine-envie-*.json
 cinematheque-*.json

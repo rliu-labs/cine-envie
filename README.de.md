@@ -36,7 +36,7 @@ Du beschreibst, worauf du Lust hast, so wie du es einem Freund sagen würdest, *
 Es ist eine installierbare Web-App (PWA) ohne Server, ohne Konto und ohne Abhängigkeiten: HTML, CSS und natives JavaScript.
 
 <p align="center">
-  <img src="docs/accueil.de.png" alt="Startbildschirm von Ciné‑Envie" width="760">
+  <img src="docs/home.de.png" alt="Startbildschirm von Ciné‑Envie" width="760">
 </p>
 
 ## Funktionen
@@ -59,18 +59,6 @@ Es ist eine installierbare Web-App (PWA) ohne Server, ohne Konto und ohne Abhän
 | 📲 **Vom Handy auf den Fernseher mit einem Scan** | Scanne mit dem Handy den QR-Code auf dem Fernseher: Er erhält Schlüssel, Einstellungen und Listen. |
 | 🌗 **Helles oder dunkles Design** | Auto, hell oder dunkel. |
 | 🔔 **Merklisten-Hinweise** | Ein Banner meldet, wenn ein Titel deiner Merkliste bei einem deiner Dienste erscheint oder eine neue Staffel bekommt. |
-
-## Läuft auf jedem Bildschirm
-
-Dieselbe App passt sich dem Gerät an, ohne Einstellungen:
-
-| Gerät | Ansicht und Bedienung | Getestete Browser |
-|---|---|---|
-| 📱 **Handy** | Eine Spalte, große Touch-Flächen, auf dem Startbildschirm installierbar. | Safari (iPhone), Chrome (Android) |
-| 💻 **Computer** | Breites Poster-Raster, Maus oder Tastatur (Tab, Enter, Esc). | Chrome, Edge, Firefox, Safari |
-| 🖥️ **TV** | Große Ansicht, vom Sofa aus lesbar, Ränder gegen Bildbeschnitt, Fernbedienung: Pfeile, OK, Zurück. Schaltet sich auf Smart-TVs und TV-Boxen von selbst ein. | Samsung (Tizen), LG (webOS), Android TV / Google TV, Fire TV |
-
-Tablets erhalten je nach Breite die Handy- oder Computer-Ansicht. Selbst wählen: **Einstellungen → Anzeige** (Auto, Handy / Computer, TV) oder `?tv=1` (bzw. `?tv=0`) in der Adresse.
 
 ## Läuft auf jedem Bildschirm
 

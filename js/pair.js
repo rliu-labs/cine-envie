@@ -1,26 +1,25 @@
-// Transfert d'un appareil à l'autre par QR code (par exemple du téléphone vers la télé), sans compte.
+// Device-to-device transfer by QR code (for example from a phone to a TV), with no account.
 //
-// 1. L'appareil qui reçoit (la télé) tire au sort un canal et une clé de chiffrement, et affiche un QR code
-//    vers « …/#pair=<canal>.<clé> ». La partie après # ne quitte jamais le navigateur.
-// 2. Le téléphone scanne le QR code, chiffre (AES-GCM) la clé TMDB, les réglages et les listes, et dépose
-//    le message chiffré sur ntfy.sh, un relais public et gratuit, découpé en morceaux de 3 Ko.
-// 3. La télé interroge ce canal toutes les 2 s, recolle les morceaux et déchiffre.
-// Le relais ne voit qu'un texte chiffré, sans la clé (restée dans le QR code), et l'efface sous 12 h.
+// 1. The receiving device (the TV) draws a random channel and encryption key, and shows a QR code
+//    pointing to ".../#pair=<channel>.<key>". The part after # never leaves the browser.
+// 2. The phone scans the QR code, encrypts (AES-GCM) the TMDB key, settings and lists, and posts
+//    the ciphertext to ntfy.sh, a free public relay, split into 3 KB chunks.
+// 3. The TV polls the channel every 2 s, reassembles the chunks and decrypts them.
+// The relay only sees ciphertext, never the key (which stays in the QR code), and deletes it within 12 h.
 
-export const RELAY = 'https://ntfy.sh';
+const RELAY = 'https://ntfy.sh';
 const CHUNK = 3000;
 
-const b64u = (bytes) => btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-const unb64u = (s) => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0));
-const rand = (n) => crypto.getRandomValues(new Uint8Array(n));
-// Conversion par tranches (String.fromCharCode(...grand tableau) déborde la pile)
-function toB64u(bytes) {
+// URL-safe base64, converted in slices (String.fromCharCode(...hugeArray) overflows the stack).
+function b64u(bytes) {
   let s = '';
   for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
   return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
+const unb64u = (s) => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0));
+const rand = (n) => crypto.getRandomValues(new Uint8Array(n));
 
-// Nouveau canal : 18 octets aléatoires pour le nom (introuvable), 16 pour la clé AES.
+// New channel: 18 random bytes for the name (unguessable), 16 for the AES key.
 export function newSession() {
   return { topic: `cine-${b64u(rand(18))}`, secret: b64u(rand(16)) };
 }
@@ -37,7 +36,7 @@ async function pipe(bytes, Stream, mode) {
 }
 const canZip = () => typeof CompressionStream !== 'undefined' && typeof DecompressionStream !== 'undefined';
 
-// Objet → texte chiffré (1er octet : 1 = compressé, 0 = brut ; puis IV de 12 octets ; puis données)
+// Object -> ciphertext (byte 0: 1 = compressed, 0 = raw; then a 12-byte IV; then the data).
 export async function seal(obj, secret) {
   let data = new TextEncoder().encode(JSON.stringify(obj));
   const zip = canZip();
@@ -46,7 +45,7 @@ export async function seal(obj, secret) {
   const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, await aesKey(secret), data));
   const out = new Uint8Array(13 + ct.length);
   out[0] = zip ? 1 : 0; out.set(iv, 1); out.set(ct, 13);
-  return toB64u(out);
+  return b64u(out);
 }
 export async function open(text, secret) {
   const all = unb64u(text);
@@ -55,12 +54,12 @@ export async function open(text, secret) {
   return JSON.parse(new TextDecoder().decode(data));
 }
 
-// Découpage : « <envoi>/<n° du morceau>/<nombre de morceaux>/<texte> »
+// Chunk format: "<send id>/<chunk index>/<chunk count>/<text>".
 export function split(text, id = b64u(rand(6))) {
   const n = Math.max(1, Math.ceil(text.length / CHUNK));
   return Array.from({ length: n }, (_, i) => `${id}/${i}/${n}/${text.slice(i * CHUNK, (i + 1) * CHUNK)}`);
 }
-// Recolle le premier envoi complet trouvé parmi les messages reçus (ou null).
+// Reassembles the first complete send found among the received messages (or null).
 export function join(messages) {
   const sends = new Map();
   for (const m of messages) {
@@ -80,12 +79,12 @@ export async function send(session, obj, relay = RELAY) {
   const parts = split(await seal(obj, session.secret));
   for (const body of parts) {
     const r = await fetch(`${relay}/${session.topic}`, { method: 'POST', body });
-    if (!r.ok) throw new Error(`Relais ${r.status}`);
+    if (!r.ok) throw new Error(`Relay ${r.status}`);
   }
   return parts.length;
 }
 
-// Interroge le canal jusqu'à recevoir un envoi complet. Renvoie une fonction pour arrêter.
+// Polls the channel until a complete send arrives. Returns a function that stops listening.
 export function listen(session, onData, onError, { relay = RELAY, every = 2000 } = {}) {
   let stopped = false;
   let timer;
@@ -93,7 +92,7 @@ export function listen(session, onData, onError, { relay = RELAY, every = 2000 }
     if (stopped) return;
     try {
       const r = await fetch(`${relay}/${session.topic}/json?poll=1&since=all`);
-      if (!r.ok) throw new Error(`Relais ${r.status}`);
+      if (!r.ok) throw new Error(`Relay ${r.status}`);
       const lines = (await r.text()).split('\n').filter(Boolean).map((l) => { try { return JSON.parse(l); } catch { return null; } });
       const text = join(lines.filter((l) => l?.event === 'message').map((l) => l.message));
       if (text && !stopped) { const data = await open(text, session.secret); stopped = true; onData(data); return; }
